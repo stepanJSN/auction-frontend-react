@@ -5,16 +5,17 @@ import { AppDispatch } from "../redux/store";
 import { selectAuth, signin } from "../features/auth/authSlice";
 import { ISingInRequest } from "../types/authService.interfaces";
 import { Link as RouterLink, useNavigate } from "react-router";
+import { QueryStatusEnum } from "../enums/queryStatus.enum";
+import { ErrorCodesEnum } from "../enums/errorCodes.enum";
 
 export default function Signin() {
   const dispatch = useDispatch<AppDispatch>();
   const { status, errorCode } = useSelector(selectAuth);
   const navigate = useNavigate();
 
-
   const getErrorMessage = (errorCode: number) => {
     switch (errorCode) {
-      case 401:
+      case ErrorCodesEnum.Unauthorized:
         return 'Incorrect email or password'
       default:
         return 'Something went wrong'
@@ -25,7 +26,7 @@ export default function Signin() {
     dispatch(signin(data))
   }
 
-  if (status === "success") {
+  if (status === QueryStatusEnum.SUCCESS) {
     navigate('/');
   }
 
@@ -33,8 +34,8 @@ export default function Signin() {
     <Box
       sx={{
         border: '1px solid #ccc',
-        borderRadius: '10px',
-        padding: '20px',
+        borderRadius: 3,
+        padding: 2,
       }}
     >
       <Typography 
@@ -46,7 +47,7 @@ export default function Signin() {
         Signin
       </Typography>
       {errorCode && <Alert severity="error">{getErrorMessage(errorCode)}</Alert>}
-      <AuthFrom onSubmit={handleSignin} isLoading={status === 'loading'}></AuthFrom>
+      <AuthFrom onSubmit={handleSignin} isLoading={status === QueryStatusEnum.LOADING}></AuthFrom>
       <Link
         component={RouterLink} 
         to="/signup"

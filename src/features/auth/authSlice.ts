@@ -4,19 +4,20 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { Role } from '../../enums/role.enum'
 import { ISingInRequest, ISingInResponse } from '../../types/authService.interfaces';
 import { RootState } from '../../redux/store';
+import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 
 export interface AuthState {
   id: string | null;
   role: Role  | null;
   errorCode: number  | null;
-  status: 'idle' | 'loading' | 'error' | 'success';
+  status: QueryStatusEnum;
 }
 
 const initialState: AuthState = {
   id: null,
   role: null,
   errorCode: null,
-  status: 'idle'
+  status: QueryStatusEnum.IDLE
 }
 
 export const authSlice = createSlice({
@@ -24,15 +25,15 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     signin: (state, _action: PayloadAction<ISingInRequest>) => {
-      state.status = 'loading'
+      state.status = QueryStatusEnum.LOADING
     },
     signinSuccess: (state, action: PayloadAction<ISingInResponse>) => {
-      state.status = 'success'
+      state.status = QueryStatusEnum.SUCCESS
       state.id = action.payload.id
       state.role = action.payload.role
     },
     signinError: (state, action: PayloadAction<number>) => {
-      state.status = 'error'
+      state.status = QueryStatusEnum.ERROR
       state.errorCode = action.payload
     },
     logout(state) {
