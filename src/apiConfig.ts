@@ -6,7 +6,7 @@ import axios, {
 import { authService } from './services/authService';
 
 const options: CreateAxiosDefaults = {
-  baseURL: process.env.VITE_SERVER_URL,
+  baseURL: import.meta.env.VITE_SERVER_URL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
