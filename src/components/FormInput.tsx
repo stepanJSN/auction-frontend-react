@@ -18,7 +18,7 @@ type FormInputProps<T extends FieldValues> = {
   };
 }
 
-export default function FormInput<T extends FieldValues>({ name, label, control, required, errorText, pattern, length, type }: FormInputProps<T>) {
+export default function FormInput<T extends FieldValues>({ name, label, control, required = true, errorText, pattern, length, type }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -44,14 +44,15 @@ export default function FormInput<T extends FieldValues>({ name, label, control,
           size="small"
           error={!!error}
           onChange={onChange}
-          value={value}
+          value={value ?? ''}
           fullWidth
           label={label}
+          margin="dense"
           variant="outlined"
-          type={type}
+          type={type === 'password' && showPassword ? 'text' : type}
           slotProps={{
             input: {
-              startAdornment: type === 'password' && (
+              endAdornment: type === 'password' && (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label={

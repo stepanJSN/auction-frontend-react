@@ -2,12 +2,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Role } from '../../enums/role.enum'
-import { ISingInRequest, ISingInResponse } from '../../services/authService.interfaces';
+import { ISingInRequest, ISingInResponse } from '../../types/authService.interfaces';
+import { RootState } from '../../redux/store';
 
 export interface AuthState {
   id: string | null;
   role: Role  | null;
-  errorCode?: number  | null;
+  errorCode: number  | null;
   status: 'idle' | 'loading' | 'error' | 'success';
 }
 
@@ -30,8 +31,9 @@ export const authSlice = createSlice({
       state.id = action.payload.id
       state.role = action.payload.role
     },
-    signinError: (state, _action: PayloadAction<number>) => {
+    signinError: (state, action: PayloadAction<number>) => {
       state.status = 'error'
+      state.errorCode = action.payload
     },
     logout(state) {
       state.id = null
@@ -41,5 +43,6 @@ export const authSlice = createSlice({
 })
 
 export const { signin, signinSuccess, signinError, logout } = authSlice.actions
+export const selectAuth = (state: RootState) => state.auth
 
 export default authSlice.reducer

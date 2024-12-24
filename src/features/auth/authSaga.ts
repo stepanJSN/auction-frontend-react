@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { logout, signin, signinError, signinSuccess } from "./authSlice";
 import { authService } from "../../services/authService";
-import { ISingInRequest, ISingInResponse } from "../../services/authService.interfaces";
+import { ISingInRequest, ISingInResponse } from "../../types/authService.interfaces";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
