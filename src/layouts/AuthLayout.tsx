@@ -10,9 +10,24 @@ export default function AuthLayout() {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
+        padding: 2
       }}
     >
-      <Typography variant="h4" mb={3}>Rick and Morty cards auction</Typography>
+      <Typography 
+        sx={{ 
+          fontSize: {
+            xs: 24,
+            md: 32,
+          },
+          mb: {
+            sx: 1,
+            md: 2,
+          },
+          textAlign: 'center'
+        }}
+      >
+        Rick and Morty cards auction
+      </Typography>
       <Outlet />
     </Box>
   )
