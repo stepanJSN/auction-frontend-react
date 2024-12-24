@@ -19,6 +19,7 @@ export default function AuthForm({ isLoading, onSubmit }: AuthFormProps) {
         label="Email"
         control={control}
         errorText="Incorrect email"
+        required
         pattern={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
       />
       <FormInput
@@ -26,6 +27,7 @@ export default function AuthForm({ isLoading, onSubmit }: AuthFormProps) {
         label="Password"
         control={control}
         errorText="Incorrect password"
+        required
         length={{ min: 8, max: 16 }}
         type="password"
       />

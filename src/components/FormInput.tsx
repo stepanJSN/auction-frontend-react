@@ -18,7 +18,7 @@ type FormInputProps<T extends FieldValues> = {
   };
 }
 
-export default function FormInput<T extends FieldValues>({ name, label, control, required = true, errorText, pattern, length, type }: FormInputProps<T>) {
+export default function FormInput<T extends FieldValues>({ name, label, control, required, errorText, pattern, length, type }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
