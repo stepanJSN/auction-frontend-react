@@ -5,19 +5,19 @@ import { AxiosError } from "axios";
 import { ErrorCodesEnum } from "../enums/errorCodes.enum";
 
 export default function useMutation<T>(url: string) {
-  const [state, setState] = useState<QueryStatusEnum>(QueryStatusEnum.IDLE);
+  const [status, setStatus] = useState<QueryStatusEnum>(QueryStatusEnum.IDLE);
   const [errorCode, setErrorCode] = useState<number | null>(null);
   async function mutate(data: T) {
     try {
-      setState(QueryStatusEnum.LOADING);
+      setStatus(QueryStatusEnum.LOADING);
       const response = await api.post(url, data);
-      setState(QueryStatusEnum.SUCCESS);
+      setStatus(QueryStatusEnum.SUCCESS);
       return response.data
     } catch (error) {
-      setState(QueryStatusEnum.ERROR);
+      setStatus(QueryStatusEnum.ERROR);
       setErrorCode((error as AxiosError).status || ErrorCodesEnum.ServerError);
     }
   }
 
-  return { state, mutate, errorCode };
+  return { status, mutate, errorCode };
 }
