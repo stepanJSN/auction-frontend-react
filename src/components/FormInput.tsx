@@ -1,14 +1,15 @@
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { IconButton, InputAdornment } from "@mui/material";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-type FormInputProps = {
-  name: string;
+type FormInputProps<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
-  control: Control;
+  control: Control<T>;
   type?: 'text' | 'password';
+  errorText?: string;
   required?: boolean;
   pattern?: RegExp;
   length?: {
@@ -17,7 +18,7 @@ type FormInputProps = {
   };
 }
 
-export default function FormInput({ name, label, control, required, pattern, length, type }: FormInputProps) {
+export default function FormInput<T extends FieldValues>({ name, label, control, required, errorText, pattern, length, type }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -39,7 +40,7 @@ export default function FormInput({ name, label, control, required, pattern, len
         fieldState: { error },
       }) => (
         <TextField
-          helperText={error ? error.message : null}
+          helperText={error ? errorText : null}
           size="small"
           error={!!error}
           onChange={onChange}
