@@ -1,7 +1,12 @@
 import { api } from '../apiConfig';
-import { ISingInRequest, ISingInResponse } from './authService.interfaces';
+import { ISingInRequest, ISingInResponse } from '../types/authService.interfaces';
 class AuthService {
-  async signIn(data: ISingInRequest) {
+
+  setAccessToken = (token: string) => {
+    localStorage.setItem('accessToken', token);
+  };
+
+  signIn = async (data: ISingInRequest) => {
     const response = await api.post<ISingInResponse>(
       '/auth/signin',
       data,
@@ -10,28 +15,25 @@ class AuthService {
     if (response.data.accessToken) this.setAccessToken(response.data.accessToken);
 
     return response.data;
-  }
+  };
 
-  setAccessToken(token: string) {
-    localStorage.setItem('accessToken', token);
-  }
-
-  getAccessToken() {
+  getAccessToken = () => {
     return localStorage.getItem('accessToken');
-  }
+  };
 
-  getNewTokens() {
+  getNewTokens = () => {
     return api.post<string>('/auth/access-token');
-  }
+  };
 
-  clearStorage() {
+  clearStorage = () => {
     localStorage.clear();
-  }
+  };
 
-  async logout() {
+
+  logout = async () => {
     await api.get('/auth/logout');
     this.clearStorage();
-  }
+  };
 }
 
 export const authService = new AuthService();
