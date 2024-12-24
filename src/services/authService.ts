@@ -8,25 +8,16 @@ class AuthService {
     );
 
     if (response.data.accessToken) this.setAccessToken(response.data.accessToken);
-    if (response.data.id) this.setUserId(response.data.id);
 
-    return response;
+    return response.data;
   }
 
   setAccessToken(token: string) {
     localStorage.setItem('accessToken', token);
   }
 
-  setUserId(userId: string) {
-    localStorage.setItem('userId', userId);
-  }
-
   getAccessToken() {
     return localStorage.getItem('accessToken');
-  }
-
-  getUserId() {
-    return localStorage.getItem('userId');
   }
 
   getNewTokens() {
