@@ -7,6 +7,7 @@ import { ISingInRequest } from "../types/authService.interfaces";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { QueryStatusEnum } from "../enums/queryStatus.enum";
 import { ErrorCodesEnum } from "../enums/errorCodes.enum";
+import { useCallback, useEffect, useMemo } from "react";
 
 export default function Signin() {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,14 +22,17 @@ export default function Signin() {
         return 'Something went wrong'
     }
   }
+  const errorMessage = useMemo(() => getErrorMessage(errorCode!), [errorCode]);
 
-  const handleSignin = (data: ISingInRequest) => {
+  const handleSignin = useCallback((data: ISingInRequest) => {
     dispatch(signin(data))
-  }
+  }, [dispatch]);
 
-  if (status === QueryStatusEnum.SUCCESS) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (status === QueryStatusEnum.SUCCESS) {
+      navigate('/');
+    }
+  }, [status, navigate]);
 
   return (
     <Box
@@ -46,7 +50,7 @@ export default function Signin() {
       >
         Signin
       </Typography>
-      {errorCode && <Alert severity="error">{getErrorMessage(errorCode)}</Alert>}
+      {errorCode && <Alert severity="error">{errorMessage}</Alert>}
       <AuthFrom onSubmit={handleSignin} isLoading={status === QueryStatusEnum.LOADING}></AuthFrom>
       <Link
         component={RouterLink} 

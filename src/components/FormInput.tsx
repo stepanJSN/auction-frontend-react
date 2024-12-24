@@ -1,7 +1,7 @@
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { IconButton, InputAdornment } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 type FormInputProps<T extends FieldValues> = {
@@ -21,9 +21,9 @@ type FormInputProps<T extends FieldValues> = {
 export default function FormInput<T extends FieldValues>({ name, label, control, required, errorText, pattern, length, type }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => {
+  const handleClickShowPassword = useCallback(() => {
     setShowPassword(!showPassword);
-  };
+  }, [setShowPassword, showPassword])
 
   return (
     <Controller
