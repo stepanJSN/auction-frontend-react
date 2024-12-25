@@ -1,4 +1,4 @@
-import { Box, containerClasses, SxProps, Theme, Typography } from "@mui/material";
+import { Box, SxProps, Theme, Typography } from "@mui/material";
 import { Outlet } from "react-router";
 
 const authContainerStyles: SxProps = {
@@ -10,11 +10,7 @@ const authContainerStyles: SxProps = {
   padding: 2
 }
 
-const titleStyles: SxProps<Theme> = (theme: Theme) => ({
-  fontSize: {
-    xs: theme.typography.h4.fontSize,
-    md: theme.typography.h3.fontSize,
-  },
+const titleStyles: SxProps<Theme> = () => ({
   mb: {
     sx: 1,
     md: 2,
@@ -25,7 +21,7 @@ const titleStyles: SxProps<Theme> = (theme: Theme) => ({
 export default function AuthLayout() {
   return (
     <Box sx={authContainerStyles}>
-      <Typography sx={titleStyles}>Rick and Morty cards auction</Typography>
+      <Typography variant="h4" sx={titleStyles}>Rick and Morty cards auction</Typography>
       <Outlet />
     </Box>
   )
