@@ -1,10 +1,13 @@
-import { Box, Typography, Alert, Link } from "@mui/material";
+import { Typography, Alert, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router";
 import { QueryStatusEnum } from "../enums/queryStatus.enum";
 import SignupForm from "../features/users/SignupForm";
 import useMutation from "../hooks/useMutation";
 import { ICreateUser } from "../types/userService.interfaces";
 import { ErrorCodesEnum } from "../enums/errorCodes.enum";
+import { useCallback, useMemo } from "react";
+import { FormWrapper } from "../components/FormWrapper";
+import FormLink from "../components/FormLink";
 
 export default function Signup() {
   const { status, errorCode, mutate } = useMutation('/users');
@@ -17,19 +20,14 @@ export default function Signup() {
         return 'Something went wrong'
     }
   }
+  const errorMessage = useMemo(() => getErrorMessage(errorCode!), [errorCode]);
 
-  const handleSignUp = (data: ICreateUser) => {
+  const handleSignUp = useCallback((data: ICreateUser) => {
     mutate(data);
-  }
+  }, [mutate]);
 
   return (
-    <Box
-      sx={{
-        border: '1px solid #ccc',
-        borderRadius: 3,
-        padding: 2,
-      }}
-    >
+    <FormWrapper>
       <Typography 
         variant="h5"
         component="h1"
@@ -38,24 +36,19 @@ export default function Signup() {
       >
         Signup
       </Typography>
-      {status === QueryStatusEnum.ERROR && <Alert severity="error">{getErrorMessage(errorCode!)}</Alert>}
+      {status === QueryStatusEnum.ERROR && <Alert severity="error">{errorMessage}</Alert>}
       {status === QueryStatusEnum.SUCCESS && 
         <Alert severity="success">
           Registration successful. You can now <Link component={RouterLink} to="/signin">sign in</Link>
         </Alert>
       }
       <SignupForm isLoading={status === QueryStatusEnum.LOADING} onSubmit={handleSignUp} />
-      <Link
+      <FormLink
         component={RouterLink} 
         to="/signin"
-        sx={{
-          display: "block",
-          textAlign: "center",
-          mt: 1
-        }}
       >
         Sign in
-      </Link>
-    </Box>
+      </FormLink>
+    </FormWrapper>
   )
 }

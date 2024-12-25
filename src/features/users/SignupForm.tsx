@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, SxProps } from "@mui/material";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/FormInput";
 import { ICreateUser } from "../../types/userService.interfaces";
@@ -8,11 +8,14 @@ type SignupFormProps = {
   onSubmit: (data: ICreateUser) => void;
 }
 
+const nameAndSurnameLength = { min: 2, max: 15 };
+const passwordLength = { min: 8, max: 16 };
+const formButtonStyles: SxProps = { mt: 1 };
 export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
   const { control, handleSubmit } = useForm<ICreateUser>();
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: '500px' }}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <FormInput
         name="email"
         label="Email"
@@ -27,7 +30,7 @@ export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
         control={control}
         errorText="The name must be between 2 and 15 characters long"
         required
-        length={{ min: 2, max: 15 }}
+        length={nameAndSurnameLength}
       />
       <FormInput
         name="surname"
@@ -35,7 +38,7 @@ export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
         control={control}
         errorText="The surname must be between 2 and 15 characters long"
         required
-        length={{ min: 2, max: 15 }}
+        length={nameAndSurnameLength}
       />
       <FormInput
         name="password"
@@ -43,14 +46,14 @@ export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
         control={control}
         errorText="The password must be between 8 and 16 characters long"
         required
-        length={{ min: 8, max: 16 }}
+        length={passwordLength}
       />
       <Button
         variant="contained"
         fullWidth
         disabled={isLoading}
         type="submit"
-        sx={{ mt: 1 }}
+        sx={formButtonStyles}
       >
         {isLoading ? "Signing up..." : "Sign up"}
       </Button>
