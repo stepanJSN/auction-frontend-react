@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@arthurgeron/eslint-plugin-react-usememo": "^2.4.4",
-    "@eslint/js": "^9.17.0",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",

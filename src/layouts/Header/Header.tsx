@@ -2,7 +2,7 @@ import { Button, Grid2, Grid2Props, styled, Typography } from "@mui/material";
 import Menu from "./Menu";
 import { userMenu } from "../../config/menuConfig";
 import ProfileMenu from "./ProfileMenu";
-import { useRef, useState } from "react";
+import { useRef, useMemo, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { logout } from "../../features/auth/authSlice";
@@ -21,21 +21,25 @@ export default function Header() {
   const ref = useRef(null);
   const navigate = useNavigate();
 
-  const handleProfileMenuOpen = () => {
+  const handleProfileMenuOpen = useCallback(() => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
-  }
+  }, [isProfileMenuOpen])
 
-  const handleClickOutside = () => {
+  const handleClickOutside = useCallback(() => {
     setIsProfileMenuOpen(false);
-  }
+  }, [])
 
   useOnClickOutside(ref, handleClickOutside)
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     dispatch(logout());
     navigate('/signin');
-  }
+  }, [dispatch, navigate])
 
+  const balance = useMemo(() => ({
+    available: 100,
+    total: 200,
+  }), []);
   return (
     <HeaderStyled ref={ref} container component="header" alignItems="center" spacing={2}>
       <Grid2 size={3}>
@@ -55,10 +59,7 @@ export default function Header() {
         <ProfileMenu
           onLogout={handleLogout}
           username="John Doe"
-          balance={{
-            available: 100,
-            total: 200,
-          }}
+          balance={balance}
           rating={5}
         />}
     </HeaderStyled>

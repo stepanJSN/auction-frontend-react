@@ -1,4 +1,4 @@
-import { List, ListItem } from "@mui/material"
+import { List, ListItem, SxProps } from "@mui/material"
 import { Link as RouterLink } from "react-router";
 import { MenuLink } from "./MenuLink";
 
@@ -9,9 +9,13 @@ type MenuProps = {
   }[]
 }
 
+const listStyles: SxProps = {
+  display: 'flex',
+}
+
 export default function Menu({ menuItems }: MenuProps) {
   return (
-    <List sx={{ display: 'flex'}}>
+    <List sx={listStyles}>
       {menuItems.map((item) => (
         <ListItem key={item.label}>
           <MenuLink 

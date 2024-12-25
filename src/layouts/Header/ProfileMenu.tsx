@@ -20,9 +20,11 @@ const containerStyles: SxProps = {
   color: 'common.white',
   width: 250
 }
-
 const dividerStyles = {
   backgroundColor: 'common.white'
+}
+const balanceItemStyles = {
+  display: 'block',
 }
 
 export default function ProfileMenu({ username, balance, rating, onLogout }: ProfileMenuProps) {
@@ -36,7 +38,7 @@ export default function ProfileMenu({ username, balance, rating, onLogout }: Pro
         <Typography>Rating: {rating}</Typography>
       </ListItem>
       <Divider sx={dividerStyles} component="li" />
-      <ListItem sx={{ display: 'block'}}>
+      <ListItem sx={balanceItemStyles}>
         <Typography>Balance:</Typography>
         <List dense disablePadding>
           <ListItem>Available: {balance.available}</ListItem>
@@ -54,7 +56,6 @@ export default function ProfileMenu({ username, balance, rating, onLogout }: Pro
       </ListItem>
       <ListItem>
         <Button
-          sx={{ display: 'flex'}}
           variant="contained" 
           color="secondary"
           fullWidth
