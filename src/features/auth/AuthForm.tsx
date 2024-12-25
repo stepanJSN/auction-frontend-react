@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ISingInRequest } from "../../types/authService.interfaces";
-import { Box, Button } from "@mui/material";
+import { Box, Button, SxProps } from "@mui/material";
 import FormInput from "../../components/FormInput";
 
 type AuthFormProps = {
@@ -8,12 +8,16 @@ type AuthFormProps = {
   onSubmit: (data: ISingInRequest) => void;
 }
 
+const passwordLength = { min: 8, max: 16 };
+const formButtonStyles: SxProps = {
+  mt: 1,
+}
+
 export default function AuthForm({ isLoading, onSubmit }: AuthFormProps) {
   const { control, handleSubmit } = useForm<ISingInRequest>();
 
-
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: '500px' }}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <FormInput
         name="email"
         label="Email"
@@ -28,7 +32,7 @@ export default function AuthForm({ isLoading, onSubmit }: AuthFormProps) {
         control={control}
         errorText="Incorrect password"
         required
-        length={{ min: 8, max: 16 }}
+        length={passwordLength}
         type="password"
       />
       <Button
@@ -36,7 +40,7 @@ export default function AuthForm({ isLoading, onSubmit }: AuthFormProps) {
         fullWidth
         disabled={isLoading}
         type="submit"
-        sx={{ mt: 1 }}
+        sx={formButtonStyles}
       >
         {isLoading ? "Signing in..." : "Sign In"}
       </Button>

@@ -1,4 +1,4 @@
-import { Alert, Box, Link, Typography } from "@mui/material";
+import { Alert, Typography } from "@mui/material";
 import AuthFrom from "../features/auth/AuthForm";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
@@ -7,6 +7,9 @@ import { ISingInRequest } from "../types/authService.interfaces";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { QueryStatusEnum } from "../enums/queryStatus.enum";
 import { ErrorCodesEnum } from "../enums/errorCodes.enum";
+import { useCallback, useEffect, useMemo } from "react";
+import { FormWrapper } from "../components/FormWrapper";
+import FormLink from "../components/FormLink";
 
 export default function Signin() {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,23 +24,20 @@ export default function Signin() {
         return 'Something went wrong'
     }
   }
+  const errorMessage = useMemo(() => getErrorMessage(errorCode!), [errorCode]);
 
-  const handleSignin = (data: ISingInRequest) => {
+  const handleSignin = useCallback((data: ISingInRequest) => {
     dispatch(signin(data))
-  }
+  }, [dispatch]);
 
-  if (status === QueryStatusEnum.SUCCESS) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (status === QueryStatusEnum.SUCCESS) {
+      navigate('/');
+    }
+  }, [status, navigate]);
 
   return (
-    <Box
-      sx={{
-        border: '1px solid #ccc',
-        borderRadius: 3,
-        padding: 2,
-      }}
-    >
+    <FormWrapper>
       <Typography 
         variant="h5"
         component="h1"
@@ -46,19 +46,14 @@ export default function Signin() {
       >
         Signin
       </Typography>
-      {errorCode && <Alert severity="error">{getErrorMessage(errorCode)}</Alert>}
+      {errorCode && <Alert severity="error">{errorMessage}</Alert>}
       <AuthFrom onSubmit={handleSignin} isLoading={status === QueryStatusEnum.LOADING}></AuthFrom>
-      <Link
+      <FormLink
         component={RouterLink} 
         to="/signup"
-        sx={{
-          display: "block",
-          textAlign: "center",
-          mt: 1
-        }}
       >
         Sign up
-      </Link>
-    </Box>
+      </FormLink>
+    </FormWrapper>
   )
 }
