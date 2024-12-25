@@ -1,9 +1,12 @@
 import { Button, Divider, List, ListItem, SxProps, Typography } from "@mui/material";
 import { MenuLink } from "./MenuLink";
 import { Link } from "react-router";
+import Menu from "./Menu";
+import { userMenu } from "../../config/menuConfig";
 
 type ProfileMenuProps = {
   username: string;
+  isBigScreen: boolean;
   balance: {
     available: number;
     total: number;
@@ -14,7 +17,10 @@ type ProfileMenuProps = {
 
 const containerStyles: SxProps = {
   position: 'absolute',
-  top: 50,
+  top: {
+    xs: 47,
+    md: 50,
+  },
   right: 0,
   backgroundColor: 'primary.main',
   color: 'common.white',
@@ -27,9 +33,15 @@ const balanceItemStyles = {
   display: 'block',
 }
 
-export default function ProfileMenu({ username, balance, rating, onLogout }: ProfileMenuProps) {
+export default function ProfileMenu({ username, balance, isBigScreen, rating, onLogout }: ProfileMenuProps) {
   return (
     <List sx={containerStyles} dense>
+      {!isBigScreen && 
+        <>
+          <Menu menuItems={userMenu} />
+          <Divider sx={dividerStyles} component="li" />
+        </>
+      }
       <ListItem>
         <Typography>Hi, {username}</Typography>
       </ListItem>

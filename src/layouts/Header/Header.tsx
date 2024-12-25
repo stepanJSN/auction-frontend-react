@@ -1,4 +1,4 @@
-import { Button, Grid2, Grid2Props, styled, Typography } from "@mui/material";
+import { Button, Grid2, Grid2Props, styled, SxProps, Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Menu from "./Menu";
 import { userMenu } from "../../config/menuConfig";
 import ProfileMenu from "./ProfileMenu";
@@ -8,18 +8,40 @@ import { AppDispatch } from "../../redux/store";
 import { logout } from "../../features/auth/authSlice";
 import { useOnClickOutside } from "usehooks-ts";
 import { useNavigate } from "react-router";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const HeaderStyled = styled(Grid2)<Grid2Props>(({ theme }) => ({
   position: "relative",
   backgroundColor: theme.palette.primary.main,
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(1, 2),
+  [theme.breakpoints.up('md')]: {
+    padding: theme.spacing(0, 2),
+  },
 }));
+
+const logoStyles: SxProps<Theme> = (theme: Theme) => ({
+  color: theme.palette.common.white,
+  fontWeight: 500,
+  fontSize: {
+    xs: theme.typography.subtitle1.fontSize,
+    md: theme.typography.h6.fontSize,
+  }
+});
+
+const logoGridStyles: Grid2Props = {
+  size: {
+    xs: 'grow',
+    md: 3,
+  }
+}
 
 export default function Header() {
   const dispatch = useDispatch<AppDispatch>();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const ref = useRef(null);
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isBigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
   const handleProfileMenuOpen = useCallback(() => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -40,19 +62,22 @@ export default function Header() {
     available: 100,
     total: 200,
   }), []);
+
   return (
     <HeaderStyled ref={ref} container component="header" alignItems="center" spacing={2}>
-      <Grid2 size={3}>
-        <Typography color="white" variant="h6" fontWeight={500}>
+      <Grid2 {...logoGridStyles}>
+        <Typography sx={logoStyles}>
           Rick and Morty cards auction
         </Typography>
       </Grid2>
-      <Grid2 size={5}>
-        <Menu menuItems={userMenu} />
-      </Grid2>
-      <Grid2 display="flex" justifyContent="end" size={4}>
+      {isBigScreen &&
+        <Grid2 size={5}>
+          <Menu menuItems={userMenu} />
+        </Grid2>
+      }
+      <Grid2 display="flex" justifyContent="end" size="grow">
         <Button variant="contained" color="secondary" onClick={handleProfileMenuOpen}>
-          Profile
+          {isBigScreen ? "Profile" : <MenuIcon />}
         </Button>
       </Grid2>
       {isProfileMenuOpen &&
@@ -61,6 +86,7 @@ export default function Header() {
           username="John Doe"
           balance={balance}
           rating={5}
+          isBigScreen={isBigScreen}
         />}
     </HeaderStyled>
   );

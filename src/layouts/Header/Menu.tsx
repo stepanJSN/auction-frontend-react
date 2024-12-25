@@ -10,7 +10,10 @@ type MenuProps = {
 }
 
 const listStyles: SxProps = {
-  display: 'flex',
+  display: {
+    xs: 'block',
+    md: 'flex'
+  },
 }
 
 export default function Menu({ menuItems }: MenuProps) {
