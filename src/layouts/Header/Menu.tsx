@@ -1,5 +1,6 @@
-import { Link, List, ListItem } from "@mui/material"
+import { List, ListItem } from "@mui/material"
 import { Link as RouterLink } from "react-router";
+import { MenuLink } from "./MenuLink";
 
 type MenuProps = {
   menuItems: {
@@ -10,10 +11,15 @@ type MenuProps = {
 
 export default function Menu({ menuItems }: MenuProps) {
   return (
-    <List sx={{ display: 'flex' }}>
+    <List sx={{ display: 'flex'}}>
       {menuItems.map((item) => (
         <ListItem key={item.label}>
-          <Link component={RouterLink} to={item.path}>{ item.label }</Link>
+          <MenuLink 
+            component={RouterLink} 
+            to={item.path}
+          >
+            {item.label}
+          </MenuLink>
         </ListItem>
       ))}
     </List>
