@@ -31,13 +31,11 @@ apiWithAuth.interceptors.response.use(
     return response;
   },
   async function (error: AxiosError) {
-    const originalRequest = error.config;
+    const originalRequest = { ...error.config };
 
     if (error.response?.status === 401 && error.config && !error.config.data?._isRetry) {
       try {
-        if (originalRequest?.data) {
-          originalRequest.data._isRetry = true;
-        }
+        originalRequest.data = { ...originalRequest.data, _isRetry: true };
         const token = (await authService.getNewTokens()).data;
         if (token) {
           authService.setAccessToken(token);
