@@ -4,4 +4,4 @@ import userReducer from '../features/users/userSlice';
 export const rootReducer = {
   auth: authReducer,
   user: userReducer,
-}
+};

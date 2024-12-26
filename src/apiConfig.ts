@@ -1,8 +1,4 @@
-import axios, {
-  AxiosError,
-  InternalAxiosRequestConfig,
-  type CreateAxiosDefaults,
-} from 'axios';
+import axios, { type CreateAxiosDefaults } from 'axios';
 import { authService } from './services/authService';
 
 const options: CreateAxiosDefaults = {
