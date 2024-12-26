@@ -4,3 +4,5 @@ export interface ICreateUser {
   surname: string;
   password: string;
 }
+
+export interface IUpdateUser extends Partial<ICreateUser> {}
