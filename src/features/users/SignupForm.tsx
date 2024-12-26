@@ -1,12 +1,12 @@
-import { Box, Button, SxProps } from "@mui/material";
-import { useForm } from "react-hook-form";
-import FormInput from "../../components/FormInput";
-import { ICreateUser } from "../../types/userService.interfaces";
+import { Box, Button, SxProps } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import FormInput from '../../components/FormInput';
+import { ICreateUser } from '../../types/userService.interfaces';
 
 type SignupFormProps = {
   isLoading: boolean;
   onSubmit: (data: ICreateUser) => void;
-}
+};
 
 const nameAndSurnameLength = { min: 2, max: 15 };
 const passwordLength = { min: 8, max: 16 };
@@ -45,6 +45,7 @@ export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
         label="Password"
         control={control}
         errorText="The password must be between 8 and 16 characters long"
+        type="password"
         required
         length={passwordLength}
       />
@@ -53,10 +54,9 @@ export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
         fullWidth
         disabled={isLoading}
         type="submit"
-        sx={formButtonStyles}
-      >
-        {isLoading ? "Signing up..." : "Sign up"}
+        sx={formButtonStyles}>
+        {isLoading ? 'Signing up...' : 'Sign up'}
       </Button>
     </Box>
-  )
+  );
 }
