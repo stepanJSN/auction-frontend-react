@@ -1,6 +1,10 @@
-import { api, apiWithAuth } from "../apiConfig";
-import { Role } from "../enums/role.enum";
-import { ICreateUser, IUpdateUser } from "../types/userService.interfaces";
+import { api, apiWithAuth } from '../apiConfig';
+import { Role } from '../enums/role.enum';
+import {
+  ICreateUser,
+  IUpdateUser,
+  IUser,
+} from '../types/userService.interfaces';
 
 export const userService = {
   create: async (data: ICreateUser) => {
@@ -13,5 +17,9 @@ export const userService = {
 
   changeRole: async (id: string, role: Role) => {
     await apiWithAuth.put(`/users/role`, { userId: id, role });
-  }
-}
+  },
+  getOne: async (id: string) => {
+    const userData = await apiWithAuth.get<IUser>(`/users/${id}`);
+    return userData.data;
+  },
+};

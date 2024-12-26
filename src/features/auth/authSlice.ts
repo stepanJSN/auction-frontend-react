@@ -27,7 +27,7 @@ export const authSlice = createSlice({
     signin: (state, _action: PayloadAction<ISingInRequest>) => {
       state.status = QueryStatusEnum.LOADING
     },
-    signinSuccess: (state, action: PayloadAction<ISingInResponse>) => {
+    signinSuccess: (state, action: PayloadAction<Omit<ISingInResponse, 'accessToken'>>) => {
       state.status = QueryStatusEnum.SUCCESS
       state.id = action.payload.id
       state.role = action.payload.role
