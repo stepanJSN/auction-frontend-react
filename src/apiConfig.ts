@@ -30,20 +30,20 @@ apiWithAuth.interceptors.response.use(
   function (response) {
     return response;
   },
-  async function (error: AxiosError) {
-    const originalRequest = { ...error.config };
+  async (error) => {
+    const originalRequest = error.config;
 
-    if (error.response?.status === 401 && error.config && !error.config.data?._isRetry) {
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       try {
-        originalRequest.data = { ...originalRequest.data, _isRetry: true };
-        const token = (await authService.getNewTokens()).data;
+        const token = (await authService.getNewTokens()).data.accessToken;
         if (token) {
           authService.setAccessToken(token);
-          return apiWithAuth.request(
-            originalRequest as InternalAxiosRequestConfig<{ _isRetry: boolean }>,
-          );
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return apiWithAuth.request(originalRequest);
         }
-      } catch {
+      } catch (error) {
         window.location.href = '/signin';
       }
     }
