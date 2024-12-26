@@ -33,18 +33,23 @@ apiWithAuth.interceptors.response.use(
   async function (error: AxiosError) {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && error.config && !error.config.data._isRetry) {
-      if (originalRequest?.data) {
-        originalRequest.data._isRetry = true;
-      }
-      const token = (await authService.getNewTokens()).data;
-      if (token) {
-        authService.setAccessToken(token);
-        return apiWithAuth.request(
-          originalRequest as InternalAxiosRequestConfig<{ _isRetry: boolean }>,
-        );
+    if (error.response?.status === 401 && error.config && !error.config.data?._isRetry) {
+      try {
+        if (originalRequest?.data) {
+          originalRequest.data._isRetry = true;
+        }
+        const token = (await authService.getNewTokens()).data;
+        if (token) {
+          authService.setAccessToken(token);
+          return apiWithAuth.request(
+            originalRequest as InternalAxiosRequestConfig<{ _isRetry: boolean }>,
+          );
+        }
+      } catch {
+        window.location.href = '/signin';
       }
     }
+
     if (error.response?.status === 401) {
       window.location.href = '/signin';
     }
