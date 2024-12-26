@@ -12,13 +12,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { getUser, selectUser } from "../../features/users/userSlice";
 import { QueryStatusEnum } from "../../enums/queryStatus.enum";
 import { Role } from "../../enums/role.enum";
+import MainContainer from "../MainContainer";
 
 const HeaderStyled = styled(Grid2)<Grid2Props>(({ theme }) => ({
   position: "relative",
-  backgroundColor: theme.palette.primary.main,
-  padding: theme.spacing(1, 2),
+  padding: theme.spacing(1, 0),
   [theme.breakpoints.up('md')]: {
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0),
   },
 }));
 
@@ -64,39 +64,42 @@ export default function Header() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    dispatch(getUser(id!));
+    if (!id) return;
+    dispatch(getUser(id));
   }, [dispatch, id, navigate]);
 
   const menuItems = role === Role.USER ? userMenu : adminMenu;
 
   return (
-    <HeaderStyled ref={ref} container component="header" alignItems="center" spacing={2}>
-      <Grid2 {...logoGridStyles}>
-        <Typography sx={logoStyles}>
-          Rick and Morty cards auction
-        </Typography>
-      </Grid2>
-      {isBigScreen &&
-        <Grid2 size={5}>
-          <Menu menuItems={menuItems} />
+    <MainContainer>
+      <HeaderStyled ref={ref} container component="header" alignItems="center" spacing={2}>
+        <Grid2 {...logoGridStyles}>
+          <Typography sx={logoStyles}>
+            Rick and Morty cards auction
+          </Typography>
         </Grid2>
-      }
-      <Grid2 display="flex" justifyContent="end" size="grow">
-        <Button variant="contained" color="secondary" onClick={handleProfileMenuOpen}>
-          {isBigScreen ? "Profile" : <MenuIcon />}
-        </Button>
-      </Grid2>
-      {isProfileMenuOpen &&
-        <ProfileMenu
-          menuItems={menuItems}
-          isUserDataLoaded={status === QueryStatusEnum.SUCCESS}
-          onLogout={handleLogout}
-          username={`${name} ${surname}`}
-          balance={balance!}
-          rating={rating}
-          isBigScreen={isBigScreen}
-        />}
-    </HeaderStyled>
+        {isBigScreen &&
+          <Grid2 size={5}>
+            <Menu menuItems={menuItems} />
+          </Grid2>
+        }
+        <Grid2 display="flex" justifyContent="end" size="grow">
+          <Button variant="contained" color="secondary" onClick={handleProfileMenuOpen}>
+            {isBigScreen ? "Profile" : <MenuIcon />}
+          </Button>
+        </Grid2>
+        {isProfileMenuOpen &&
+          <ProfileMenu
+            menuItems={menuItems}
+            isUserDataLoaded={status === QueryStatusEnum.SUCCESS}
+            onLogout={handleLogout}
+            username={`${name} ${surname}`}
+            balance={balance!}
+            rating={rating}
+            isBigScreen={isBigScreen}
+          />}
+      </HeaderStyled>
+    </MainContainer>
   );
 }
 
