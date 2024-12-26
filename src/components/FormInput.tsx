@@ -12,13 +12,14 @@ type FormInputProps<T extends FieldValues> = {
   errorText?: string;
   required?: boolean;
   pattern?: RegExp;
+  placeholder?: string;
   length?: {
     min: number;
     max: number;
   };
 }
 
-export default function FormInput<T extends FieldValues>({ name, label, control, required, errorText, pattern, length, type }: FormInputProps<T>) {
+export default function FormInput<T extends FieldValues>({ name, label, control, required, errorText, pattern, length, type, placeholder }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = useCallback(() => {
@@ -47,6 +48,7 @@ export default function FormInput<T extends FieldValues>({ name, label, control,
           value={value ?? ''}
           fullWidth
           label={label}
+          placeholder={placeholder}
           margin="dense"
           variant="outlined"
           type={type === 'password' && showPassword ? 'text' : type}
