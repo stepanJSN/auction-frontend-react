@@ -2,11 +2,10 @@ import { Button, Grid2, Grid2Props, styled, SxProps, Theme, Typography, useMedia
 import Menu from "./Menu";
 import { adminMenu, userMenu } from "../../config/menuConfig";
 import ProfileMenu from "./ProfileMenu";
-import { useRef, useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { logout, selectAuth } from "../../features/auth/authSlice";
-import { useOnClickOutside } from "usehooks-ts";
 import { useNavigate } from "react-router";
 import MenuIcon from '@mui/icons-material/Menu';
 import { getUser, selectUser } from "../../features/users/userSlice";
@@ -40,23 +39,20 @@ const logoGridStyles: Grid2Props = {
 
 export default function Header() {
   const dispatch = useDispatch<AppDispatch>();
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { id, role } = useSelector(selectAuth);
   const { status, name, surname, balance, rating } = useSelector(selectUser);
-  const ref = useRef(null);
   const navigate = useNavigate();
+  const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorMenuEl);
   const theme = useTheme();
   const isBigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-  const handleProfileMenuOpen = useCallback(() => {
-    setIsProfileMenuOpen(!isProfileMenuOpen);
-  }, [isProfileMenuOpen])
-
-  const handleClickOutside = useCallback(() => {
-    setIsProfileMenuOpen(false);
-  }, [])
-
-  useOnClickOutside(ref, handleClickOutside)
+  const handleMenuClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorMenuEl(event.currentTarget);
+  }, []);
+  const handleMenuClose = useCallback(() => {
+    setAnchorMenuEl(null);
+  }, []);
 
   const handleLogout = useCallback(() => {
     navigate('/signin');
@@ -64,15 +60,16 @@ export default function Header() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    if (!id) return;
-    dispatch(getUser(id));
-  }, [dispatch, id, navigate]);
+    if (id && status === QueryStatusEnum.IDLE) {
+      dispatch(getUser(id));
+    }
+  }, [dispatch, id, status]);
 
-  const menuItems = role === Role.USER ? userMenu : adminMenu;
+  const menuItems = useMemo(() => (role === Role.USER ? userMenu : adminMenu), [role]);
 
   return (
     <MainContainer>
-      <HeaderStyled ref={ref} container component="header" alignItems="center" spacing={2}>
+      <HeaderStyled container component="header" alignItems="center" spacing={2}>
         <Grid2 {...logoGridStyles}>
           <Typography sx={logoStyles}>
             Rick and Morty cards auction
@@ -84,20 +81,22 @@ export default function Header() {
           </Grid2>
         }
         <Grid2 display="flex" justifyContent="end" size="grow">
-          <Button variant="contained" color="secondary" onClick={handleProfileMenuOpen}>
+          <Button variant="contained" color="secondary" onClick={handleMenuClick}>
             {isBigScreen ? "Profile" : <MenuIcon />}
           </Button>
         </Grid2>
-        {isProfileMenuOpen &&
-          <ProfileMenu
-            menuItems={menuItems}
-            isUserDataLoaded={status === QueryStatusEnum.SUCCESS}
-            onLogout={handleLogout}
-            username={`${name} ${surname}`}
-            balance={balance!}
-            rating={rating}
-            isBigScreen={isBigScreen}
-          />}
+        <ProfileMenu
+          isMenuOpen={isMenuOpen}
+          handleClose={handleMenuClose}
+          anchorMenuEl={anchorMenuEl}
+          menuItems={menuItems}
+          isUserDataLoaded={status === QueryStatusEnum.SUCCESS}
+          onLogout={handleLogout}
+          username={`${name} ${surname}`}
+          balance={balance!}
+          rating={rating}
+          isBigScreen={isBigScreen}
+        />
       </HeaderStyled>
     </MainContainer>
   );
