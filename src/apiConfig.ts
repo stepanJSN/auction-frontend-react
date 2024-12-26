@@ -31,17 +31,25 @@ apiWithAuth.interceptors.response.use(
     return response;
   },
   async function (error: AxiosError) {
-    const originalRequest = error.config;
+    const originalRequest = { ...error.config };
 
-    if (error.response?.status === 401 && error.config) {
-      if (originalRequest?.data) {
-        originalRequest.data._isRetry = true;
+    if (error.response?.status === 401 && error.config && !error.config.data?._isRetry) {
+      try {
+        originalRequest.data = { ...originalRequest.data, _isRetry: true };
+        const token = (await authService.getNewTokens()).data;
+        if (token) {
+          authService.setAccessToken(token);
+          return apiWithAuth.request(
+            originalRequest as InternalAxiosRequestConfig<{ _isRetry: boolean }>,
+          );
+        }
+      } catch {
+        window.location.href = '/signin';
       }
-      const token = (await authService.getNewTokens()).data;
-      if (token) authService.setAccessToken(token);
-      return apiWithAuth.request(
-        originalRequest as InternalAxiosRequestConfig<{ _isRetry: boolean }>,
-      );
+    }
+
+    if (error.response?.status === 401) {
+      window.location.href = '/signin';
     }
 
     return Promise.reject(error);
