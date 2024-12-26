@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { QueryStatusEnum } from "../../enums/queryStatus.enum"
 import { IUser } from "../../types/userService.interfaces"
-import { Role } from "../../enums/role.enum";
 import { RootState } from '../../redux/store';
 
 export interface UserState {
@@ -9,7 +8,6 @@ export interface UserState {
   email: string | null;
   surname: string | null;
   rating: number| null;
-  role: Role | null;
   balance: {
     available: number;
     total: number;
@@ -24,7 +22,6 @@ const initialState: UserState = {
   email: null,
   surname: null,
   rating: null,
-  role: null,
   balance: null,
   created_at: null,
   errorCode: null,
@@ -44,7 +41,6 @@ export const userSlice = createSlice({
       state.email = action.payload.email
       state.surname = action.payload.surname
       state.rating = action.payload.rating
-      state.role = action.payload.role
       state.balance = action.payload.balance
       state.created_at = action.payload.created_at
     },

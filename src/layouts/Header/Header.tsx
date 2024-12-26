@@ -1,14 +1,17 @@
 import { Button, Grid2, Grid2Props, styled, SxProps, Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Menu from "./Menu";
-import { userMenu } from "../../config/menuConfig";
+import { adminMenu, userMenu } from "../../config/menuConfig";
 import ProfileMenu from "./ProfileMenu";
-import { useRef, useMemo, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useRef, useCallback, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { logout } from "../../features/auth/authSlice";
+import { logout, selectAuth } from "../../features/auth/authSlice";
 import { useOnClickOutside } from "usehooks-ts";
 import { useNavigate } from "react-router";
 import MenuIcon from '@mui/icons-material/Menu';
+import { getUser, selectUser } from "../../features/users/userSlice";
+import { QueryStatusEnum } from "../../enums/queryStatus.enum";
+import { Role } from "../../enums/role.enum";
 
 const HeaderStyled = styled(Grid2)<Grid2Props>(({ theme }) => ({
   position: "relative",
@@ -38,6 +41,8 @@ const logoGridStyles: Grid2Props = {
 export default function Header() {
   const dispatch = useDispatch<AppDispatch>();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const { id, role } = useSelector(selectAuth);
+  const { status, name, surname, balance, rating } = useSelector(selectUser);
   const ref = useRef(null);
   const navigate = useNavigate();
   const theme = useTheme();
@@ -54,14 +59,15 @@ export default function Header() {
   useOnClickOutside(ref, handleClickOutside)
 
   const handleLogout = useCallback(() => {
-    dispatch(logout());
     navigate('/signin');
-  }, [dispatch, navigate])
+    dispatch(logout());
+  }, [dispatch, navigate]);
 
-  const balance = useMemo(() => ({
-    available: 100,
-    total: 200,
-  }), []);
+  useEffect(() => {
+    dispatch(getUser(id!));
+  }, [dispatch, id, navigate]);
+
+  const menuItems = role === Role.USER ? userMenu : adminMenu;
 
   return (
     <HeaderStyled ref={ref} container component="header" alignItems="center" spacing={2}>
@@ -72,7 +78,7 @@ export default function Header() {
       </Grid2>
       {isBigScreen &&
         <Grid2 size={5}>
-          <Menu menuItems={userMenu} />
+          <Menu menuItems={menuItems} />
         </Grid2>
       }
       <Grid2 display="flex" justifyContent="end" size="grow">
@@ -82,10 +88,12 @@ export default function Header() {
       </Grid2>
       {isProfileMenuOpen &&
         <ProfileMenu
+          menuItems={menuItems}
+          isUserDataLoaded={status === QueryStatusEnum.SUCCESS}
           onLogout={handleLogout}
-          username="John Doe"
-          balance={balance}
-          rating={5}
+          username={`${name} ${surname}`}
+          balance={balance!}
+          rating={rating}
           isBigScreen={isBigScreen}
         />}
     </HeaderStyled>

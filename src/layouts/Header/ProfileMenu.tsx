@@ -1,17 +1,18 @@
-import { Button, Divider, List, ListItem, SxProps, Typography } from "@mui/material";
+import { Button, CircularProgress, Divider, List, ListItem, SxProps, Typography } from "@mui/material";
 import { MenuLink } from "./MenuLink";
 import { Link } from "react-router";
 import Menu from "./Menu";
-import { userMenu } from "../../config/menuConfig";
 
 type ProfileMenuProps = {
+  isUserDataLoaded: boolean;
   username: string;
   isBigScreen: boolean;
+  menuItems: { label: string; path: string }[];
   balance: {
     available: number;
     total: number;
   };
-  rating: number;
+  rating: number | null;
   onLogout: () => void;
 }
 
@@ -33,31 +34,41 @@ const balanceItemStyles = {
   display: 'block',
 }
 
-export default function ProfileMenu({ username, balance, isBigScreen, rating, onLogout }: ProfileMenuProps) {
+export default function ProfileMenu({ username, balance, isBigScreen, rating, onLogout, isUserDataLoaded, menuItems }: ProfileMenuProps) {
   return (
     <List sx={containerStyles} dense>
       {!isBigScreen && 
         <>
-          <Menu menuItems={userMenu} />
+          <Menu menuItems={menuItems} />
           <Divider sx={dividerStyles} component="li" />
         </>
       }
-      <ListItem>
-        <Typography>Hi, {username}</Typography>
-      </ListItem>
-      <Divider sx={dividerStyles} component="li" />
-      <ListItem>
-        <Typography>Rating: {rating}</Typography>
-      </ListItem>
-      <Divider sx={dividerStyles} component="li" />
-      <ListItem sx={balanceItemStyles}>
-        <Typography>Balance:</Typography>
-        <List dense disablePadding>
-          <ListItem>Available: {balance.available}</ListItem>
-          <ListItem>Total: {balance.total}</ListItem>
-        </List>
-      </ListItem>
-      <Divider sx={dividerStyles} component="li" />
+      {!isUserDataLoaded && <CircularProgress />}
+      {
+        isUserDataLoaded &&
+        <>
+          <ListItem>
+            <Typography>Hi, {username}</Typography>
+          </ListItem>
+          <Divider sx={dividerStyles} component="li" />
+          {rating && 
+            <>
+            <ListItem>
+              <Typography>Rating: {rating}</Typography>
+            </ListItem>
+            <Divider sx={dividerStyles} component="li" />
+            </>
+          }
+          <ListItem sx={balanceItemStyles}>
+            <Typography>Balance:</Typography>
+            <List dense disablePadding>
+              <ListItem>Available: {balance.available}</ListItem>
+              <ListItem>Total: {balance.total}</ListItem>
+            </List>
+          </ListItem>
+          <Divider sx={dividerStyles} component="li" />
+        </>
+      }
       <ListItem>
         <MenuLink 
           component={Link}
