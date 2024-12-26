@@ -1,6 +1,9 @@
 import { api } from '../apiConfig';
 import { Role } from '../enums/role.enum';
-import { ISingInRequest, ISingInResponse } from '../types/authService.interfaces';
+import {
+  ISingInRequest,
+  ISingInResponse,
+} from '../types/authService.interfaces';
 
 export const authService = {
   setAccessToken: (token: string) => {
@@ -8,12 +11,12 @@ export const authService = {
   },
 
   signIn: async (data: ISingInRequest) => {
-    const response = await api.post<ISingInResponse>(
-      '/auth/signin',
-      data,
-    );
+    const response = await api.post<ISingInResponse>('/auth/signin', data);
 
-    if (response.data.accessToken) authService.setAccessToken(response.data.accessToken);
+    console.log(response.data.accessToken);
+
+    if (response.data.accessToken)
+      authService.setAccessToken(response.data.accessToken);
     if (response.data.id) authService.setUserId(response.data.id);
     if (response.data.role) authService.setUserRole(response.data.role);
 
@@ -31,7 +34,7 @@ export const authService = {
   getUserId: () => {
     return localStorage.getItem('id');
   },
-  
+
   getUserRole: () => {
     return localStorage.getItem('role');
   },
@@ -41,13 +44,12 @@ export const authService = {
   },
 
   getNewTokens: () => {
-    return api.get<string>('/auth/access-token');
+    return api.get<{ accessToken: string }>('/auth/access-token');
   },
 
   clearStorage: () => {
     localStorage.clear();
   },
-
 
   logout: async () => {
     await api.get('/auth/logout');

@@ -12,14 +12,20 @@ export const userService = {
   },
 
   update: async (id: string, data: IUpdateUser) => {
-    await apiWithAuth.put(`/users/${id}`, data);
+    const userData = await apiWithAuth.put(`/users/${id}`, data);
+    return userData.data;
   },
 
   changeRole: async (id: string, role: Role) => {
     await apiWithAuth.put(`/users/role`, { userId: id, role });
   },
+
   getOne: async (id: string) => {
     const userData = await apiWithAuth.get<IUser>(`/users/${id}`);
     return userData.data;
+  },
+
+  delete: async (id: string) => {
+    await apiWithAuth.delete(`/users/${id}`);
   },
 };

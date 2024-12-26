@@ -37,8 +37,7 @@ export const authSlice = createSlice({
       state.errorCode = action.payload
     },
     logout(state) {
-      state.id = null
-      state.role = null;
+      state = initialState;
     }
   }
 })
