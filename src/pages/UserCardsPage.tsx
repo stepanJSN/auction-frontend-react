@@ -1,29 +1,30 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCards } from '../features/userCards/userCardsSlice';
-import { AppDispatch, RootState } from '../redux/store';
+import {
+  getCards,
+  selectUserCards,
+} from '../features/userCards/userCardsSlice';
+import { AppDispatch } from '../redux/store';
 import { Grid2, Typography } from '@mui/material';
 import Card from '../components/Card';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
+import Pagination from '../components/Pagination';
 
 export default function UserCardsPage() {
-  const currentPage = useSelector(
-    useCallback((state: RootState) => state.userCards.currentPage, []),
-  );
-  const cards = useSelector(
-    useCallback(
-      (state: RootState) => state.userCards.cards[currentPage],
-      [currentPage],
-    ),
-  );
-  const status = useSelector(
-    useCallback((state: RootState) => state.userCards.status, []),
-  );
+  const { status, cards, currentPage, totalPages } =
+    useSelector(selectUserCards);
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getCards(currentPage));
   }, [dispatch, currentPage]);
+
+  const handlePageChange = useCallback(
+    (_event: React.ChangeEvent<unknown>, value: number) => {
+      dispatch(getCards(value));
+    },
+    [dispatch],
+  );
 
   return (
     <>
@@ -38,6 +39,11 @@ export default function UserCardsPage() {
             </Grid2>
           ))}
       </Grid2>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handleChange={handlePageChange}
+      />
     </>
   );
 }
