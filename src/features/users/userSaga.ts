@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
 import { IUpdateUser, IUser } from '../../types/userService.interfaces';
 import { userService } from '../../services/userService';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -7,10 +7,18 @@ import {
   getUserError,
   getUserSuccess,
   updateUserSuccess,
+  updateUserError,
+  resetUpdateUserStatus,
   deleteUser,
+  deleteUserSuccess,
+  deleteUserError,
+  resetDeleteUserStatus,
+  updateUser,
 } from './userSlice';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
+
+const NOTIFICATION_TIMEOUT = 3000;
 
 function* getUserSaga(action: PayloadAction<string>) {
   try {
@@ -26,12 +34,23 @@ function* getUserSaga(action: PayloadAction<string>) {
 function* updateUserSaga(
   action: PayloadAction<{ id: string; data: IUpdateUser }>,
 ) {
-  const userData: IUser = yield call(
-    userService.update,
-    action.payload.id,
-    action.payload.data,
-  );
-  yield put(updateUserSuccess(userData));
+  try {
+    const userData: IUser = yield call(
+      userService.update,
+      action.payload.id,
+      action.payload.data,
+    );
+    yield put(updateUserSuccess(userData));
+  } catch (error) {
+    yield put(
+      updateUserError(
+        (error as AxiosError).status || ErrorCodesEnum.ServerError,
+      ),
+    );
+  } finally {
+    yield delay(NOTIFICATION_TIMEOUT);
+    yield put(resetUpdateUserStatus());
+  }
 }
 
 function* deleteUserSaga(action: PayloadAction<string>) {
@@ -44,6 +63,9 @@ function* deleteUserSaga(action: PayloadAction<string>) {
         (error as AxiosError).status || ErrorCodesEnum.ServerError,
       ),
     );
+  } finally {
+    yield delay(NOTIFICATION_TIMEOUT);
+    yield put(resetDeleteUserStatus());
   }
 }
 
