@@ -74,7 +74,7 @@ export default function Header() {
     if (id === null) {
       logout();
     }
-  }, [dispatch, id, status]);
+  }, [dispatch, id, logout, status]);
 
   const menuItems = useMemo(
     () => (role === Role.USER ? userMenu : adminMenu),
