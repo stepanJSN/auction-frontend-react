@@ -1,17 +1,17 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container } from '@mui/material';
 
 type MainContainerProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 const boxStyles = {
-  backgroundColor: "primary.main",
-}
+  backgroundColor: 'primary.main',
+};
 
 export default function MainContainer({ children }: MainContainerProps) {
   return (
     <Box sx={boxStyles}>
       <Container>{children}</Container>
     </Box>
-  )
+  );
 }
