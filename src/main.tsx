@@ -4,6 +4,7 @@ import Router from './Router.tsx';
 import { Provider } from 'react-redux';
 import { store } from './redux/store.ts';
 import { CssBaseline } from '@mui/material';
+import './global.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

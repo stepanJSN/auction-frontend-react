@@ -11,6 +11,7 @@ import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
+import { Outlet } from 'react-router';
 
 export default function UserCardsPage() {
   const { status, cards, currentPage, totalPages } =
@@ -55,6 +56,7 @@ export default function UserCardsPage() {
           />
         </>
       )}
+      <Outlet />
     </>
   );
 }

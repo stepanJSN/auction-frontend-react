@@ -56,7 +56,7 @@ export default function Card({
           {type && <Typography variant="body1">Type: {type}</Typography>}
         </CardContent>
         <CardActions>
-          <Button to={`/cards/${id}`} component={Link} size="small">
+          <Button to={`/${id}`} component={Link} size="small">
             Learn More
           </Button>
           {children}
