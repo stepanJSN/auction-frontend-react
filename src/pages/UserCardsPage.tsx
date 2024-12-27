@@ -5,7 +5,7 @@ import {
   selectUserCards,
 } from '../features/userCards/userCardsSlice';
 import { AppDispatch } from '../redux/store';
-import { Grid2, Typography } from '@mui/material';
+import { Button, Grid2, Typography } from '@mui/material';
 import Card from '../components/Card';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
@@ -35,7 +35,11 @@ export default function UserCardsPage() {
         {status === QueryStatusEnum.SUCCESS &&
           cards.map((card) => (
             <Grid2 size={3} key={card.id}>
-              <Card {...card} is_active is_created_by_admin />
+              <Card {...card}>
+                <Button size="small" color="success">
+                  Sell
+                </Button>
+              </Card>
             </Grid2>
           ))}
       </Grid2>

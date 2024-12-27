@@ -10,8 +10,11 @@ import {
 } from '@mui/material';
 import { ICardSummary } from '../types/cards.interface';
 import { CardLabel } from './CardLabel';
+import { Link } from 'react-router';
 
-type CardProps = ICardSummary;
+type CardProps = ICardSummary & {
+  children?: React.ReactNode;
+};
 
 const cardMediaStyles = {
   height: '200px',
@@ -22,12 +25,14 @@ const cardContentStyles = {
 };
 
 export default function Card({
+  id,
   name,
   image_url,
   gender,
   is_created_by_admin,
   is_active,
   type,
+  children,
 }: CardProps) {
   const cardStyles = useMemo(
     () => ({
@@ -51,10 +56,10 @@ export default function Card({
           {type && <Typography variant="body1">Type: {type}</Typography>}
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
-          <Button size="small" color="success">
-            Sell
+          <Button to={`/cards/${id}`} component={Link} size="small">
+            Learn More
           </Button>
+          {children}
         </CardActions>
       </Stack>
     </MuiCard>
