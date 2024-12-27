@@ -41,6 +41,7 @@ export default function CardPage() {
           episodes={data!.episodes}
           isCreatedByAdmin={data!.is_created_by_admin}
           isActive={data!.is_active}
+          isUserHaveThisCard={data!.is_owned}
         />
       )}
     </Dialog>

@@ -16,6 +16,7 @@ type CardDataProps = {
   gender: string;
   type: string;
   isCreatedByAdmin: boolean;
+  isUserHaveThisCard: boolean;
   isActive: boolean;
   location: {
     name: string;
@@ -42,6 +43,7 @@ export default function CardData({
   episodes,
   isCreatedByAdmin,
   isActive,
+  isUserHaveThisCard,
 }: CardDataProps) {
   return (
     <Grid2 container>
@@ -77,6 +79,9 @@ export default function CardData({
               <Chip label="active" color="success" />
             ) : (
               <Chip label="inactive" color="error" />
+            )}
+            {isUserHaveThisCard && (
+              <Chip label="You have this card" color="success" />
             )}
           </Stack>
         </DialogContent>

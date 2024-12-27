@@ -19,6 +19,7 @@ export interface IGetCardsResponse {
 }
 
 export interface ICard extends ICardSummary {
+  is_owned: boolean;
   location: {
     id: number;
     name: string;
