@@ -11,6 +11,9 @@ import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
+import { Outlet } from 'react-router';
+
+const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
 
 export default function UserCardsPage() {
   const { status, cards, currentPage, totalPages } =
@@ -39,7 +42,7 @@ export default function UserCardsPage() {
         <>
           <Grid2 container spacing={2}>
             {cards.map((card) => (
-              <Grid2 size={3} key={card.id}>
+              <Grid2 size={cardColumnsNumber} key={card.id}>
                 <Card {...card}>
                   <Button size="small" color="success">
                     Sell
@@ -55,6 +58,7 @@ export default function UserCardsPage() {
           />
         </>
       )}
+      <Outlet />
     </>
   );
 }

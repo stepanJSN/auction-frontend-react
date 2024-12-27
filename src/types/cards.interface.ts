@@ -17,3 +17,17 @@ export interface IGetCardsResponse {
   data: ICardSummary[];
   info: IPagination;
 }
+
+export interface ICard extends ICardSummary {
+  is_owned: boolean;
+  location: {
+    id: number;
+    name: string;
+    type: string;
+  };
+  episodes: {
+    id: number;
+    name: string;
+    code: string;
+  }[];
+}
