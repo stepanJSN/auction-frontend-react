@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { ICardSummary, IGetCardsResponse } from '../../types/cards.interface';
+import { RootState } from '../../redux/store';
 
 export interface UserCardsState {
   cards: {
@@ -27,10 +28,15 @@ export const userCardsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getCardsSuccess: (state, action: PayloadAction<IGetCardsResponse>) => {
+    getCardsSuccess: (
+      state,
+      action: PayloadAction<IGetCardsResponse | null>,
+    ) => {
       state.status = QueryStatusEnum.SUCCESS;
-      state.cards[state.currentPage] = action.payload.data;
-      state.totalPages = action.payload.info.totalPages;
+      if (action.payload) {
+        state.cards[state.currentPage] = action.payload.data;
+        state.totalPages = action.payload.info.totalPages;
+      }
     },
 
     getCardsError: (state) => {
@@ -41,5 +47,19 @@ export const userCardsSlice = createSlice({
 
 export const { getCards, getCardsSuccess, getCardsError } =
   userCardsSlice.actions;
+export const selectUserCards = createSelector(
+  (state: RootState) => state.userCards,
+  (userCards) => ({
+    cards: userCards.cards[userCards.currentPage],
+    totalPages: userCards.totalPages,
+    currentPage: userCards.currentPage,
+    status: userCards.status,
+  }),
+);
+
+export const selectIsPageLoaded = createSelector(
+  (state: RootState) => state.userCards,
+  (userCards) => !!userCards.cards[userCards.currentPage],
+);
 
 export default userCardsSlice.reducer;
