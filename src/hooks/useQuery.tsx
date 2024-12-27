@@ -6,6 +6,7 @@ import { QueryStatusEnum } from '../enums/queryStatus.enum';
 export default function useQuery<T, R = unknown>(
   requestFn: (data: T) => Promise<R>,
   params: T,
+  autoFetch: boolean = true,
 ) {
   const [status, setStatus] = useState<QueryStatusEnum>(QueryStatusEnum.IDLE);
   const [errorCode, setErrorCode] = useState<ErrorCodesEnum | null>(null);
@@ -31,8 +32,8 @@ export default function useQuery<T, R = unknown>(
   );
 
   useEffect(() => {
-    execute(params);
-  }, [params, execute]);
+    if (autoFetch) execute(params);
+  }, [params, execute, autoFetch]);
 
   return { status, errorCode, data, execute };
 }
