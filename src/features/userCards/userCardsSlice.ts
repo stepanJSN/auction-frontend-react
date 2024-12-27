@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
-import { ICardSummary } from '../../types/cards.interface';
+import { ICardSummary, IGetCardsResponse } from '../../types/cards.interface';
+import { RootState } from '../../redux/store';
 
 export interface UserCardsState {
   cards: {
@@ -27,13 +28,10 @@ export const userCardsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getCardsSuccess: (
-      state,
-      action: PayloadAction<{ cards: ICardSummary[]; totalPages: number }>,
-    ) => {
+    getCardsSuccess: (state, action: PayloadAction<IGetCardsResponse>) => {
       state.status = QueryStatusEnum.SUCCESS;
-      state.cards[state.currentPage] = action.payload.cards;
-      state.totalPages = action.payload.totalPages;
+      state.cards[state.currentPage] = action.payload.data;
+      state.totalPages = action.payload.info.totalPages;
     },
 
     getCardsError: (state) => {
@@ -41,3 +39,9 @@ export const userCardsSlice = createSlice({
     },
   },
 });
+
+export const { getCards, getCardsSuccess, getCardsError } =
+  userCardsSlice.actions;
+
+export const selectUserCards = (state: RootState) => state.userCards;
+export default userCardsSlice.reducer;
