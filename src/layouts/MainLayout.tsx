@@ -14,6 +14,7 @@ const globalWrapperStyles: SxProps = {
 
 const containerStyles: SxProps = {
   flex: 'auto',
+  py: 2,
 };
 
 export default function MainLayout() {

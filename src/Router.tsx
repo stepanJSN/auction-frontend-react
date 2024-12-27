@@ -4,6 +4,7 @@ import AuthLayout from './layouts/AuthLayout';
 import Signup from './pages/Signup';
 import MainLayout from './layouts/MainLayout';
 import Profile from './pages/Profile';
+import UserCardsPage from './pages/UserCardsPage';
 
 export default function Router() {
   return (
@@ -14,7 +15,7 @@ export default function Router() {
           <Route path="/signup" element={<Signup />} />
         </Route>
         <Route element={<MainLayout />}>
-          <Route path="/" />
+          <Route path="/" element={<UserCardsPage />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
