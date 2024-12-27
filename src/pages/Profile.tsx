@@ -3,6 +3,7 @@ import {
   Button,
   CircularProgress,
   Stack,
+  SxProps,
   Typography,
 } from '@mui/material';
 import { FormWrapper } from '../components/FormWrapper';
@@ -15,11 +16,15 @@ import {
 } from '../features/users/userSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import { AppDispatch } from '../redux/store';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { IUpdateUser } from '../types/userService.interfaces';
 import { selectAuth } from '../features/auth/authSlice';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useLogout from '../hooks/useLogout';
+
+const formWrapperStyles: SxProps = {
+  minWidth: '400px',
+};
 
 export default function Profile() {
   const { status, updateStatus, deleteStatus, name, surname, email } =
@@ -48,10 +53,10 @@ export default function Profile() {
       logout();
     }
   }, [deleteStatus, logout]);
-  const sx = useMemo(() => ({ minWidth: '400px' }), []);
+
   return (
     <Stack alignItems="center" pt={4}>
-      <FormWrapper sx={sx}>
+      <FormWrapper sx={formWrapperStyles}>
         <Typography variant="h5" component="h1" align="center" gutterBottom>
           Profile
         </Typography>

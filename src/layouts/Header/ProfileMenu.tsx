@@ -94,8 +94,8 @@ export default function ProfileMenu({
           </>
         )}
         <ListItem>
-          <MenuLink component={Link} to="/profile">
-            More info
+          <MenuLink component={Link} to="/profile" onClick={handleClose}>
+            Update personal information
           </MenuLink>
         </ListItem>
         <ListItem>

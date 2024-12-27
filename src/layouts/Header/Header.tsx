@@ -71,6 +71,9 @@ export default function Header() {
     if (id && status === QueryStatusEnum.IDLE) {
       dispatch(getUser(id));
     }
+    if (id === null) {
+      logout();
+    }
   }, [dispatch, id, status]);
 
   const menuItems = useMemo(
