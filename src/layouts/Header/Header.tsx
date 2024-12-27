@@ -71,10 +71,7 @@ export default function Header() {
     if (id && status === QueryStatusEnum.IDLE) {
       dispatch(getUser(id));
     }
-    if (id === null) {
-      logout();
-    }
-  }, [dispatch, id, logout, status]);
+  }, [dispatch, id, status]);
 
   const menuItems = useMemo(
     () => (role === Role.USER ? userMenu : adminMenu),
