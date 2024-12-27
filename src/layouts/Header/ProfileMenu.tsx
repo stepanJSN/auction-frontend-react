@@ -1,7 +1,17 @@
-import { Button, CircularProgress, Divider, List, ListItem, SxProps, Typography, Menu as MuiMenu, styled } from "@mui/material";
-import { MenuLink } from "./MenuLink";
-import { Link } from "react-router";
-import Menu from "./Menu";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  SxProps,
+  Typography,
+  Menu as MuiMenu,
+  styled,
+} from '@mui/material';
+import { MenuLink } from './MenuLink';
+import { Link } from 'react-router';
+import Menu from './Menu';
 
 type ProfileMenuProps = {
   isMenuOpen: boolean;
@@ -17,56 +27,62 @@ type ProfileMenuProps = {
   };
   rating: number | null;
   onLogout: () => void;
-}
+};
 
 const containerStyles: SxProps = {
   backgroundColor: 'primary.main',
   color: 'common.white',
   width: 250,
-}
+};
 const dividerStyles = {
-  backgroundColor: 'common.white'
-}
+  backgroundColor: 'common.white',
+};
 const balanceItemStyles = {
   display: 'block',
-}
+};
 
 const StyledMenu = styled(MuiMenu)(() => ({
   '& .MuiMenu-list': {
     padding: '0',
   },
-}))
+}));
 
-export default function ProfileMenu({ username, balance, isBigScreen, rating, onLogout, isUserDataLoaded, menuItems, isMenuOpen, handleClose, anchorMenuEl }: ProfileMenuProps) {
+export default function ProfileMenu({
+  username,
+  balance,
+  isBigScreen,
+  rating,
+  onLogout,
+  isUserDataLoaded,
+  menuItems,
+  isMenuOpen,
+  handleClose,
+  anchorMenuEl,
+}: ProfileMenuProps) {
   return (
-    <StyledMenu
-      anchorEl={anchorMenuEl}
-      open={isMenuOpen}
-      onClose={handleClose}
-    >
+    <StyledMenu anchorEl={anchorMenuEl} open={isMenuOpen} onClose={handleClose}>
       <List sx={containerStyles} dense>
-        {!isBigScreen && 
+        {!isBigScreen && (
           <>
             <Menu menuItems={menuItems} />
             <Divider sx={dividerStyles} component="li" />
           </>
-        }
+        )}
         {!isUserDataLoaded && <CircularProgress />}
-        {
-          isUserDataLoaded &&
+        {isUserDataLoaded && (
           <>
             <ListItem>
               <Typography>Hi, {username}</Typography>
             </ListItem>
             <Divider sx={dividerStyles} component="li" />
-            {rating && 
+            {rating !== null && (
               <>
-              <ListItem>
-                <Typography>Rating: {rating}</Typography>
-              </ListItem>
-              <Divider sx={dividerStyles} component="li" />
+                <ListItem>
+                  <Typography>Rating: {rating}</Typography>
+                </ListItem>
+                <Divider sx={dividerStyles} component="li" />
               </>
-            }
+            )}
             <ListItem sx={balanceItemStyles}>
               <Typography>Balance:</Typography>
               <List dense disablePadding>
@@ -76,26 +92,22 @@ export default function ProfileMenu({ username, balance, isBigScreen, rating, on
             </ListItem>
             <Divider sx={dividerStyles} component="li" />
           </>
-        }
+        )}
         <ListItem>
-          <MenuLink 
-            component={Link}
-            to="/profile"
-          >
-            More info
+          <MenuLink component={Link} to="/profile" onClick={handleClose}>
+            Update personal information
           </MenuLink>
         </ListItem>
         <ListItem>
           <Button
-            variant="contained" 
+            variant="contained"
             color="secondary"
             fullWidth
-            onClick={onLogout}
-          >
+            onClick={onLogout}>
             Logout
           </Button>
         </ListItem>
       </List>
     </StyledMenu>
-  )
+  );
 }

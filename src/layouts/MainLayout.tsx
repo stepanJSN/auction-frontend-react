@@ -1,20 +1,20 @@
-import { Container, Stack, SxProps } from "@mui/material";
-import Header from "./Header/Header";
-import { Outlet } from "react-router";
-import Footer from "./Footer";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { authService } from "../services/authService";
-import { signinSuccess } from "../features/auth/authSlice";
-import { Role } from "../enums/role.enum";
+import { Container, Stack, SxProps } from '@mui/material';
+import Header from './Header/Header';
+import { Outlet } from 'react-router';
+import Footer from './Footer';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { authService } from '../services/authService';
+import { signinSuccess } from '../features/auth/authSlice';
+import { Role } from '../enums/role.enum';
 
 const globalWrapperStyles: SxProps = {
   minHeight: '100vh',
-}
+};
 
 const containerStyles: SxProps = {
-  flex:'auto',
-}
+  flex: 'auto',
+};
 
 export default function MainLayout() {
   const dispatch = useDispatch();
@@ -29,11 +29,11 @@ export default function MainLayout() {
 
   return (
     <Stack sx={globalWrapperStyles}>
-      <Header/>
+      <Header />
       <Container sx={containerStyles}>
         <Outlet />
       </Container>
-      <Footer/>
+      <Footer />
     </Stack>
-  )
+  );
 }

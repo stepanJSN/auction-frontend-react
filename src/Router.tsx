@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router";
-import Signin from "./pages/Signin";
-import AuthLayout from "./layouts/AuthLayout";
-import Signup from "./pages/Signup";
-import MainLayout from "./layouts/MainLayout";
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Signin from './pages/Signin';
+import AuthLayout from './layouts/AuthLayout';
+import Signup from './pages/Signup';
+import MainLayout from './layouts/MainLayout';
+import Profile from './pages/Profile';
 
 export default function Router() {
   return (
@@ -14,8 +15,9 @@ export default function Router() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
