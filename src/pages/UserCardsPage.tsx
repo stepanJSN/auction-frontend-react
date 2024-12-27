@@ -9,6 +9,8 @@ import { Button, Grid2, Typography } from '@mui/material';
 import Card from '../components/Card';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
+import PageLoader from '../components/PageLoader';
+import PageError from '../components/PageError';
 
 export default function UserCardsPage() {
   const { status, cards, currentPage, totalPages } =
@@ -31,23 +33,28 @@ export default function UserCardsPage() {
       <Typography variant="h4" gutterBottom>
         My Cards
       </Typography>
-      <Grid2 container spacing={2}>
-        {status === QueryStatusEnum.SUCCESS &&
-          cards.map((card) => (
-            <Grid2 size={3} key={card.id}>
-              <Card {...card}>
-                <Button size="small" color="success">
-                  Sell
-                </Button>
-              </Card>
-            </Grid2>
-          ))}
-      </Grid2>
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handleChange={handlePageChange}
-      />
+      {status === QueryStatusEnum.ERROR && <PageError />}
+      {status === QueryStatusEnum.LOADING && <PageLoader />}
+      {status === QueryStatusEnum.SUCCESS && (
+        <>
+          <Grid2 container spacing={2}>
+            {cards.map((card) => (
+              <Grid2 size={3} key={card.id}>
+                <Card {...card}>
+                  <Button size="small" color="success">
+                    Sell
+                  </Button>
+                </Card>
+              </Grid2>
+            ))}
+          </Grid2>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handleChange={handlePageChange}
+          />
+        </>
+      )}
     </>
   );
 }
