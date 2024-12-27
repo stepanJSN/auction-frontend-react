@@ -10,8 +10,9 @@ import CardSkeleton from '../features/card/CardSkeleton';
 
 const closeIconStyles: SxProps = {
   position: 'absolute',
-  top: 3,
-  right: 3,
+  top: 5,
+  right: 5,
+  backgroundColor: 'common.white',
 };
 
 export default function CardPage() {

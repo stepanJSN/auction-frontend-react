@@ -30,8 +30,18 @@ type CardDataProps = {
 const imgContainerStyles: SxProps = {
   alignSelf: 'stretch',
 };
+const imgContainerColumns = {
+  xs: 12,
+  sm: 5,
+};
+
 const cardTitleStyles: SxProps = {
   typography: 'h4',
+};
+
+const textColumns = {
+  xs: 12,
+  sm: 7,
 };
 
 export default function CardData({
@@ -47,7 +57,7 @@ export default function CardData({
 }: CardDataProps) {
   return (
     <Grid2 container>
-      <Grid2 size={5} sx={imgContainerStyles}>
+      <Grid2 size={imgContainerColumns} sx={imgContainerStyles}>
         <img
           src={imageUrl}
           alt={name}
@@ -59,7 +69,7 @@ export default function CardData({
           }}
         />
       </Grid2>
-      <Grid2 size={7}>
+      <Grid2 size={textColumns}>
         <DialogTitle sx={cardTitleStyles}>{name}</DialogTitle>
         <DialogContent>
           <Typography variant="subtitle1">Gender: {gender}</Typography>
