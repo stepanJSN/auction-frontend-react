@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { ICardSummary, IGetCardsResponse } from '../../types/cards.interface';
-import { RootState } from '../../redux/store';
 
 export interface UserCardsState {
   cards: {
@@ -43,5 +42,4 @@ export const userCardsSlice = createSlice({
 export const { getCards, getCardsSuccess, getCardsError } =
   userCardsSlice.actions;
 
-export const selectUserCards = (state: RootState) => state.userCards;
 export default userCardsSlice.reducer;
