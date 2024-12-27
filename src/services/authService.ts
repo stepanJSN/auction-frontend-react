@@ -13,8 +13,6 @@ export const authService = {
   signIn: async (data: ISingInRequest) => {
     const response = await api.post<ISingInResponse>('/auth/signin', data);
 
-    console.log(response.data.accessToken);
-
     if (response.data.accessToken)
       authService.setAccessToken(response.data.accessToken);
     if (response.data.id) authService.setUserId(response.data.id);
