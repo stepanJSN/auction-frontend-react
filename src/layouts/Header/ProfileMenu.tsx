@@ -10,8 +10,8 @@ import {
   styled,
 } from '@mui/material';
 import { MenuLink } from './MenuLink';
-import { Link } from 'react-router';
 import Menu from './Menu';
+import { ROUTES } from '../../config/routesConfig';
 
 type ProfileMenuProps = {
   isMenuOpen: boolean;
@@ -94,7 +94,7 @@ export default function ProfileMenu({
           </>
         )}
         <ListItem>
-          <MenuLink component={Link} to="/profile" onClick={handleClose}>
+          <MenuLink to={ROUTES.PROFILE} onClick={handleClose}>
             Update personal information
           </MenuLink>
         </ListItem>

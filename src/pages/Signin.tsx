@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 import { selectAuth, signin } from '../features/auth/authSlice';
 import { ISingInRequest } from '../types/authService.interfaces';
-import { Link as RouterLink, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import { ErrorCodesEnum } from '../enums/errorCodes.enum';
 import { useCallback, useEffect, useMemo } from 'react';
 import { FormWrapper } from '../components/FormWrapper';
 import FormLink from '../components/FormLink';
+import { ROUTES } from '../config/routesConfig';
 
 export default function Signin() {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,9 +49,7 @@ export default function Signin() {
       <AuthFrom
         onSubmit={handleSignin}
         isLoading={status === QueryStatusEnum.LOADING}></AuthFrom>
-      <FormLink component={RouterLink} to="/signup">
-        Sign up
-      </FormLink>
+      <FormLink to={ROUTES.SIGN_UP}>Sign up</FormLink>
     </FormWrapper>
   );
 }

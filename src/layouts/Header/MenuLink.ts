@@ -1,4 +1,5 @@
-import { styled, LinkProps, Link } from '@mui/material';
+import { styled, LinkProps } from '@mui/material';
+import Link from '../../components/Link';
 
 export const MenuLink = styled(Link)<LinkProps & { to: string }>(
   ({ theme }) => ({

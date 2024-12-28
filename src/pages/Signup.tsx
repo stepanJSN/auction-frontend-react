@@ -1,5 +1,4 @@
-import { Typography, Alert, Link } from '@mui/material';
-import { Link as RouterLink } from 'react-router';
+import { Typography, Alert } from '@mui/material';
 import SignupForm from '../features/users/SignupForm';
 import useMutation from '../hooks/useMutation';
 import { ICreateUser } from '../types/userService.interfaces';
@@ -9,6 +8,8 @@ import { FormWrapper } from '../components/FormWrapper';
 import FormLink from '../components/FormLink';
 import { userService } from '../services/userService';
 import { MutationStatusEnum } from '../enums/mutationStatus';
+import Link from '../components/Link';
+import { ROUTES } from '../config/routesConfig';
 
 export default function Signup() {
   const { status, errorCode, mutate } = useMutation((data: ICreateUser) => {
@@ -43,18 +44,14 @@ export default function Signup() {
       {status === MutationStatusEnum.SUCCESS && (
         <Alert severity="success">
           Registration successful. You can now{' '}
-          <Link component={RouterLink} to="/signin">
-            sign in
-          </Link>
+          <Link to={ROUTES.SIGN_IN}>sign in</Link>
         </Alert>
       )}
       <SignupForm
         isLoading={status === MutationStatusEnum.PENDING}
         onSubmit={handleSignUp}
       />
-      <FormLink component={RouterLink} to="/signin">
-        Sign in
-      </FormLink>
+      <FormLink to={ROUTES.SIGN_IN}>Sign in</FormLink>
     </FormWrapper>
   );
 }

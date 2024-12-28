@@ -1,4 +1,5 @@
-import { Link, LinkProps, SxProps } from '@mui/material';
+import { LinkProps, SxProps } from '@mui/material';
+import Link from './Link';
 
 const linkStyles: SxProps = {
   display: 'block',
