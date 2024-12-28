@@ -8,19 +8,13 @@ import {
 } from '@mui/material';
 import { FormWrapper } from '../components/FormWrapper';
 import UpdateUserForm from '../features/users/UpdateUserForm';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteUser,
-  selectUser,
-  updateUser,
-} from '../features/users/userSlice';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/users/userSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
-import { AppDispatch } from '../redux/store';
-import { useCallback, useEffect } from 'react';
-import { IUpdateUser } from '../types/userService.interfaces';
 import { selectAuth } from '../features/auth/authSlice';
 import { MutationStatusEnum } from '../enums/mutationStatus';
-import useLogout from '../hooks/useLogout';
+import useDeleteUser from '../features/users/useDeleteUser';
+import useUpdateUser from '../features/users/useUpdateUser';
 
 const formWrapperStyles: SxProps = {
   minWidth: '400px',
@@ -30,29 +24,8 @@ export default function Profile() {
   const { status, updateStatus, deleteStatus, name, surname, email } =
     useSelector(selectUser);
   const { id } = useSelector(selectAuth);
-  const dispatch = useDispatch<AppDispatch>();
-  const logout = useLogout();
-
-  const handleUpdate = useCallback(
-    (data: IUpdateUser) => {
-      if (id) {
-        dispatch(updateUser({ id, data }));
-      }
-    },
-    [dispatch, id],
-  );
-
-  const handleDelete = useCallback(() => {
-    if (id) {
-      dispatch(deleteUser(id));
-    }
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    if (deleteStatus === MutationStatusEnum.SUCCESS) {
-      logout();
-    }
-  }, [deleteStatus, logout]);
+  const handleDelete = useDeleteUser(id!, deleteStatus);
+  const handleUpdate = useUpdateUser(id!);
 
   return (
     <Stack alignItems="center" pt={4}>
