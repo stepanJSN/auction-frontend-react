@@ -41,8 +41,8 @@ export const authService = {
     return localStorage.getItem('accessToken');
   },
 
-  getNewTokens: () => {
-    return api.get<{ accessToken: string }>('/auth/access-token');
+  getNewTokens: async () => {
+    return (await api.get<{ accessToken: string }>('/auth/access-token')).data;
   },
 
   clearStorage: () => {
