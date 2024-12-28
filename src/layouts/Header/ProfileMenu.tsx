@@ -12,6 +12,7 @@ import {
 import { MenuLink } from './MenuLink';
 import Menu from './Menu';
 import { ROUTES } from '../../config/routesConfig';
+import useLogout from '../../hooks/useLogout';
 
 type ProfileMenuProps = {
   isMenuOpen: boolean;
@@ -26,7 +27,6 @@ type ProfileMenuProps = {
     total: number;
   };
   rating: number | null;
-  onLogout: () => void;
 };
 
 const containerStyles: SxProps = {
@@ -52,13 +52,14 @@ export default function ProfileMenu({
   balance,
   isBigScreen,
   rating,
-  onLogout,
   isUserDataLoaded,
   menuItems,
   isMenuOpen,
   handleClose,
   anchorMenuEl,
 }: ProfileMenuProps) {
+  const logout = useLogout();
+
   return (
     <StyledMenu anchorEl={anchorMenuEl} open={isMenuOpen} onClose={handleClose}>
       <List sx={containerStyles} dense>
@@ -103,7 +104,7 @@ export default function ProfileMenu({
             variant="contained"
             color="secondary"
             fullWidth
-            onClick={onLogout}>
+            onClick={logout}>
             Logout
           </Button>
         </ListItem>

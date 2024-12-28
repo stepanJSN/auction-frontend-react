@@ -12,16 +12,15 @@ import {
 import Menu from './Menu';
 import { adminMenu, userMenu } from '../../config/menuConfig';
 import ProfileMenu from './ProfileMenu';
-import { useCallback, useState, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../redux/store';
+import { useCallback, useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { selectAuth } from '../../features/auth/authSlice';
 import MenuIcon from '@mui/icons-material/Menu';
-import { getUser, selectUser } from '../../features/users/userSlice';
+import { selectUser } from '../../features/users/userSlice';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { Role } from '../../enums/role.enum';
 import MainContainer from '../MainContainer';
-import useLogout from '../../hooks/useLogout';
+import useMenu from './useMenu';
 
 const HeaderStyled = styled(Grid2)<Grid2Props>(({ theme }) => ({
   position: 'relative',
@@ -48,30 +47,12 @@ const logoGridStyles: Grid2Props = {
 };
 
 export default function Header() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { id, role } = useSelector(selectAuth);
+  const { role } = useSelector(selectAuth);
   const { status, name, surname, balance, rating } = useSelector(selectUser);
-  const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLElement>(null);
-  const isMenuOpen = Boolean(anchorMenuEl);
+  const { anchorMenuEl, isMenuOpen, handleMenuClick, handleMenuClose } =
+    useMenu();
   const theme = useTheme();
   const isBigScreen = useMediaQuery(theme.breakpoints.up('md'));
-  const logout = useLogout();
-
-  const handleMenuClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorMenuEl(event.currentTarget);
-    },
-    [],
-  );
-  const handleMenuClose = useCallback(() => {
-    setAnchorMenuEl(null);
-  }, []);
-
-  useEffect(() => {
-    if (id && status === QueryStatusEnum.IDLE) {
-      dispatch(getUser(id));
-    }
-  }, [dispatch, id, status]);
 
   const menuItems = useMemo(
     () => (role === Role.USER ? userMenu : adminMenu),
@@ -107,7 +88,6 @@ export default function Header() {
           anchorMenuEl={anchorMenuEl}
           menuItems={menuItems}
           isUserDataLoaded={status === QueryStatusEnum.SUCCESS}
-          onLogout={logout}
           username={`${name} ${surname}`}
           balance={balance!}
           rating={rating}
