@@ -2,16 +2,17 @@ import { Box, Button, SxProps } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
 import { ICreateUser } from '../../types/userService.interfaces';
+import { MutationStatusEnum } from '../../enums/mutationStatus';
 
 type SignupFormProps = {
-  isLoading: boolean;
+  status: MutationStatusEnum;
   onSubmit: (data: ICreateUser) => void;
 };
 
 const nameAndSurnameLength = { min: 2, max: 15 };
 const passwordLength = { min: 8, max: 16 };
 const formButtonStyles: SxProps = { mt: 1 };
-export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
+export default function SignupForm({ status, onSubmit }: SignupFormProps) {
   const { control, handleSubmit } = useForm<ICreateUser>();
 
   return (
@@ -52,10 +53,13 @@ export default function SignupForm({ isLoading, onSubmit }: SignupFormProps) {
       <Button
         variant="contained"
         fullWidth
-        disabled={isLoading}
+        disabled={
+          status === MutationStatusEnum.PENDING ||
+          status === MutationStatusEnum.SUCCESS
+        }
         type="submit"
         sx={formButtonStyles}>
-        {isLoading ? 'Signing up...' : 'Sign up'}
+        {status === MutationStatusEnum.PENDING ? 'Signing up...' : 'Sign up'}
       </Button>
     </Box>
   );
