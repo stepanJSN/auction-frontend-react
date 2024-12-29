@@ -10,21 +10,14 @@ import { userService } from '../services/userService';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import Link from '../components/Link';
 import { ROUTES } from '../config/routesConfig';
+import useErrorMessage from '../hooks/useErrorMessage';
+import { signupErrorMessages } from '../features/users/signupErrorMessages';
 
 export default function Signup() {
   const { status, errorCode, mutate } = useMutation((data: ICreateUser) => {
     return userService.create(data);
   });
-
-  const getErrorMessage = (errorCode: number) => {
-    switch (errorCode) {
-      case ErrorCodesEnum.Conflict:
-        return 'User with this email already exists';
-      default:
-        return 'Something went wrong';
-    }
-  };
-  const errorMessage = useMemo(() => getErrorMessage(errorCode!), [errorCode]);
+  const getErrorMessage = useErrorMessage(signupErrorMessages);
 
   const handleSignUp = useCallback(
     (data: ICreateUser) => {
@@ -39,7 +32,7 @@ export default function Signup() {
         Signup
       </Typography>
       {status === MutationStatusEnum.ERROR && (
-        <Alert severity="error">{errorMessage}</Alert>
+        <Alert severity="error">{getErrorMessage(errorCode)}</Alert>
       )}
       {status === MutationStatusEnum.SUCCESS && (
         <Alert severity="success">
@@ -47,10 +40,7 @@ export default function Signup() {
           <Link to={ROUTES.SIGN_IN}>sign in</Link>
         </Alert>
       )}
-      <SignupForm
-        isLoading={status === MutationStatusEnum.PENDING}
-        onSubmit={handleSignUp}
-      />
+      <SignupForm status={status} onSubmit={handleSignUp} />
       <FormLink to={ROUTES.SIGN_IN}>Sign in</FormLink>
     </FormWrapper>
   );

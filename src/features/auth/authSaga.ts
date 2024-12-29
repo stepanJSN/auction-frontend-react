@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { logout, signin, signinError, signinSuccess } from './authSlice';
+import { signin, signinError, signinSuccess } from './authSlice';
 import { authService } from '../../services/authService';
 import {
   ISingInRequest,
@@ -8,6 +8,7 @@ import {
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
+import { RESET_ACTION } from '../../redux/rootReducer';
 
 function* signinSaga(action: PayloadAction<ISingInRequest>) {
   try {
@@ -29,5 +30,5 @@ function* logoutSaga() {
 
 export function* watchAuthSaga() {
   yield takeLatest(signin.type, signinSaga);
-  yield takeLatest(logout.type, logoutSaga);
+  yield takeLatest(RESET_ACTION, logoutSaga);
 }
