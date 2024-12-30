@@ -44,18 +44,18 @@ export const setsSlice = createSlice({
 
 export const { getSets, getSetsSuccess, getSetsError } = setsSlice.actions;
 export const selectSets = createSelector(
-  (state: RootState) => state.cards,
-  (cards) => ({
-    cards: cards.cards[cards.currentPage],
-    totalPages: cards.totalPages,
-    currentPage: cards.currentPage,
-    status: cards.status,
+  (state: RootState) => state.sets,
+  (sets) => ({
+    sets: sets.sets[sets.currentPage],
+    totalPages: sets.totalPages,
+    currentPage: sets.currentPage,
+    status: sets.status,
   }),
 );
 
 export const selectIsPageLoaded = createSelector(
-  (state: RootState) => state.cards,
-  (cards) => !!cards.cards[cards.currentPage],
+  (state: RootState) => state.sets,
+  (sets) => !!sets.sets[sets.currentPage],
 );
 
 export default setsSlice.reducer;

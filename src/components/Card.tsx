@@ -67,9 +67,7 @@ export default function Card({
             {type && <Typography variant="body1">Type: {type}</Typography>}
           </CardContent>
           <CardActions>
-            <Button to={`./${id}`} component={Link} size="small">
-              Learn More
-            </Button>
+            <Button size="small">Learn More</Button>
             {children}
           </CardActions>
         </Stack>
