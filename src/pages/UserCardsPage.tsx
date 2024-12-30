@@ -12,6 +12,7 @@ import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import { Outlet } from 'react-router';
+import NoCards from '../features/userCards/NoCards';
 
 const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
 
@@ -38,7 +39,7 @@ export default function UserCardsPage() {
       </Typography>
       {status === QueryStatusEnum.ERROR && <PageError />}
       {status === QueryStatusEnum.LOADING && <PageLoader />}
-      {status === QueryStatusEnum.SUCCESS && (
+      {status === QueryStatusEnum.SUCCESS && cards.length !== 0 && (
         <>
           <Grid2 container spacing={2}>
             {cards.map((card) => (
@@ -58,6 +59,7 @@ export default function UserCardsPage() {
           />
         </>
       )}
+      {status === QueryStatusEnum.SUCCESS && cards.length === 0 && <NoCards />}
       <Outlet />
     </>
   );

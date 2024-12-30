@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import Signin from './pages/Signin';
 import AuthLayout from './layouts/AuthLayout';
 import Signup from './pages/Signup';
-import MainLayout from './layouts/MainLayout';
+import MainLayout from './layouts/MainLayout/MainLayout';
 import Profile from './pages/Profile';
 import UserCardsPage from './pages/UserCardsPage';
 import CardPage from './pages/CardPage';

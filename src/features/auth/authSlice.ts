@@ -42,13 +42,10 @@ export const authSlice = createSlice({
       state.status = QueryStatusEnum.ERROR;
       state.errorCode = action.payload;
     },
-    logout() {
-      return initialState;
-    },
   },
 });
 
-export const { signin, signinSuccess, signinError, logout } = authSlice.actions;
+export const { signin, signinSuccess, signinError } = authSlice.actions;
 export const selectAuth = (state: RootState) => state.auth;
 
 export default authSlice.reducer;
