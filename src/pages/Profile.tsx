@@ -17,7 +17,7 @@ import useDeleteUser from '../features/users/useDeleteUser';
 import useUpdateUser from '../features/users/useUpdateUser';
 
 const formWrapperStyles: SxProps = {
-  minWidth: '400px',
+  minWidth: '340px',
 };
 
 export default function Profile() {
