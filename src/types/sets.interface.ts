@@ -11,6 +11,6 @@ export interface ISet {
 }
 
 export interface IGetSetsResponse {
-  data: ICardSummary[];
+  data: ISet[];
   info: IPagination;
 }
