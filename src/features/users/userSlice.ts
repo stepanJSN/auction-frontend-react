@@ -63,7 +63,7 @@ export const userSlice = createSlice({
 
     updateUserSuccess: (state, action: PayloadAction<Partial<IUser>>) => {
       state.updateStatus = MutationStatusEnum.SUCCESS;
-      state = { ...state, ...action.payload };
+      Object.assign(state, action.payload);
     },
 
     updateUserError: (state, action: PayloadAction<number>) => {

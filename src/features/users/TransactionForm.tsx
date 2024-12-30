@@ -1,12 +1,11 @@
-import { Box, Typography, Button, Alert, SxProps } from '@mui/material';
+import { Box, Typography, Button, SxProps } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
 
 type TransactionFormProps = {
-  onSubmit: (data: { amount: number }) => void;
+  onSubmit: (data: { amount: string }) => void;
   title: string;
   isPending: boolean;
-  errorMessage?: string;
 };
 
 const formStyles: SxProps = {
@@ -15,22 +14,32 @@ const formStyles: SxProps = {
   borderColor: 'primary.main',
   borderRadius: 3,
   p: 2,
-  maxWidth: '550px',
   minWidth: '300px',
+};
+
+const buttonStyles = {
+  minWidth: '150px',
 };
 
 export default function TransactionForm({
   title,
   onSubmit,
   isPending,
-  errorMessage,
 }: TransactionFormProps) {
-  const { control, handleSubmit } = useForm<{ amount: number }>();
+  const { control, handleSubmit, reset } = useForm<{ amount: string }>();
+
+  const onFormSubmit = (data: { amount: string }) => {
+    onSubmit(data);
+    reset();
+  };
+
   return (
     <>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={formStyles}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onFormSubmit)}
+        sx={formStyles}>
         <Typography variant="h5">{title}</Typography>
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
         <FormInput
           control={control}
           name="amount"
@@ -40,7 +49,11 @@ export default function TransactionForm({
           pattern={/^\d+$/}
           errorText="Amount is required and must be a number"
         />
-        <Button variant="contained" type="submit" disabled={isPending}>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isPending}
+          sx={buttonStyles}>
           {isPending ? 'Processing...' : 'Submit'}
         </Button>
       </Box>

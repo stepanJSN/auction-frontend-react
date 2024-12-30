@@ -18,8 +18,8 @@ import Set from '../features/sets/Set';
 
 export default function SetsPage() {
   const { status, sets, currentPage, totalPages } = useSelector(selectSets);
-
   const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
     dispatch(getSets(currentPage));
   }, [dispatch, currentPage]);
