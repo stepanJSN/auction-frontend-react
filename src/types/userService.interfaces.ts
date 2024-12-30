@@ -12,9 +12,11 @@ export interface IUser {
   email: string;
   surname: string;
   rating: number;
-  balance: {
-    available: number;
-    total: number;
-  };
+  balance: IUserBalance;
   created_at: Date;
+}
+
+export interface IUserBalance {
+  available: number;
+  total: number;
 }
