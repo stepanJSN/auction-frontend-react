@@ -1,6 +1,3 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../redux/store';
 import { Stack, Typography } from '@mui/material';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
@@ -15,20 +12,15 @@ import {
   selectSets,
 } from '../features/sets/setsSlice';
 import Set from '../features/sets/Set';
+import { useSelector } from 'react-redux';
+import usePaginatedData from '../hooks/usePaginatedData';
 
 export default function SetsPage() {
   const { status, sets, currentPage, totalPages } = useSelector(selectSets);
-
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(getSets(currentPage));
-  }, [dispatch, currentPage]);
-
-  const handlePageChange = useCallback(
-    (_event: React.ChangeEvent<unknown>, value: number) => {
-      dispatch(changeSetsPage(value));
-    },
-    [dispatch],
+  const handlePageChange = usePaginatedData(
+    currentPage,
+    getSets,
+    changeSetsPage,
   );
 
   return (

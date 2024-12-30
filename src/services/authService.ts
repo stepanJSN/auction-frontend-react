@@ -3,7 +3,7 @@ import { Role } from '../enums/role.enum';
 import {
   ISingInRequest,
   ISingInResponse,
-} from '../types/authService.interfaces';
+} from '../types/auth.interfaces';
 
 export const authService = {
   setAccessToken: (token: string) => {

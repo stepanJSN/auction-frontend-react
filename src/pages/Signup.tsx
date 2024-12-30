@@ -1,7 +1,7 @@
 import { Typography, Alert } from '@mui/material';
 import SignupForm from '../features/users/SignupForm';
 import useMutation from '../hooks/useMutation';
-import { ICreateUser } from '../types/userService.interfaces';
+import { ICreateUser } from '../types/user.interfaces';
 import { useCallback } from 'react';
 import { FormWrapper } from '../components/FormWrapper';
 import FormLink from '../components/FormLink';

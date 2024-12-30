@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
-import { IUpdateUser, IUser } from '../../types/userService.interfaces';
+import { IUpdateUser, IUser } from '../../types/user.interfaces';
 import { RootState } from '../../redux/store';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 
@@ -61,13 +61,9 @@ export const userSlice = createSlice({
       state.updateStatus = MutationStatusEnum.PENDING;
     },
 
-    updateUserSuccess: (
-      state,
-      action: PayloadAction<Omit<IUser, 'balance'>>,
-    ) => {
-      state.name = action.payload.name;
-      state.surname = action.payload.surname;
+    updateUserSuccess: (state, action: PayloadAction<Partial<IUser>>) => {
       state.updateStatus = MutationStatusEnum.SUCCESS;
+      Object.assign(state, action.payload);
     },
 
     updateUserError: (state, action: PayloadAction<number>) => {
@@ -98,6 +94,14 @@ export const userSlice = createSlice({
       state.deleteStatus = MutationStatusEnum.IDLE;
       state.errorCode = null;
     },
+
+    topUpBalance: (state, _action: PayloadAction<number>) => {
+      state.updateStatus = MutationStatusEnum.PENDING;
+    },
+
+    withdrawBalance: (state, _action: PayloadAction<number>) => {
+      state.updateStatus = MutationStatusEnum.PENDING;
+    },
   },
 });
 
@@ -113,6 +117,8 @@ export const {
   deleteUserSuccess,
   deleteUserError,
   resetDeleteUserStatus,
+  topUpBalance,
+  withdrawBalance,
 } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 

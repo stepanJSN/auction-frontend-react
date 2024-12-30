@@ -8,6 +8,7 @@ import UserCardsPage from './pages/UserCardsPage';
 import CardPage from './pages/CardPage';
 import AllCardsPage from './pages/AllCardsPage';
 import SetsPage from './pages/SetsPage';
+import Transactions from './pages/Transactions';
 
 export default function Router() {
   return (
@@ -28,6 +29,7 @@ export default function Router() {
           <Route path="/sets" element={<SetsPage />}>
             <Route path=":cardId" element={<CardPage />} />
           </Route>
+          <Route path="/transactions" element={<Transactions />} />
         </Route>
       </Routes>
     </BrowserRouter>

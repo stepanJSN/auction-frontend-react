@@ -1,5 +1,9 @@
 import { call, delay, put, takeLatest } from 'redux-saga/effects';
-import { IUpdateUser, IUser } from '../../types/userService.interfaces';
+import {
+  IUpdateUser,
+  IUser,
+  IUserBalance,
+} from '../../types/user.interfaces';
 import { userService } from '../../services/userService';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
@@ -14,9 +18,12 @@ import {
   deleteUserError,
   resetDeleteUserStatus,
   updateUser,
+  topUpBalance,
+  withdrawBalance,
 } from './userSlice';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
+import { transactionsService } from '../../services/transactionsService';
 
 const NOTIFICATION_TIMEOUT = 3000;
 
@@ -69,8 +76,42 @@ function* deleteUserSaga(action: PayloadAction<string>) {
   }
 }
 
+function* topUpUserBalanceSaga(action: PayloadAction<number>) {
+  try {
+    const newBalance: IUserBalance = yield call(
+      transactionsService.topUp,
+      action.payload,
+    );
+    yield put(updateUserSuccess({ balance: newBalance }));
+  } catch (error) {
+    yield put(
+      updateUserError(
+        (error as AxiosError).status || ErrorCodesEnum.ServerError,
+      ),
+    );
+  }
+}
+
+function* withdrawUserBalanceSaga(action: PayloadAction<number>) {
+  try {
+    const newBalance: IUserBalance = yield call(
+      transactionsService.withdraw,
+      action.payload,
+    );
+    yield put(updateUserSuccess({ balance: newBalance }));
+  } catch (error) {
+    yield put(
+      updateUserError(
+        (error as AxiosError).status || ErrorCodesEnum.ServerError,
+      ),
+    );
+  }
+}
+
 export function* watchUserSaga() {
   yield takeLatest(getUser.type, getUserSaga);
   yield takeLatest(updateUser.type, updateUserSaga);
   yield takeLatest(deleteUser.type, deleteUserSaga);
+  yield takeLatest(topUpBalance.type, topUpUserBalanceSaga);
+  yield takeLatest(withdrawBalance.type, withdrawUserBalanceSaga);
 }

@@ -1,7 +1,7 @@
 import { Box, Button, SxProps } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
-import { IUpdateUser } from '../../types/userService.interfaces';
+import { IUpdateUser } from '../../types/user.interfaces';
 import { useEffect } from 'react';
 
 type UpdateUserProps = {

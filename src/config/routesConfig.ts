@@ -10,4 +10,5 @@ export const ROUTES = {
   SETS: '/sets',
   STATISTICS: '/statistics',
   USERS: '/users',
+  TRANSACTIONS: '/transactions',
 };

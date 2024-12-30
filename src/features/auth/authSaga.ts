@@ -4,7 +4,7 @@ import { authService } from '../../services/authService';
 import {
   ISingInRequest,
   ISingInResponse,
-} from '../../types/authService.interfaces';
+} from '../../types/auth.interfaces';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
