@@ -9,7 +9,11 @@ import PageError from '../components/PageError';
 import { Outlet } from 'react-router';
 import FaqHeader from '../components/FaqHeader';
 import { ROUTES } from '../config/routesConfig';
-import { getSets, selectSets } from '../features/sets/setsSlice';
+import {
+  changeSetsPage,
+  getSets,
+  selectSets,
+} from '../features/sets/setsSlice';
 import Set from '../features/sets/Set';
 
 export default function SetsPage() {
@@ -22,7 +26,7 @@ export default function SetsPage() {
 
   const handlePageChange = useCallback(
     (_event: React.ChangeEvent<unknown>, value: number) => {
-      dispatch(getSets(value));
+      dispatch(changeSetsPage(value));
     },
     [dispatch],
   );

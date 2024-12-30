@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCards } from '../features/cards/cardsSlice';
+import { changeCardsPage, getCards } from '../features/cards/cardsSlice';
 import { AppDispatch } from '../redux/store';
 import { Grid2, Typography } from '@mui/material';
 import Card from '../components/Card';
@@ -25,7 +25,7 @@ export default function AllCardsPage() {
 
   const handlePageChange = useCallback(
     (_event: React.ChangeEvent<unknown>, value: number) => {
-      dispatch(getCards(value));
+      dispatch(changeCardsPage(value));
     },
     [dispatch],
   );

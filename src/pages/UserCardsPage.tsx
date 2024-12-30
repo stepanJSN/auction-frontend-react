@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  changeUserCardsPage,
   getCards,
   selectUserCards,
 } from '../features/userCards/userCardsSlice';
@@ -27,7 +28,7 @@ export default function UserCardsPage() {
 
   const handlePageChange = useCallback(
     (_event: React.ChangeEvent<unknown>, value: number) => {
-      dispatch(getCards(value));
+      dispatch(changeUserCardsPage(value));
     },
     [dispatch],
   );

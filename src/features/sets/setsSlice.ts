@@ -23,9 +23,12 @@ export const setsSlice = createSlice({
   name: 'sets',
   initialState,
   reducers: {
-    getSets: (state, action: PayloadAction<number>) => {
+    changeSetsPage: (state, action: PayloadAction<number>) => {
       state.status = QueryStatusEnum.LOADING;
       state.currentPage = action.payload;
+    },
+    getSets: (state, _action: PayloadAction<number>) => {
+      state.status = QueryStatusEnum.LOADING;
     },
 
     getSetsSuccess: (state, action: PayloadAction<IGetSetsResponse | null>) => {
@@ -42,7 +45,8 @@ export const setsSlice = createSlice({
   },
 });
 
-export const { getSets, getSetsSuccess, getSetsError } = setsSlice.actions;
+export const { getSets, getSetsSuccess, getSetsError, changeSetsPage } =
+  setsSlice.actions;
 export const selectSets = createSelector(
   (state: RootState) => state.sets,
   (sets) => ({
