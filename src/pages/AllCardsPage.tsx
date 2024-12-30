@@ -2,14 +2,13 @@ import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCards } from '../features/cards/cardsSlice';
 import { AppDispatch } from '../redux/store';
-import { Grid2 } from '@mui/material';
+import { Grid2, Typography } from '@mui/material';
 import Card from '../components/Card';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import { Outlet } from 'react-router';
-import NoCards from '../features/userCards/NoCards';
 import { selectCards } from '../features/cards/cardsSlice';
 import FaqHeader from '../components/FaqHeader';
 import { ROUTES } from '../config/routesConfig';
@@ -52,7 +51,11 @@ export default function AllCardsPage() {
           />
         </>
       )}
-      {status === QueryStatusEnum.SUCCESS && cards.length === 0 && <NoCards />}
+      {status === QueryStatusEnum.SUCCESS && cards.length === 0 && (
+        <Typography variant="h5" gutterBottom>
+          There are no active cards
+        </Typography>
+      )}
       <Outlet />
     </>
   );

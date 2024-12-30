@@ -73,7 +73,7 @@ export default function CardData({
         <DialogTitle sx={cardTitleStyles}>{name}</DialogTitle>
         <DialogContent>
           <Typography variant="subtitle1">Gender: {gender}</Typography>
-          <Typography variant="subtitle1">Type: {type}</Typography>
+          {type && <Typography variant="subtitle1">Type: {type}</Typography>}
           <Typography variant="subtitle1">Location: {location.name}</Typography>
           <Typography variant="subtitle1">Episodes with this card:</Typography>
           <List disablePadding>
