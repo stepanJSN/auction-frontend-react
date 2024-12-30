@@ -1,6 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import TransactionForm from '../features/users/TransactionForm';
-import { Alert, Grid2, Typography } from '@mui/material';
+import { Alert, Grid2, GridSize, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectUser,
@@ -11,6 +11,15 @@ import { AppDispatch } from '../redux/store';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import { transactionErrorMessages } from '../features/users/transactionErrorMessages';
 import useErrorMessage from '../hooks/useErrorMessage';
+
+const alertStyles = {
+  mb: 2,
+};
+
+const gridFormColumns: Record<string, GridSize> = {
+  xs: 12,
+  md: 'grow',
+};
 
 export default function Transactions() {
   const { balance, updateStatus, errorCode } = useSelector(selectUser);
@@ -32,7 +41,6 @@ export default function Transactions() {
     [dispatch],
   );
 
-  const sx = useMemo(() => ({ mb: 2 }), []);
   return (
     <>
       <Typography variant="h5">Total balance: {balance?.total}</Typography>
@@ -40,7 +48,7 @@ export default function Transactions() {
         Available balance: {balance?.available}
       </Typography>
       {updateStatus === MutationStatusEnum.ERROR && (
-        <Alert severity="error" sx={sx}>
+        <Alert severity="error" sx={alertStyles}>
           {getErrorMessage(errorCode)}
         </Alert>
       )}
@@ -52,7 +60,7 @@ export default function Transactions() {
             isPending={isPending}
           />
         </Grid2>
-        <Grid2 size="grow">
+        <Grid2 size={gridFormColumns}>
           <TransactionForm
             title="Withdraw"
             onSubmit={onWithdrawSubmit}
