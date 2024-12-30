@@ -27,6 +27,13 @@ type CardDataProps = {
   }[];
 };
 
+const containerStyles: SxProps = {
+  minWidth: {
+    xs: 'none',
+    sm: 700,
+  },
+};
+
 const imgContainerStyles: SxProps = {
   alignSelf: 'stretch',
 };
@@ -56,7 +63,7 @@ export default function CardData({
   isUserHaveThisCard,
 }: CardDataProps) {
   return (
-    <Grid2 container>
+    <Grid2 container sx={containerStyles}>
       <Grid2 size={imgContainerColumns} sx={imgContainerStyles}>
         <img
           src={imageUrl}

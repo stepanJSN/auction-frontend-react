@@ -23,9 +23,13 @@ export const userCardsSlice = createSlice({
   name: 'userCards',
   initialState,
   reducers: {
-    getCards: (state, action: PayloadAction<number>) => {
+    changeUserCardsPage: (state, action: PayloadAction<number>) => {
       state.status = QueryStatusEnum.LOADING;
       state.currentPage = action.payload;
+    },
+
+    getCards: (state, _action: PayloadAction<number>) => {
+      state.status = QueryStatusEnum.LOADING;
     },
 
     getCardsSuccess: (
@@ -45,7 +49,7 @@ export const userCardsSlice = createSlice({
   },
 });
 
-export const { getCards, getCardsSuccess, getCardsError } =
+export const { getCards, getCardsSuccess, getCardsError, changeUserCardsPage } =
   userCardsSlice.actions;
 export const selectUserCards = createSelector(
   (state: RootState) => state.userCards,

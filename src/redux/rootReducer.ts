@@ -2,6 +2,7 @@ import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/users/userSlice';
 import userCardsReducer from '../features/userCards/userCardsSlice';
 import cardsReducer from '../features/cards/cardsSlice';
+import setsReducer from '../features/sets/setsSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const combinedReducer = combineReducers({
@@ -9,6 +10,7 @@ const combinedReducer = combineReducers({
   user: userReducer,
   userCards: userCardsReducer,
   cards: cardsReducer,
+  sets: setsReducer,
 });
 
 export const rootReducer = (state: any, action: any) => {

@@ -1,49 +1,48 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeCardsPage, getCards } from '../features/cards/cardsSlice';
 import { AppDispatch } from '../redux/store';
-import { Grid2, Typography } from '@mui/material';
-import Card from '../components/Card';
+import { Stack, Typography } from '@mui/material';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import { Outlet } from 'react-router';
-import { selectCards } from '../features/cards/cardsSlice';
 import FaqHeader from '../components/FaqHeader';
 import { ROUTES } from '../config/routesConfig';
+import {
+  changeSetsPage,
+  getSets,
+  selectSets,
+} from '../features/sets/setsSlice';
+import Set from '../features/sets/Set';
 
-const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
-
-export default function AllCardsPage() {
-  const { status, cards, currentPage, totalPages } = useSelector(selectCards);
+export default function SetsPage() {
+  const { status, sets, currentPage, totalPages } = useSelector(selectSets);
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(getCards(currentPage));
+    dispatch(getSets(currentPage));
   }, [dispatch, currentPage]);
 
   const handlePageChange = useCallback(
     (_event: React.ChangeEvent<unknown>, value: number) => {
-      dispatch(changeCardsPage(value));
+      dispatch(changeSetsPage(value));
     },
     [dispatch],
   );
 
   return (
     <>
-      <FaqHeader currentPage={ROUTES.CARDS} />
+      <FaqHeader currentPage={ROUTES.SETS} />
       {status === QueryStatusEnum.ERROR && <PageError />}
       {status === QueryStatusEnum.LOADING && <PageLoader />}
-      {status === QueryStatusEnum.SUCCESS && cards.length !== 0 && (
+      {status === QueryStatusEnum.SUCCESS && sets.length !== 0 && (
         <>
-          <Grid2 container spacing={2}>
-            {cards.map((card) => (
-              <Grid2 size={cardColumnsNumber} key={card.id}>
-                <Card {...card} />
-              </Grid2>
+          <Stack spacing={2}>
+            {sets.map((set) => (
+              <Set key={set.id} set={set} />
             ))}
-          </Grid2>
+          </Stack>
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}
@@ -51,9 +50,9 @@ export default function AllCardsPage() {
           />
         </>
       )}
-      {status === QueryStatusEnum.SUCCESS && cards.length === 0 && (
+      {status === QueryStatusEnum.SUCCESS && sets.length === 0 && (
         <Typography variant="h5" gutterBottom>
-          There are no active cards
+          There are no sets available
         </Typography>
       )}
       <Outlet />

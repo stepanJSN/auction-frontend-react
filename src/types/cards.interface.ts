@@ -4,7 +4,7 @@ import { IPagination } from './pagination.interface';
 export interface ICardSummary {
   id: string;
   name: string;
-  created_at: Date;
+  created_at: string;
   image_url: string;
   type: string;
   gender: Gender;
