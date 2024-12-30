@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
-import TransactionForm from '../features/users/TransactionForm';
+import TransactionForm from '../features/user/TransactionForm';
 import { Alert, Grid2, GridSize, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectUser,
   topUpBalance,
   withdrawBalance,
-} from '../features/users/userSlice';
+} from '../features/user/userSlice';
 import { AppDispatch } from '../redux/store';
 import { MutationStatusEnum } from '../enums/mutationStatus';
-import { transactionErrorMessages } from '../features/users/transactionErrorMessages';
+import { transactionErrorMessages } from '../features/user/transactionErrorMessages';
 import useErrorMessage from '../hooks/useErrorMessage';
 
 const alertStyles = {

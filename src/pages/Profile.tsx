@@ -7,14 +7,14 @@ import {
   Typography,
 } from '@mui/material';
 import { FormWrapper } from '../components/FormWrapper';
-import UpdateUserForm from '../features/users/UpdateUserForm';
+import UpdateUserForm from '../features/user/UpdateUserForm';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../features/users/userSlice';
+import { selectUser } from '../features/user/userSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import { selectAuth } from '../features/auth/authSlice';
 import { MutationStatusEnum } from '../enums/mutationStatus';
-import useDeleteUser from '../features/users/useDeleteUser';
-import useUpdateUser from '../features/users/useUpdateUser';
+import useDeleteUser from '../features/user/useDeleteUser';
+import useUpdateUser from '../features/user/useUpdateUser';
 
 const formWrapperStyles: SxProps = {
   minWidth: '340px',

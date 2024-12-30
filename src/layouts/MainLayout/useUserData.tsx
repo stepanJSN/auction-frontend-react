@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { authService } from '../../services/authService';
 import { signinSuccess } from '../../features/auth/authSlice';
 import { Role } from '../../enums/role.enum';
-import { getUser } from '../../features/users/userSlice';
+import { getUser } from '../../features/user/userSlice';
 
 export default function useUserData() {
   const dispatch = useDispatch();

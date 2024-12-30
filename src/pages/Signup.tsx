@@ -1,5 +1,5 @@
 import { Typography, Alert } from '@mui/material';
-import SignupForm from '../features/users/SignupForm';
+import SignupForm from '../features/user/SignupForm';
 import useMutation from '../hooks/useMutation';
 import { ICreateUser } from '../types/user.interfaces';
 import { useCallback } from 'react';
@@ -10,7 +10,7 @@ import { MutationStatusEnum } from '../enums/mutationStatus';
 import Link from '../components/Link';
 import { ROUTES } from '../config/routesConfig';
 import useErrorMessage from '../hooks/useErrorMessage';
-import { signupErrorMessages } from '../features/users/signupErrorMessages';
+import { signupErrorMessages } from '../features/user/signupErrorMessages';
 
 export default function Signup() {
   const { status, errorCode, mutate } = useMutation((data: ICreateUser) => {

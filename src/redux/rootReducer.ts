@@ -1,5 +1,5 @@
 import authReducer from '../features/auth/authSlice';
-import userReducer from '../features/users/userSlice';
+import userReducer from '../features/user/userSlice';
 import userCardsReducer from '../features/userCards/userCardsSlice';
 import cardsReducer from '../features/cards/cardsSlice';
 import setsReducer from '../features/sets/setsSlice';
