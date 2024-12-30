@@ -1,7 +1,7 @@
 import { Box, Button, SxProps } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
-import { ICreateUser } from '../../types/userService.interfaces';
+import { ICreateUser } from '../../types/user.interfaces';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 
 type SignupFormProps = {

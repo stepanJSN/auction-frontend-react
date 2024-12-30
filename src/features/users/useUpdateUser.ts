@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateUser } from './userSlice';
-import { IUpdateUser } from '../../types/userService.interfaces';
+import { IUpdateUser } from '../../types/user.interfaces';
 
 export default function useUpdateUser(userId: string) {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
-import { IUpdateUser, IUser } from '../../types/userService.interfaces';
+import { IUpdateUser, IUser } from '../../types/user.interfaces';
 import { RootState } from '../../redux/store';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 

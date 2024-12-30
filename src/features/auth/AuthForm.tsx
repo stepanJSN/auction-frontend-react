@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { ISingInRequest } from '../../types/authService.interfaces';
+import { ISingInRequest } from '../../types/auth.interfaces';
 import { Box, Button, SxProps } from '@mui/material';
 import FormInput from '../../components/FormInput';
 

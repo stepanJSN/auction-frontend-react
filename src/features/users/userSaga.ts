@@ -3,7 +3,7 @@ import {
   IUpdateUser,
   IUser,
   IUserBalance,
-} from '../../types/userService.interfaces';
+} from '../../types/user.interfaces';
 import { userService } from '../../services/userService';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
@@ -23,7 +23,7 @@ import {
 } from './userSlice';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
-import { transactionsService } from '../../services/transactions';
+import { transactionsService } from '../../services/transactionsService';
 
 const NOTIFICATION_TIMEOUT = 3000;
 
