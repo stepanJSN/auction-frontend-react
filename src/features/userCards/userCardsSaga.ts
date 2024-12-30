@@ -17,8 +17,9 @@ function* getUserCardsSaga(action: PayloadAction<number>) {
   }
   try {
     const userCards: IGetCardsResponse = yield call(
-      cardsService.getUserCards,
+      cardsService.getAll,
       action.payload,
+      true,
     );
     yield put(getCardsSuccess(userCards));
   } catch {

@@ -11,6 +11,7 @@ export interface ICardSummary {
   is_active: boolean;
   is_created_by_admin: boolean;
   location_id: number | null;
+  is_owned?: boolean;
 }
 
 export interface IGetCardsResponse {
