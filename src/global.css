@@ -2,3 +2,8 @@ img {
   display: block;
   object-fit: cover;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

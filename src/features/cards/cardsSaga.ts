@@ -6,10 +6,10 @@ import {
   getCardsError,
   getCardsSuccess,
   selectIsPageLoaded,
-} from './userCardsSlice';
+} from './cardsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-function* getUserCardsSaga(action: PayloadAction<number>) {
+function* getCardsSaga(action: PayloadAction<number>) {
   const isPageLoaded: boolean = yield select(selectIsPageLoaded);
   if (isPageLoaded) {
     yield put(getCardsSuccess(null));
@@ -19,7 +19,6 @@ function* getUserCardsSaga(action: PayloadAction<number>) {
     const userCards: IGetCardsResponse = yield call(
       cardsService.getAll,
       action.payload,
-      true,
     );
     yield put(getCardsSuccess(userCards));
   } catch {
@@ -27,6 +26,6 @@ function* getUserCardsSaga(action: PayloadAction<number>) {
   }
 }
 
-export function* watchUserCardsSaga() {
-  yield takeLatest(getCards.type, getUserCardsSaga);
+export function* watchCardsSaga() {
+  yield takeLatest(getCards.type, getCardsSaga);
 }

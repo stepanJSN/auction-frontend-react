@@ -2,10 +2,11 @@ import { apiWithAuth } from '../apiConfig';
 import { ICard, IGetCardsResponse } from '../types/cards.interface';
 
 export const cardsService = {
-  getUserCards: async (page: number) => {
+  getAll: async (page: number, onlyUserCards: boolean = false) => {
     const params = new URLSearchParams();
     params.append('page', page.toString());
-    const cards = await apiWithAuth.get<IGetCardsResponse>('/cards/myCards', {
+    const url = onlyUserCards ? '/cards/myCards' : '/cards';
+    const cards = await apiWithAuth.get<IGetCardsResponse>(url, {
       params,
     });
     return cards.data;

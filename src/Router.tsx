@@ -6,6 +6,7 @@ import MainLayout from './layouts/MainLayout/MainLayout';
 import Profile from './pages/Profile';
 import UserCardsPage from './pages/UserCardsPage';
 import CardPage from './pages/CardPage';
+import AllCardsPage from './pages/AllCardsPage';
 
 export default function Router() {
   return (
@@ -20,6 +21,9 @@ export default function Router() {
             <Route path=":cardId" element={<CardPage />} />
           </Route>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/cards" element={<AllCardsPage />}>
+            <Route path=":cardId" element={<CardPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
