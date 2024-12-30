@@ -8,7 +8,7 @@ type FormInputProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   control: Control<T>;
-  type?: 'text' | 'password';
+  type?: 'text' | 'password' | 'number';
   errorText?: string;
   required?: boolean;
   pattern?: RegExp;
