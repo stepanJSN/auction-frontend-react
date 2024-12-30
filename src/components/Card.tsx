@@ -6,6 +6,7 @@ import {
   CardMedia,
   Card as MuiCard,
   Stack,
+  SxProps,
   Typography,
 } from '@mui/material';
 import { ICardSummary } from '../types/cards.interface';
@@ -31,22 +32,29 @@ export default function Card({
   gender,
   is_created_by_admin,
   is_active,
+  is_owned,
   type,
   children,
 }: CardProps) {
-  const cardStyles = useMemo(
+  const cardStyles: SxProps = useMemo(
     () => ({
       height: '100%',
       backgroundColor: is_active ? '' : 'grey.300',
+      borderColor: 'success.main',
+      borderWidth: is_owned ? 3 : 0,
+      borderStyle: 'solid',
     }),
-    [is_active],
+    [is_active, is_owned],
   );
   return (
-    <MuiCard sx={cardStyles}>
+    <MuiCard sx={cardStyles} elevation={is_owned ? 3 : 1}>
       <Stack height="100%">
         <CardMedia sx={cardMediaStyles} image={image_url} title={name} />
         {is_created_by_admin && (
-          <CardLabel>Card was created by admin</CardLabel>
+          <CardLabel colorVariant="error">Card was created by admin</CardLabel>
+        )}
+        {is_owned && (
+          <CardLabel colorVariant="success">You have this card</CardLabel>
         )}
         <CardContent sx={cardContentStyles}>
           <Typography variant="h5" gutterBottom>
