@@ -12,7 +12,7 @@ import {
 import Menu from './Menu';
 import { adminMenu, userMenu } from '../../config/menuConfig';
 import ProfileMenu from './ProfileMenu';
-import { useCallback, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuth } from '../../features/auth/authSlice';
 import MenuIcon from '@mui/icons-material/Menu';
