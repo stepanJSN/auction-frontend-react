@@ -13,6 +13,7 @@ import { MenuLink } from './MenuLink';
 import Menu from './Menu';
 import { ROUTES } from '../../config/routesConfig';
 import useLogout from '../../hooks/useLogout';
+import { Link } from 'react-router';
 
 type ProfileMenuProps = {
   isMenuOpen: boolean;
@@ -90,6 +91,16 @@ export default function ProfileMenu({
                 <ListItem>Available: {balance.available}</ListItem>
                 <ListItem>Total: {balance.total}</ListItem>
               </List>
+              <Button
+                variant="contained"
+                component={Link}
+                to={ROUTES.TRANSACTIONS}
+                color="success"
+                size="small"
+                onClick={handleClose}
+                fullWidth>
+                Top up / withdraw
+              </Button>
             </ListItem>
             <Divider sx={dividerStyles} component="li" />
           </>
