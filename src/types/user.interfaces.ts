@@ -1,3 +1,5 @@
+import { Role } from '../enums/role.enum';
+import { SortOrderEnum } from '../enums/sortOrder.enum';
 import { IPagination } from './pagination.interface';
 
 export interface ICreateUser {
@@ -8,6 +10,11 @@ export interface ICreateUser {
 }
 
 export interface IUpdateUser extends Partial<Omit<ICreateUser, 'email'>> {}
+
+export interface IUpdateUserRole {
+  id: string;
+  role: Role;
+}
 
 export interface IUserBalance {
   available: number;
@@ -26,19 +33,24 @@ export interface IUser {
 export interface IUserSummary {
   id: string;
   name: string;
-  email: string;
+  role: Role;
   surname: string;
   rating: number;
 }
 
 export interface IGetUsersResponse {
-  users: IUserSummary[];
-  pagination: IPagination;
+  data: IUserSummary[];
+  info: IPagination;
+}
+
+export enum UsersSortTypeEnum {
+  CREATION_DATE = 'creationDate',
+  RATING = 'rating',
 }
 
 export interface IGetUserPayload {
-  page: number;
-  sortType?: 'creationDate' | 'rating';
-  sortOrder?: 'asc' | 'desc';
+  page?: number;
+  sortType?: UsersSortTypeEnum;
+  sortOrder?: SortOrderEnum;
   isAdmin?: boolean;
 }

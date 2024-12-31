@@ -29,7 +29,7 @@ export const userService = {
 
   getAll: async (payload: IGetUserPayload) => {
     const params = new URLSearchParams();
-    params.append('page', payload.page.toString());
+    if (payload.page) params.append('page', payload.page.toString());
     if (payload.sortType) params.append('sortType', payload.sortType);
     if (payload.sortOrder) params.append('sortOrder', payload.sortOrder);
     if (payload.isAdmin) params.append('isAdmin', payload.isAdmin.toString());

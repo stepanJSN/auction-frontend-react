@@ -1,9 +1,5 @@
 import { call, delay, put, takeLatest } from 'redux-saga/effects';
-import {
-  IUpdateUser,
-  IUser,
-  IUserBalance,
-} from '../../types/user.interfaces';
+import { IUpdateUser, IUser, IUserBalance } from '../../types/user.interfaces';
 import { userService } from '../../services/userService';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
