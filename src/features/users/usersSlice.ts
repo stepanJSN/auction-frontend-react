@@ -25,10 +25,10 @@ export interface UsersState {
 const initialState: UsersState = {
   users: [],
   totalPages: 0,
-  currentPage: 1,
+  currentPage: 0,
   showOnlyAdmins: false,
   sortType: UsersSortTypeEnum.CREATION_DATE,
-  sortOrder: SortOrderEnum.ASC,
+  sortOrder: SortOrderEnum.DESC,
   status: QueryStatusEnum.IDLE,
   updateStatus: MutationStatusEnum.IDLE,
   errorCode: null,
@@ -50,15 +50,12 @@ export const usersSlice = createSlice({
       state.sortOrder = action.payload.sortOrder;
       state.showOnlyAdmins = action.payload.showOnlyAdmins;
       state.status = QueryStatusEnum.LOADING;
-      state.currentPage = 1;
+      state.currentPage = 0;
       state.users = [];
     },
 
-    getUsers: (state, action?: PayloadAction<number>) => {
+    getUsers: (state, _action: PayloadAction<number | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
-      if (action) {
-        state.currentPage = action.payload;
-      }
     },
 
     getUsersSuccess: (
@@ -68,6 +65,7 @@ export const usersSlice = createSlice({
       state.status = QueryStatusEnum.SUCCESS;
       if (action.payload) {
         state.users.push(...action.payload.data);
+        state.currentPage += 1;
         state.totalPages = action.payload.info.totalPages;
       }
     },
@@ -120,8 +118,12 @@ export const {
 export const selectUsers = createSelector(
   (state: RootState) => state.users,
   (users) => ({
-    users: users.users[users.currentPage],
-    hasMore: users.totalPages !== users.currentPage + 1,
+    users: users.users,
+    hasMore: users.totalPages !== users.currentPage,
+    currentPage: users.currentPage,
+    sortType: users.sortType,
+    sortOrder: users.sortOrder,
+    showOnlyAdmins: users.showOnlyAdmins,
     status: users.status,
   }),
 );
