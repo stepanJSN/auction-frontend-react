@@ -15,14 +15,18 @@ import {
 } from '../../types/user.interfaces';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
 
-function* getUsersSaga(action?: PayloadAction<number>) {
+function* getUsersSaga(action: PayloadAction<number | undefined>) {
   const usersSearchParams: Pick<
     UsersState,
-    'sortOrder' | 'sortType' | 'showOnlyAdmins'
+    'sortOrder' | 'sortType' | 'showOnlyAdmins' | 'currentPage'
   > = yield select(selectUsersSearchParams);
+  if (usersSearchParams.currentPage >= (action.payload || 1)) {
+    yield put(getUsersSuccess(null));
+    return;
+  }
   try {
     const users: IGetUsersResponse = yield call(userService.getAll, {
-      page: action?.payload || 1,
+      page: action.payload || 1,
       sortType: usersSearchParams.sortType,
       sortOrder: usersSearchParams.sortOrder,
       isAdmin: usersSearchParams.showOnlyAdmins,
