@@ -9,9 +9,7 @@ type SwitchProps = {
 
 export default function Switch({ checked, handleChange, label }: SwitchProps) {
   const control = useMemo(
-    () => (
-      <MuiSwitch defaultChecked checked={checked} onChange={handleChange} />
-    ),
+    () => <MuiSwitch checked={checked} onChange={handleChange} />,
     [checked, handleChange],
   );
   return <FormControlLabel control={control} label={label} />;
