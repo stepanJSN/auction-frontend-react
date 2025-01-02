@@ -10,9 +10,14 @@ import {
 import { IUserSummary } from '../../types/user.interfaces';
 import { Role } from '../../enums/role.enum';
 import UsersTableRow from './UsersTableRow';
+import { MutationStatusEnum } from '../../enums/mutationStatus';
 
 type UsersTableProps = {
-  users: IUserSummary[];
+  users: {
+    data: IUserSummary;
+    updateStatus: MutationStatusEnum;
+    deleteStatus: MutationStatusEnum;
+  }[];
   onDelete: (id: string) => void;
   onUpdateRole: (id: string, role: Role) => void;
 };
@@ -36,8 +41,10 @@ export default function UsersTable({
         <TableBody>
           {users.map((user) => (
             <UsersTableRow
-              key={user.id}
-              user={user}
+              key={user.data.id}
+              user={user.data}
+              updateStatus={user.updateStatus}
+              deleteStatus={user.deleteStatus}
               onDelete={onDelete}
               onUpdateRole={onUpdateRole}
             />

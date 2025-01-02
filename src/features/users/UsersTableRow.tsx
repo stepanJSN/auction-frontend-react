@@ -1,10 +1,21 @@
-import { TableRow, TableCell, Stack, Button, SxProps } from '@mui/material';
+import {
+  TableRow,
+  TableCell,
+  Stack,
+  Button,
+  SxProps,
+  SnackbarOrigin,
+} from '@mui/material';
 import { useCallback } from 'react';
 import { Role } from '../../enums/role.enum';
 import { IUserSummary } from '../../types/user.interfaces';
+import { MutationStatusEnum } from '../../enums/mutationStatus';
+import Notification from '../../components/Notification';
 
 type UsersTableRowProps = {
   user: IUserSummary;
+  updateStatus: MutationStatusEnum;
+  deleteStatus: MutationStatusEnum;
   onDelete: (id: string) => void;
   onUpdateRole: (id: string, role: Role) => void;
 };
@@ -16,8 +27,15 @@ const buttonsContainerStyles: SxProps = {
   justifyContent: 'flex-end',
 };
 
+const notificationPosition: SnackbarOrigin = {
+  vertical: 'bottom',
+  horizontal: 'center',
+};
+
 export default function UsersTableRow({
   user,
+  updateStatus,
+  deleteStatus,
   onDelete,
   onUpdateRole,
 }: UsersTableRowProps) {
@@ -30,23 +48,45 @@ export default function UsersTableRow({
     () => onDelete(user.id),
     [onDelete, user.id],
   );
+
   return (
-    <TableRow sx={rowStyles}>
-      <TableCell component="th" scope="row">
-        {`${user.name} ${user.surname}`}
-      </TableCell>
-      <TableCell align="right">{user.role}</TableCell>
-      <TableCell align="right">{user.rating >= 0 && user.rating}</TableCell>
-      <TableCell align="right">
-        <Stack direction="row" spacing={2} sx={buttonsContainerStyles}>
-          <Button variant="outlined" onClick={handleRoleUpdate}>
-            Make {user.role === Role.USER ? 'admin' : 'user'}
-          </Button>
-          <Button variant="outlined" color="error" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Stack>
-      </TableCell>
-    </TableRow>
+    <>
+      <TableRow sx={rowStyles}>
+        <TableCell component="th" scope="row">
+          {`${user.name} ${user.surname}`}
+        </TableCell>
+        <TableCell align="right">{user.role}</TableCell>
+        <TableCell align="right">{user.rating >= 0 && user.rating}</TableCell>
+        <TableCell align="right">
+          <Stack
+            component={'span'}
+            direction="row"
+            spacing={2}
+            sx={buttonsContainerStyles}>
+            <Button
+              variant="outlined"
+              onClick={handleRoleUpdate}
+              disabled={updateStatus === MutationStatusEnum.PENDING}>
+              Make {user.role === Role.USER ? 'admin' : 'user'}
+            </Button>
+            <Button variant="outlined" color="error" onClick={handleDelete}>
+              Delete
+            </Button>
+          </Stack>
+        </TableCell>
+      </TableRow>
+      <Notification
+        open={updateStatus === MutationStatusEnum.ERROR}
+        severity="error"
+        message={`Failed to change the role of ${user.name}, something went wrong`}
+        anchorOrigin={notificationPosition}
+      />
+      <Notification
+        open={deleteStatus === MutationStatusEnum.ERROR}
+        message={`Failed to delete ${user.name}, something went wrong`}
+        severity="error"
+        anchorOrigin={notificationPosition}
+      />
+    </>
   );
 }

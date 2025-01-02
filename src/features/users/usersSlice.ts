@@ -9,16 +9,20 @@ import {
   UsersSortTypeEnum,
 } from '../../types/user.interfaces';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
+import { Role } from '../../enums/role.enum';
 
 export interface UsersState {
-  users: IUserSummary[];
+  users: {
+    data: IUserSummary;
+    updateStatus: MutationStatusEnum;
+    deleteStatus: MutationStatusEnum;
+  }[];
   totalPages: number;
   currentPage: number;
   sortType: UsersSortTypeEnum;
   sortOrder: SortOrderEnum;
   showOnlyAdmins: boolean;
   status: QueryStatusEnum;
-  updateStatus: MutationStatusEnum;
   errorCode: number | null;
 }
 
@@ -30,7 +34,6 @@ const initialState: UsersState = {
   sortType: UsersSortTypeEnum.CREATION_DATE,
   sortOrder: SortOrderEnum.DESC,
   status: QueryStatusEnum.IDLE,
-  updateStatus: MutationStatusEnum.IDLE,
   errorCode: null,
 };
 
@@ -64,7 +67,13 @@ export const usersSlice = createSlice({
     ) => {
       state.status = QueryStatusEnum.SUCCESS;
       if (action.payload) {
-        state.users.push(...action.payload.data);
+        state.users = state.users.concat(
+          action.payload.data.map((user) => ({
+            data: user,
+            updateStatus: MutationStatusEnum.IDLE,
+            deleteStatus: MutationStatusEnum.IDLE,
+          })),
+        );
         state.currentPage += 1;
         state.totalPages = action.payload.info.totalPages;
       }
@@ -74,32 +83,66 @@ export const usersSlice = createSlice({
       state.status = QueryStatusEnum.ERROR;
     },
 
-    deleteUser: (state, _action: PayloadAction<string>) => {
-      state.updateStatus = MutationStatusEnum.PENDING;
+    deleteUser: (state, action: PayloadAction<string>) => {
+      const userIndex = state.users.findIndex(
+        (user) => user.data.id === action.payload,
+      );
+      state.users[userIndex].deleteStatus = MutationStatusEnum.PENDING;
     },
 
     deleteUserSuccess: (state, action: PayloadAction<string>) => {
-      state.users = state.users.filter((user) => user.id !== action.payload);
-      state.updateStatus = MutationStatusEnum.SUCCESS;
-    },
-
-    updateUsersListError: (state, action: PayloadAction<number>) => {
-      state.updateStatus = MutationStatusEnum.ERROR;
-      state.errorCode = action.payload;
-    },
-
-    updateUser: (state, _action: PayloadAction<IUpdateUserRole>) => {
-      state.updateStatus = MutationStatusEnum.PENDING;
-    },
-
-    updateUserSuccess: (state, action: PayloadAction<IUserSummary>) => {
-      const userIndex = state.users.findIndex(
-        (user) => user.id === action.payload.id,
+      state.users = state.users.filter(
+        (user) => user.data.id !== action.payload,
       );
-      if (userIndex !== -1) {
-        state.users[userIndex].role = action.payload.role;
+    },
+
+    deleteUserError: (state, action: PayloadAction<string>) => {
+      const userIndex = state.users.findIndex(
+        (user) => user.data.id === action.payload,
+      );
+      state.users[userIndex].deleteStatus = MutationStatusEnum.ERROR;
+    },
+
+    resetDeleteUserStatus: (state, action: PayloadAction<string>) => {
+      const userIndex = state.users.findIndex(
+        (user) => user.data.id === action.payload,
+      );
+      state.users[userIndex].deleteStatus = MutationStatusEnum.IDLE;
+    },
+
+    updateUserRole: (state, action: PayloadAction<IUpdateUserRole>) => {
+      const userIndex = state.users.findIndex(
+        (user) => user.data.id === action.payload.id,
+      );
+      state.users[userIndex].updateStatus = MutationStatusEnum.PENDING;
+    },
+
+    updateUserRoleSuccess: (state, action: PayloadAction<IUpdateUserRole>) => {
+      if (state.showOnlyAdmins && action.payload.role === Role.USER) {
+        state.users = state.users.filter(
+          (user) => user.data.id !== action.payload.id,
+        );
+      } else {
+        const userIndex = state.users.findIndex(
+          (user) => user.data.id === action.payload.id,
+        );
+        state.users[userIndex].data.role = action.payload.role;
+        state.users[userIndex].updateStatus = MutationStatusEnum.SUCCESS;
       }
-      state.updateStatus = MutationStatusEnum.SUCCESS;
+    },
+
+    updateUserRoleError: (state, action: PayloadAction<string>) => {
+      const userIndex = state.users.findIndex(
+        (user) => user.data.id === action.payload,
+      );
+      state.users[userIndex].updateStatus = MutationStatusEnum.ERROR;
+    },
+
+    resetUpdateUserRoleStatus: (state, action: PayloadAction<string>) => {
+      const userIndex = state.users.findIndex(
+        (user) => user.data.id === action.payload,
+      );
+      state.users[userIndex].updateStatus = MutationStatusEnum.IDLE;
     },
   },
 });
@@ -111,9 +154,12 @@ export const {
   changeFilterParams,
   deleteUser,
   deleteUserSuccess,
-  updateUser,
-  updateUserSuccess,
-  updateUsersListError,
+  deleteUserError,
+  resetDeleteUserStatus,
+  updateUserRole,
+  updateUserRoleSuccess,
+  updateUserRoleError,
+  resetUpdateUserRoleStatus,
 } = usersSlice.actions;
 export const selectUsers = createSelector(
   (state: RootState) => state.users,

@@ -14,7 +14,7 @@ import {
   deleteUser,
   getUsers,
   selectUsers,
-  updateUser,
+  updateUserRole,
 } from '../features/users/usersSlice';
 import { useEffect, useCallback } from 'react';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
@@ -73,7 +73,7 @@ export default function UsersPage() {
 
   const handleUpdate = useCallback(
     (userId: string, role: Role) => {
-      dispatch(updateUser({ id: userId, role }));
+      dispatch(updateUserRole({ id: userId, role }));
     },
     [dispatch],
   );
