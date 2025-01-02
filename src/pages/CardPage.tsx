@@ -17,7 +17,11 @@ const closeIconStyles: SxProps = {
 
 export default function CardPage() {
   const { cardId } = useParams();
-  const { data, status } = useQuery(cardsService.getOne, cardId!, !!cardId);
+  const { data, status } = useQuery({
+    requestFn: cardsService.getOne,
+    params: cardId!,
+    autoFetch: true,
+  });
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
