@@ -16,7 +16,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuth } from '../../features/auth/authSlice';
 import MenuIcon from '@mui/icons-material/Menu';
-import { selectUser } from '../../features/users/userSlice';
+import { selectUser } from '../../features/user/userSlice';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { Role } from '../../enums/role.enum';
 import MainContainer from '../MainContainer';

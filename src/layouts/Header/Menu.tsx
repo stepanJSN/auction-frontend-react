@@ -15,11 +15,18 @@ const listStyles: SxProps = {
   },
 };
 
+const itemStyles: SxProps = {
+  justifyContent: {
+    xs: 'initial',
+    md: 'center',
+  },
+};
+
 export default function Menu({ menuItems }: MenuProps) {
   return (
     <List sx={listStyles}>
       {menuItems.map((item) => (
-        <ListItem key={item.label}>
+        <ListItem key={item.label} sx={itemStyles}>
           <MenuLink to={item.path}>{item.label}</MenuLink>
         </ListItem>
       ))}

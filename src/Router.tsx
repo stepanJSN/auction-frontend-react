@@ -9,6 +9,7 @@ import CardPage from './pages/CardPage';
 import AllCardsPage from './pages/AllCardsPage';
 import SetsPage from './pages/SetsPage';
 import Transactions from './pages/Transactions';
+import UsersPage from './pages/UsersPage';
 
 export default function Router() {
   return (
@@ -30,6 +31,7 @@ export default function Router() {
             <Route path=":cardId" element={<CardPage />} />
           </Route>
           <Route path="/transactions" element={<Transactions />} />
+          <Route path="/users" element={<UsersPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

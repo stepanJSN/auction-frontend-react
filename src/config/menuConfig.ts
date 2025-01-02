@@ -9,6 +9,7 @@ export const userMenu = [
 
 export const adminMenu = [
   { label: 'Users', path: ROUTES.USERS },
+  { label: 'MyCards', path: ROUTES.USER_CARDS },
   { label: 'Cards', path: ROUTES.CARDS },
   { label: 'Auctions', path: ROUTES.AUCTIONS },
   { label: 'Sets', path: ROUTES.SETS },
