@@ -33,19 +33,25 @@ const containerStyles: SxProps = {
     sm: 700,
   },
 };
-
 const imgContainerStyles: SxProps = {
   alignSelf: 'stretch',
+  minHeight: 200,
+  minWidth: 200,
 };
-const imgContainerColumns = {
-  xs: 12,
-  sm: 5,
-};
-
 const cardTitleStyles: SxProps = {
   typography: 'h4',
 };
 
+const episodesListStyles: SxProps = {
+  maxHeight: 200,
+  overflowY: 'auto',
+  mb: 1,
+};
+
+const imgContainerColumns = {
+  xs: 12,
+  sm: 5,
+};
 const textColumns = {
   xs: 12,
   sm: 7,
@@ -65,16 +71,7 @@ export default function CardData({
   return (
     <Grid2 container sx={containerStyles}>
       <Grid2 size={imgContainerColumns} sx={imgContainerStyles}>
-        <img
-          src={imageUrl}
-          alt={name}
-          width="100%"
-          height="100%"
-          style={{
-            minHeight: 200,
-            minWidth: 200,
-          }}
-        />
+        <img src={imageUrl} alt={name} />
       </Grid2>
       <Grid2 size={textColumns}>
         <DialogTitle sx={cardTitleStyles}>{name}</DialogTitle>
@@ -83,7 +80,7 @@ export default function CardData({
           {type && <Typography variant="subtitle1">Type: {type}</Typography>}
           <Typography variant="subtitle1">Location: {location.name}</Typography>
           <Typography variant="subtitle1">Episodes with this card:</Typography>
-          <List disablePadding>
+          <List disablePadding sx={episodesListStyles}>
             {episodes.map((episode) => (
               <EpisodesList key={episode.id} name={episode.name} />
             ))}
