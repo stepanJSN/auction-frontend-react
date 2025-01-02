@@ -1,6 +1,7 @@
 import {
   Button,
   Grid2,
+  GridSize,
   LinearProgress,
   SelectChangeEvent,
   Stack,
@@ -43,6 +44,12 @@ const sortOrderOptions = [
   { value: SortOrderEnum.ASC, label: 'Ascending' },
   { value: SortOrderEnum.DESC, label: 'Descending' },
 ];
+
+const sortColumnsBreakpoints: Record<string, GridSize> = {
+  // xs: 1,
+  sm: 'auto',
+  md: 3,
+};
 
 export default function UsersPage() {
   const {
@@ -122,8 +129,8 @@ export default function UsersPage() {
       <Typography variant="h4" gutterBottom>
         Users
       </Typography>
-      <Grid2 spacing={2} sx={filterContainerStyles} container>
-        <Grid2 size={3}>
+      <Grid2 spacing={1} sx={filterContainerStyles} container>
+        <Grid2 size={sortColumnsBreakpoints}>
           <BasicSelect
             label="Sort by"
             value={sortType}
@@ -131,7 +138,7 @@ export default function UsersPage() {
             handleChange={handleSortTypeChange}
           />
         </Grid2>
-        <Grid2 size={3}>
+        <Grid2 size={sortColumnsBreakpoints}>
           <BasicSelect
             label="Sort order"
             value={sortOrder}

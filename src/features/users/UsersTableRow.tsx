@@ -5,12 +5,16 @@ import {
   Button,
   SxProps,
   SnackbarOrigin,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { useCallback } from 'react';
 import { Role } from '../../enums/role.enum';
 import { IUserSummary } from '../../types/user.interfaces';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 import Notification from '../../components/Notification';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddModeratorIcon from '@mui/icons-material/AddModerator';
 
 type UsersTableRowProps = {
   user: IUserSummary;
@@ -39,6 +43,8 @@ export default function UsersTableRow({
   onDelete,
   onUpdateRole,
 }: UsersTableRowProps) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const handleRoleUpdate = useCallback(
     () =>
       onUpdateRole(user.id, user.role === Role.USER ? Role.ADMIN : Role.USER),
@@ -61,16 +67,24 @@ export default function UsersTableRow({
           <Stack
             component={'span'}
             direction="row"
-            spacing={2}
+            spacing={1}
             sx={buttonsContainerStyles}>
             <Button
               variant="outlined"
               onClick={handleRoleUpdate}
               disabled={updateStatus === MutationStatusEnum.PENDING}>
-              Make {user.role === Role.USER ? 'admin' : 'user'}
+              {matches ? (
+                `Make ${user.role === Role.USER ? 'admin' : 'user'}`
+              ) : (
+                <AddModeratorIcon />
+              )}
             </Button>
-            <Button variant="outlined" color="error" onClick={handleDelete}>
-              Delete
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={handleDelete}
+              disabled={deleteStatus === MutationStatusEnum.PENDING}>
+              {matches ? 'Delete' : <DeleteIcon />}
             </Button>
           </Stack>
         </TableCell>

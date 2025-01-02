@@ -6,6 +6,8 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { IUserSummary } from '../../types/user.interfaces';
 import { Role } from '../../enums/role.enum';
@@ -27,9 +29,12 @@ export default function UsersTable({
   onDelete,
   onUpdateRole,
 }: UsersTableProps) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="simple table">
+      <Table aria-label="users table" size={matches ? 'medium' : 'small'}>
         <TableHead>
           <TableRow>
             <TableCell>Name and surname</TableCell>
