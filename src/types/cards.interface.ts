@@ -32,3 +32,12 @@ export interface ICard extends ICardSummary {
     code: string;
   }[];
 }
+
+export interface ICreateCard {
+  name: string;
+  type?: string;
+  gender: Gender;
+  isActive: boolean;
+  locationId: number;
+  episodesIds: number[];
+}
