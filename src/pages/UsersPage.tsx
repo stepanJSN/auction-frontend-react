@@ -122,10 +122,6 @@ export default function UsersPage() {
       <Typography variant="h4" gutterBottom>
         Users
       </Typography>
-      {status === QueryStatusEnum.ERROR && <PageError />}
-      {status === QueryStatusEnum.LOADING && users.length === 0 && (
-        <PageLoader />
-      )}
       <Grid2 spacing={2} sx={filterContainerStyles} container>
         <Grid2 size={3}>
           <BasicSelect
@@ -151,6 +147,10 @@ export default function UsersPage() {
           />
         </Grid2>
       </Grid2>
+      {status === QueryStatusEnum.LOADING && users.length === 0 && (
+        <PageLoader />
+      )}
+      {status === QueryStatusEnum.ERROR && <PageError />}
       {users.length !== 0 && (
         <>
           {status === QueryStatusEnum.LOADING && <LinearProgress />}
