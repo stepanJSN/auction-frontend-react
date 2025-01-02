@@ -19,7 +19,7 @@ export const userService = {
   },
 
   changeRole: async (id: string, role: Role) => {
-    await apiWithAuth.put(`/users/role`, { userId: id, role });
+    await apiWithAuth.patch(`/users/role`, { userId: id, role });
   },
 
   getOne: async (id: string) => {
