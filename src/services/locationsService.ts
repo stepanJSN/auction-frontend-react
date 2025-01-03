@@ -1,5 +1,6 @@
 import { apiWithAuth } from '../apiConfig';
 import {
+  ICreateLocation,
   IGetLocationsResponse,
   ILocation,
 } from '../types/locations.interfaces';
@@ -18,7 +19,7 @@ export const locationsService = {
     return locations.data;
   },
 
-  create: async (data: ILocation) => {
+  create: async (data: ICreateLocation) => {
     const location = await apiWithAuth.post<ILocation>('/locations', data);
     return location.data;
   },
