@@ -23,7 +23,7 @@ export const locationsService = {
     return location.data;
   },
 
-  update: async (id: string, data: ILocation) => {
+  update: async (id: number, data: ILocation) => {
     const location = await apiWithAuth.patch<ILocation>(
       `/locations/${id}`,
       data,
@@ -31,7 +31,7 @@ export const locationsService = {
     return location.data;
   },
 
-  delete: async (id: string) => {
+  delete: async (id: number) => {
     await apiWithAuth.delete(`/locations/${id}`);
   },
 };

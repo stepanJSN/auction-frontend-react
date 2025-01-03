@@ -4,6 +4,7 @@ import userCardsReducer from '../features/userCards/userCardsSlice';
 import cardsReducer from '../features/cards/cardsSlice';
 import setsReducer from '../features/sets/setsSlice';
 import usersReducer from '../features/users/usersSlice';
+import locationsReducer from '../features/locations/locationsSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const combinedReducer = combineReducers({
@@ -13,6 +14,7 @@ const combinedReducer = combineReducers({
   cards: cardsReducer,
   sets: setsReducer,
   users: usersReducer,
+  locations: locationsReducer,
 });
 
 export const rootReducer = (state: any, action: any) => {

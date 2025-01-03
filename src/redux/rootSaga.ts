@@ -5,6 +5,7 @@ import { watchUserCardsSaga } from '../features/userCards/userCardsSaga';
 import { watchCardsSaga } from '../features/cards/cardsSaga';
 import { watchSetsSaga } from '../features/sets/setsSaga';
 import { watchUsersSaga } from '../features/users/usersSaga';
+import { watchLocationsSaga } from '../features/locations/locationsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     fork(watchCardsSaga),
     fork(watchSetsSaga),
     fork(watchUsersSaga),
+    fork(watchLocationsSaga),
   ]);
 }
