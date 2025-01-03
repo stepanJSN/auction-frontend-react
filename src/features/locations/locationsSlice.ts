@@ -17,6 +17,8 @@ export interface LocationsState {
   currentPage: number;
   locationName: string;
   status: QueryStatusEnum;
+  creationStatus: MutationStatusEnum;
+  creationErrorCode: number | null;
   errorCode: number | null;
 }
 
@@ -26,6 +28,8 @@ const initialState: LocationsState = {
   currentPage: 0,
   locationName: '',
   status: QueryStatusEnum.IDLE,
+  creationStatus: MutationStatusEnum.IDLE,
+  creationErrorCode: null,
   errorCode: null,
 };
 
@@ -73,6 +77,29 @@ export const locationsSlice = createSlice({
 
     getLocationsError: (state) => {
       state.status = QueryStatusEnum.ERROR;
+    },
+
+    createLocation: (state, _action: PayloadAction<ILocation>) => {
+      state.creationStatus = MutationStatusEnum.PENDING;
+    },
+
+    createLocationSuccess: (state, action: PayloadAction<ILocation>) => {
+      state.locations.push({
+        data: action.payload,
+        updateStatus: MutationStatusEnum.IDLE,
+        deleteStatus: MutationStatusEnum.IDLE,
+      });
+      state.creationStatus = MutationStatusEnum.SUCCESS;
+    },
+
+    createLocationError: (state, action: PayloadAction<number>) => {
+      state.creationStatus = MutationStatusEnum.ERROR;
+      state.creationErrorCode = action.payload;
+    },
+
+    resetCreateLocationStatus: (state) => {
+      state.creationStatus = MutationStatusEnum.IDLE;
+      state.creationErrorCode = null;
     },
 
     deleteLocation: (state, action: PayloadAction<number>) => {
@@ -124,6 +151,10 @@ export const {
   getLocations,
   getLocationsSuccess,
   getLocationsError,
+  createLocation,
+  createLocationSuccess,
+  createLocationError,
+  resetCreateLocationStatus,
   deleteLocation,
   deleteLocationSuccess,
   deleteLocationError,
