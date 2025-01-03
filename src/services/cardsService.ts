@@ -54,4 +54,8 @@ export const cardsService = {
     });
     return card.data;
   },
+
+  delete: async (id: string) => {
+    await apiWithAuth.delete(`/cards/${id}`);
+  },
 };

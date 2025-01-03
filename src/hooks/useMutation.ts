@@ -4,7 +4,7 @@ import { ErrorCodesEnum } from '../enums/errorCodes.enum';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 
 export default function useMutation<T, R = unknown>(
-  requestFn: (data: T) => Promise<R>,
+  requestFn: (data: T) => Promise<R> | void,
 ) {
   const [status, setStatus] = useState<MutationStatusEnum>(
     MutationStatusEnum.IDLE,

@@ -20,6 +20,7 @@ import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import useUpdateCard from '../features/cards/useUpdateCard';
 import { updateCardErrorMessages } from '../features/cards/updateCardErrorMessages';
+import useDeleteCard from '../features/cards/useDeleteCard';
 
 const alertStyles: SxProps = {
   mb: 1,
@@ -50,6 +51,8 @@ export default function CreateCardPage() {
     status: updateStatus,
     errorCode,
   } = useUpdateCard(setIsImageError, image, cardId);
+  const { handleDelete: handleCardDelete, status: deleteStatus } =
+    useDeleteCard(cardId);
   const mutationPending = updateStatus === MutationStatusEnum.PENDING;
 
   const actions = useMemo(
@@ -58,12 +61,16 @@ export default function CreateCardPage() {
         <Button type="submit" variant="contained" disabled={mutationPending}>
           {mutationPending ? 'Updating...' : 'Update'}
         </Button>
-        <Button color="error" variant="contained" disabled={mutationPending}>
+        <Button
+          color="error"
+          variant="contained"
+          disabled={mutationPending}
+          onClick={handleCardDelete}>
           {mutationPending ? 'Deleting...' : 'Delete'}
         </Button>
       </>
     ),
-    [mutationPending],
+    [mutationPending, handleCardDelete],
   );
   return (
     <>
@@ -80,6 +87,11 @@ export default function CreateCardPage() {
       {updateStatus === MutationStatusEnum.SUCCESS && (
         <Alert severity="success" sx={alertStyles}>
           Card updated successfully
+        </Alert>
+      )}
+      {deleteStatus === MutationStatusEnum.ERROR && (
+        <Alert severity="error" sx={alertStyles}>
+          Failed to delete card, something went wrong
         </Alert>
       )}
       {status === QueryStatusEnum.SUCCESS && (
