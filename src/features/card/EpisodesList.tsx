@@ -16,7 +16,7 @@ const iconStyles: SxProps = {
 
 export default function EpisodesList({ name }: EpisodesListProps) {
   return (
-    <ListItem>
+    <ListItem dense>
       <ListItemIcon sx={listItemIconStyles}>
         <CircleIcon sx={iconStyles} />
       </ListItemIcon>
