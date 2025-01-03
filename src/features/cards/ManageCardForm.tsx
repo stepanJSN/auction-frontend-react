@@ -1,19 +1,18 @@
-import { useCallback, useMemo } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { Button, Grid2, IconButton, Stack } from '@mui/material';
+import { useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { Button, Stack } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import FormSelect from '../../components/FormSelect';
 import FormSwitch from '../../components/FormSwitch';
 import FormAutocomplete from '../../components/FormAutocomplete';
 import { locationsService } from '../../services/locationsService';
 import { ILocation } from '../../types/locations.interfaces';
-import { episodesService } from '../../services/episodesService';
 import { IEpisode } from '../../types/episodes.interfaces';
 import { Gender } from '../../enums/gender.enum';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { ICreateCard } from '../../types/cards.interface';
+import EpisodesListForm from './EpisodesListForm';
 
-interface ICreateCardFrom {
+export interface ICreateCardFrom {
   name: string;
   type?: string;
   gender: Gender;
@@ -60,16 +59,6 @@ export default function ManageCardForm({
   const { control, handleSubmit, setError } =
     useForm<ICreateCardFrom>(formOptions);
 
-  const { fields, append, remove } = useFieldArray(
-    useMemo(
-      () => ({
-        control,
-        name: 'episodesId',
-      }),
-      [control],
-    ),
-  );
-
   const searchLocationFunc = useCallback(
     (searchValue: string) => locationsService.getAll({ name: searchValue }),
     [],
@@ -77,26 +66,6 @@ export default function ManageCardForm({
   const getLocationLabel = useCallback(
     (location: ILocation | null) => location?.name || '',
     [],
-  );
-
-  const searchEpisodesFunc = useCallback(
-    (searchValue: string) => episodesService.getAll({ name: searchValue }),
-    [],
-  );
-  const getEpisodesLabel = useCallback(
-    (location: IEpisode | null) => location?.name || '',
-    [],
-  );
-
-  const removeEpisode = useCallback(
-    (index: number) => () => {
-      remove(index);
-    },
-    [remove],
-  );
-  const addEpisode = useCallback(
-    () => append({ id: Date.now(), name: '', code: '' }),
-    [append],
   );
 
   const transformData = useCallback(
@@ -160,30 +129,7 @@ export default function ManageCardForm({
         noOptionsText="No locations found"
         errorText="Please select a location"
       />
-      {fields.map((field, index) => (
-        <Grid2 container spacing={1} key={field.id}>
-          <Grid2 size="grow">
-            <FormAutocomplete
-              control={control}
-              name={`episodesId.${index}`}
-              label="Episode"
-              searchFunc={searchEpisodesFunc}
-              getLabel={getEpisodesLabel}
-              startFromLetter={2}
-              noOptionsText="No episodes found"
-              errorText="Please select an episode"
-            />
-          </Grid2>
-          {index > 0 && (
-            <Grid2>
-              <IconButton onClick={removeEpisode(index)} color="error">
-                <DeleteIcon />
-              </IconButton>
-            </Grid2>
-          )}
-        </Grid2>
-      ))}
-      <Button onClick={addEpisode}>Add episode</Button>
+      <EpisodesListForm control={control} />
       <Button type="submit" variant="contained" disabled={isPending}>
         {isPending ? 'Creating...' : 'Create'}
       </Button>
