@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
 import {
   Control,
   Controller,
+  ControllerRenderProps,
   FieldValues,
   Path,
   PathValue,
@@ -23,19 +25,27 @@ export default function FormSelect<T extends FieldValues>({
   defaultValue,
   options,
 }: FormSelectProps<T>) {
+  const render = useCallback(
+    ({
+      field: { onChange, value },
+    }: {
+      field: ControllerRenderProps<T, Path<T>>;
+    }) => (
+      <BasicSelect
+        options={options}
+        label={label}
+        value={value}
+        handleChange={onChange}
+      />
+    ),
+    [label, options],
+  );
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field: { onChange, value } }) => (
-        <BasicSelect
-          options={options}
-          label={label}
-          value={value}
-          handleChange={onChange}
-        />
-      )}
+      render={render}
     />
   );
 }

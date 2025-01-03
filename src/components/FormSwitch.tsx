@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
 import {
   Control,
   Controller,
+  ControllerRenderProps,
   FieldValues,
   Path,
   PathValue,
@@ -21,14 +23,20 @@ export default function FormSwitch<T extends FieldValues>({
   label,
   defaultValue,
 }: FormSwitchProps<T>) {
+  const render = useCallback(
+    ({
+      field: { onChange, value },
+    }: {
+      field: ControllerRenderProps<T, Path<T>>;
+    }) => <Switch checked={value} handleChange={onChange} label={label} />,
+    [label],
+  );
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field: { onChange, value } }) => (
-        <Switch checked={value} handleChange={onChange} label={label} />
-      )}
+      render={render}
     />
   );
 }

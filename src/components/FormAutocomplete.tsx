@@ -1,5 +1,12 @@
-/* eslint-disable @arthurgeron/react-usememo/require-usememo */
-import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import { useMemo, useCallback } from 'react';
+import {
+  Control,
+  Controller,
+  ControllerFieldState,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 import Autocomplete from './Autocomplete';
 import { IPagination } from '../types/pagination.interface';
 
@@ -28,29 +35,35 @@ export default function FormAutocomplete<T extends FieldValues, R>({
   errorText,
   required = false,
 }: FormAutocompleteProps<T, R>) {
+  const rules = useMemo(
+    () => ({
+      required,
+    }),
+    [required],
+  );
+  const render = useCallback(
+    ({
+      field: { onChange, value },
+      fieldState: { error },
+    }: {
+      field: ControllerRenderProps<T, Path<T>>;
+      fieldState: ControllerFieldState;
+    }) => (
+      <Autocomplete
+        label={label}
+        value={value ?? null}
+        onChange={onChange}
+        searchFunc={searchFunc}
+        getLabel={getLabel}
+        isError={!!error}
+        errorText={errorText}
+        startFromLetter={startFromLetter}
+        noOptionsText={noOptionsText}
+      />
+    ),
+    [errorText, getLabel, label, noOptionsText, searchFunc, startFromLetter],
+  );
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={{
-        required,
-      }}
-      render={({
-        field: { onChange, value = null },
-        fieldState: { error },
-      }) => (
-        <Autocomplete
-          label={label}
-          value={value}
-          onChange={onChange}
-          searchFunc={searchFunc}
-          getLabel={getLabel}
-          isError={!!error}
-          errorText={errorText}
-          startFromLetter={startFromLetter}
-          noOptionsText={noOptionsText}
-        />
-      )}
-    />
+    <Controller name={name} control={control} rules={rules} render={render} />
   );
 }
