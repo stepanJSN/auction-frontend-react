@@ -2,13 +2,13 @@ import { useMemo, useCallback, useState } from 'react';
 import { Alert, Grid2, SxProps, Typography } from '@mui/material';
 import ImageUpload from '../components/ImageUpload/ImageUpload';
 import useImage from '../hooks/useImage';
-import ManageCardForm from '../features/card/ManageCardForm';
+import ManageCardForm from '../features/cards/ManageCardForm';
 import useMutation from '../hooks/useMutation';
 import { ICreateCard } from '../types/cards.interface';
 import { cardsService } from '../services/cardsService';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
-import { createCardErrorMessages } from '../features/card/createImageErrorMessages';
+import { createCardErrorMessages } from '../features/cards/createImageErrorMessages';
 
 const alertStyles: SxProps = {
   mb: 1,
