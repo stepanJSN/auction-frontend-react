@@ -1,52 +1,29 @@
-import { useMemo, useCallback, useState } from 'react';
 import { Alert, Grid2, SxProps, Typography } from '@mui/material';
 import ImageUpload from '../components/ImageUpload/ImageUpload';
 import useImage from '../hooks/useImage';
 import ManageCardForm from '../features/cards/ManageCardForm';
-import useMutation from '../hooks/useMutation';
-import { ICreateCard } from '../types/cards.interface';
-import { cardsService } from '../services/cardsService';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
 import { createCardErrorMessages } from '../features/cards/createImageErrorMessages';
-import { useDispatch } from 'react-redux';
-import { resetLastPage } from '../features/cards/cardsSlice';
+import useCreateCard from '../features/cards/useCreateCard';
 
 const alertStyles: SxProps = {
   mb: 1,
 };
 
+const imageContainerStyles: SxProps = {
+  height: '300px',
+};
+
 export default function CreateCardPage() {
-  const { image, handleDelete, handleUpload } = useImage();
-  const [isImageError, setIsImageError] = useState(false);
-  const dispatch = useDispatch();
+  const { image, handleDelete, handleUpload, isImageError, setIsImageError } =
+    useImage();
   const getErrorMessage = useErrorMessage(createCardErrorMessages);
-  const { mutate, status, errorCode } = useMutation(
-    (data: { cardData: ICreateCard; image: Blob }) => {
-      return cardsService.create(data.cardData, data.image);
-    },
+  const { handleSubmit, status, errorCode } = useCreateCard(
+    setIsImageError,
+    image?.image,
   );
 
-  const handleSubmit = useCallback(
-    (data: ICreateCard) => {
-      if (image) {
-        mutate({ cardData: data, image: image.image });
-        dispatch(resetLastPage());
-      } else {
-        setIsImageError(true);
-      }
-    },
-    [image, mutate, dispatch],
-  );
-  const handleImageUpload = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setIsImageError(false);
-      handleUpload(event);
-    },
-    [handleUpload],
-  );
-
-  const sx = useMemo(() => ({ height: '300px' }), []);
   return (
     <>
       <Typography variant="h4" gutterBottom>
@@ -63,11 +40,11 @@ export default function CreateCardPage() {
         </Alert>
       )}
       <Grid2 container spacing={3}>
-        <Grid2 size={3} sx={sx}>
+        <Grid2 size={3} sx={imageContainerStyles}>
           <ImageUpload
             imageUrl={image?.url}
             handleDelete={handleDelete}
-            handleUpload={handleImageUpload}
+            handleUpload={handleUpload}
             isPending={status === MutationStatusEnum.PENDING}
             isError={isImageError}
           />
