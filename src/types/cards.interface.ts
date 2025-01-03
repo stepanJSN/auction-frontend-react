@@ -39,5 +39,5 @@ export interface ICreateCard {
   gender: Gender;
   isActive: boolean;
   locationId: number;
-  episodesIds: number[];
+  episodesId: number[];
 }
