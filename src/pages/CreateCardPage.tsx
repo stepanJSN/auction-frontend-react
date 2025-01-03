@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useState } from 'react';
-import { Grid2, Typography } from '@mui/material';
+import { Alert, Grid2, SxProps, Typography } from '@mui/material';
 import ImageUpload from '../components/ImageUpload/ImageUpload';
 import useImage from '../hooks/useImage';
 import ManageCardForm from '../features/card/ManageCardForm';
@@ -7,10 +7,17 @@ import useMutation from '../hooks/useMutation';
 import { ICreateCard } from '../types/cards.interface';
 import { cardsService } from '../services/cardsService';
 import { MutationStatusEnum } from '../enums/mutationStatus';
+import useErrorMessage from '../hooks/useErrorMessage';
+import { createCardErrorMessages } from '../features/card/createImageErrorMessages';
+
+const alertStyles: SxProps = {
+  mb: 1,
+};
 
 export default function CreateCardPage() {
   const { image, handleDelete, handleUpload } = useImage();
   const [isImageError, setIsImageError] = useState(false);
+  const getErrorMessage = useErrorMessage(createCardErrorMessages);
   const { mutate, status, errorCode } = useMutation(
     (data: { cardData: ICreateCard; image: Blob }) => {
       return cardsService.create(data.cardData, data.image);
@@ -42,10 +49,14 @@ export default function CreateCardPage() {
         Create Card
       </Typography>
       {status === MutationStatusEnum.ERROR && (
-        <Typography color="error">{errorCode}</Typography>
+        <Alert severity="error" sx={alertStyles}>
+          {getErrorMessage(errorCode)}
+        </Alert>
       )}
       {status === MutationStatusEnum.SUCCESS && (
-        <Typography color="success">Card created successfully</Typography>
+        <Alert severity="success" sx={alertStyles}>
+          Card created successfully
+        </Alert>
       )}
       <Grid2 container spacing={3}>
         <Grid2 size={3} sx={sx}>
