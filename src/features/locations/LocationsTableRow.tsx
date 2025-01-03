@@ -12,7 +12,6 @@ import { useCallback } from 'react';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 import Notification from '../../components/Notification';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddModeratorIcon from '@mui/icons-material/AddModerator';
 import { ILocation } from '../../types/locations.interfaces';
 import { Link } from 'react-router';
 import EditIcon from '@mui/icons-material/Edit';
