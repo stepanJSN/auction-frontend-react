@@ -12,7 +12,7 @@ import useImage from '../hooks/useImage';
 import ManageCardForm from '../features/cards/ManageCardForm';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
-import { createCardErrorMessages } from '../features/cards/createImageErrorMessages';
+import { createCardErrorMessages } from '../features/cards/createCardErrorMessages';
 import useCreateCard from '../features/cards/useCreateCard';
 
 const alertStyles: SxProps = {

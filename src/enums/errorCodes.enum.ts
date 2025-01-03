@@ -3,4 +3,5 @@ export enum ErrorCodesEnum {
   Conflict = 409,
   ServerError = 500,
   BadRequest = 400,
+  NotFound = 404,
 }

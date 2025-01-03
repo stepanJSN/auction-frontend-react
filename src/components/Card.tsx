@@ -48,30 +48,28 @@ export default function Card({
   );
   return (
     <MuiCard sx={cardStyles} elevation={is_owned ? 3 : 1}>
-      <Link to={`./${id}`}>
-        <Stack height="100%">
-          <CardMedia sx={cardMediaStyles} image={image_url} title={name} />
-          {is_created_by_admin && (
-            <CardLabel colorVariant="error">
-              Card was created by admin
-            </CardLabel>
-          )}
-          {is_owned && (
-            <CardLabel colorVariant="success">You have this card</CardLabel>
-          )}
-          <CardContent sx={cardContentStyles}>
-            <Typography variant="h5" gutterBottom>
-              {name}
-            </Typography>
-            <Typography variant="body1">Gender: {gender}</Typography>
-            {type && <Typography variant="body1">Type: {type}</Typography>}
-          </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-            {children}
-          </CardActions>
-        </Stack>
-      </Link>
+      <Stack height="100%">
+        <CardMedia sx={cardMediaStyles} image={image_url} title={name} />
+        {is_created_by_admin && (
+          <CardLabel colorVariant="error">Card was created by admin</CardLabel>
+        )}
+        {is_owned && (
+          <CardLabel colorVariant="success">You have this card</CardLabel>
+        )}
+        <CardContent sx={cardContentStyles}>
+          <Typography variant="h5" gutterBottom>
+            {name}
+          </Typography>
+          <Typography variant="body1">Gender: {gender}</Typography>
+          {type && <Typography variant="body1">Type: {type}</Typography>}
+        </CardContent>
+        <CardActions>
+          <Button component={Link} to={`./${id}`} size="small">
+            Learn More
+          </Button>
+          {children}
+        </CardActions>
+      </Stack>
     </MuiCard>
   );
 }

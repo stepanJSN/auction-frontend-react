@@ -5,7 +5,7 @@ import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
-import { Outlet } from 'react-router';
+import { Link, Outlet } from 'react-router';
 import {
   changeCardsPage,
   getCards,
@@ -44,7 +44,12 @@ export default function AllCardsPage() {
                       <Button size="small" color="success">
                         Sell
                       </Button>
-                      <Button size="small">Manage</Button>
+                      <Button
+                        component={Link}
+                        to={`/edit-card/${card.id}`}
+                        size="small">
+                        Manage
+                      </Button>
                     </>
                   )}
                 </Card>

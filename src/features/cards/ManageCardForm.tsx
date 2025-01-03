@@ -118,7 +118,6 @@ export default function ManageCardForm({
         name="type"
         label="Type"
         control={control}
-        required
         errorText="The type must be between 2 and 15 characters long"
         length={stringLength}
       />
