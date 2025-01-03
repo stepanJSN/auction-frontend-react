@@ -14,7 +14,7 @@ import LocationsTableRow from './LocationsTableRow';
 import { ILocation } from '../../types/locations.interfaces';
 
 type LocationsTableProps = {
-  users: {
+  locations: {
     data: ILocation;
     deleteStatus: MutationStatusEnum;
   }[];
@@ -22,7 +22,7 @@ type LocationsTableProps = {
 };
 
 export default function LocationsTable({
-  users,
+  locations,
   onDelete,
 }: LocationsTableProps) {
   const theme = useTheme();
@@ -30,20 +30,20 @@ export default function LocationsTable({
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="users table" size={matches ? 'medium' : 'small'}>
+      <Table aria-label="locations table" size={matches ? 'medium' : 'small'}>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell align="right">Type</TableCell>
+            <TableCell>Type</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
+          {locations.map((location) => (
             <LocationsTableRow
-              key={user.data.id}
-              location={user.data}
-              deleteStatus={user.deleteStatus}
+              key={location.data.id}
+              location={location.data}
+              deleteStatus={location.deleteStatus}
               onDelete={onDelete}
             />
           ))}

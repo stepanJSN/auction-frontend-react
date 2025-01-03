@@ -136,7 +136,7 @@ export const {
 export const selectLocations = createSelector(
   (state: RootState) => state.locations,
   (locations) => ({
-    users: locations.locations,
+    locations: locations.locations,
     hasMore: locations.totalPages !== locations.currentPage,
     locationName: locations.locationName,
     currentPage: locations.currentPage,

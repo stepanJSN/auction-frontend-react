@@ -52,7 +52,7 @@ export default function LocationsTableRow({
         <TableCell component="th" scope="row">
           {location.name}
         </TableCell>
-        <TableCell align="right">{location.type}</TableCell>
+        <TableCell>{location.type}</TableCell>
         <TableCell align="right">
           <Stack
             component={'span'}
