@@ -7,6 +7,7 @@ export const ROUTES = {
   AUCTIONS: '/auctions',
   CHATS: '/chats',
   CARDS: '/cards',
+  CREATE_CARD: '/create-card',
   SETS: '/sets',
   STATISTICS: '/statistics',
   USERS: '/users',

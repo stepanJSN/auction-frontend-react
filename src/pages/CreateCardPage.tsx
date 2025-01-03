@@ -9,6 +9,8 @@ import { cardsService } from '../services/cardsService';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
 import { createCardErrorMessages } from '../features/cards/createImageErrorMessages';
+import { useDispatch } from 'react-redux';
+import { resetLastPage } from '../features/cards/cardsSlice';
 
 const alertStyles: SxProps = {
   mb: 1,
@@ -17,6 +19,7 @@ const alertStyles: SxProps = {
 export default function CreateCardPage() {
   const { image, handleDelete, handleUpload } = useImage();
   const [isImageError, setIsImageError] = useState(false);
+  const dispatch = useDispatch();
   const getErrorMessage = useErrorMessage(createCardErrorMessages);
   const { mutate, status, errorCode } = useMutation(
     (data: { cardData: ICreateCard; image: Blob }) => {
@@ -28,11 +31,12 @@ export default function CreateCardPage() {
     (data: ICreateCard) => {
       if (image) {
         mutate({ cardData: data, image: image.image });
+        dispatch(resetLastPage());
       } else {
         setIsImageError(true);
       }
     },
-    [image, mutate],
+    [image, mutate, dispatch],
   );
   const handleImageUpload = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
