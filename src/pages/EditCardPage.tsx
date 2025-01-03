@@ -21,10 +21,7 @@ import PageError from '../components/PageError';
 import useUpdateCard from '../features/cards/useUpdateCard';
 import { updateCardErrorMessages } from '../features/cards/updateCardErrorMessages';
 import useDeleteCard from '../features/cards/useDeleteCard';
-
-const alertStyles: SxProps = {
-  mb: 1,
-};
+import Notification from '../components/Notification';
 
 const imageContainerStyles: SxProps = {
   minWidth: '250px',
@@ -36,7 +33,7 @@ const imageBreakpoints: Record<string, GridSize> = {
   sm: 'auto',
 };
 
-export default function CreateCardPage() {
+export default function EditCardPage() {
   const { cardId } = useParams();
   const { data, status } = useQuery({
     requestFn: cardsService.getOne,
@@ -79,21 +76,6 @@ export default function CreateCardPage() {
       </Typography>
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.ERROR && <PageError />}
-      {updateStatus === MutationStatusEnum.ERROR && (
-        <Alert severity="error" sx={alertStyles}>
-          {getErrorMessage(errorCode)}
-        </Alert>
-      )}
-      {updateStatus === MutationStatusEnum.SUCCESS && (
-        <Alert severity="success" sx={alertStyles}>
-          Card updated successfully
-        </Alert>
-      )}
-      {deleteStatus === MutationStatusEnum.ERROR && (
-        <Alert severity="error" sx={alertStyles}>
-          Failed to delete card, something went wrong
-        </Alert>
-      )}
       {status === QueryStatusEnum.SUCCESS && (
         <Grid2 container spacing={3}>
           <Grid2 size={imageBreakpoints} sx={imageContainerStyles}>
@@ -114,6 +96,27 @@ export default function CreateCardPage() {
           </Grid2>
         </Grid2>
       )}
+      <Notification
+        open={deleteStatus === MutationStatusEnum.ERROR}
+        message="Failed to delete card, something went wrong"
+        severity="error"
+      />
+      <Notification
+        open={
+          updateStatus === MutationStatusEnum.ERROR &&
+          deleteStatus !== MutationStatusEnum.ERROR
+        }
+        message={getErrorMessage(errorCode)!}
+        severity="error"
+      />
+      <Notification
+        open={
+          updateStatus === MutationStatusEnum.SUCCESS &&
+          deleteStatus !== MutationStatusEnum.ERROR
+        }
+        message="Card updated successfully"
+        severity="success"
+      />
     </>
   );
 }
