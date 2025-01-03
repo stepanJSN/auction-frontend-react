@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import FormSelect from '../../components/FormSelect';
 import FormSwitch from '../../components/FormSwitch';
@@ -9,7 +9,7 @@ import { locationsService } from '../../services/locationsService';
 import { ILocation } from '../../types/locations.interfaces';
 import { IEpisode } from '../../types/episodes.interfaces';
 import { Gender } from '../../enums/gender.enum';
-import { ICreateCard } from '../../types/cards.interface';
+import { ICard, ICreateCard } from '../../types/cards.interface';
 import EpisodesListForm from './EpisodesListForm';
 
 export interface ICreateCardFrom {
@@ -22,8 +22,9 @@ export interface ICreateCardFrom {
 }
 
 type ManageCardFormProps = {
+  data?: ICard;
   onSubmit: (data: ICreateCard) => void;
-  isPending: boolean;
+  actions: React.ReactNode;
 };
 
 const stringLength = {
@@ -36,28 +37,43 @@ const genderOptions = [
   { value: 'female', label: 'Female' },
 ];
 
-const formOptions = {
-  defaultValues: {
-    episodesId: [
-      {
-        id: 0,
-        name: '',
-        code: '',
-      },
-    ],
-  },
-};
-
 const formContainerStyles = {
   width: '100%',
 };
 
 export default function ManageCardForm({
   onSubmit,
-  isPending,
+  actions,
+  data,
 }: ManageCardFormProps) {
-  const { control, handleSubmit, setError } =
-    useForm<ICreateCardFrom>(formOptions);
+  const { control, handleSubmit, setError } = useForm<ICreateCardFrom>(
+    useMemo(
+      () => ({
+        defaultValues: {
+          episodesId: data?.episodes || [
+            {
+              id: 0,
+              name: '',
+              code: '',
+            },
+          ],
+          name: data?.name,
+          type: data?.type,
+          gender: data?.gender,
+          isActive: data?.is_active,
+          locationId: data?.location,
+        },
+      }),
+      [
+        data?.episodes,
+        data?.gender,
+        data?.is_active,
+        data?.location,
+        data?.name,
+        data?.type,
+      ],
+    ),
+  );
 
   const searchLocationFunc = useCallback(
     (searchValue: string) => locationsService.getAll({ name: searchValue }),
@@ -102,7 +118,6 @@ export default function ManageCardForm({
         name="type"
         label="Type"
         control={control}
-        required
         errorText="The type must be between 2 and 15 characters long"
         length={stringLength}
       />
@@ -131,9 +146,7 @@ export default function ManageCardForm({
         errorText="Please select a location"
       />
       <EpisodesListForm control={control} />
-      <Button type="submit" variant="contained" disabled={isPending}>
-        {isPending ? 'Creating...' : 'Create'}
-      </Button>
+      {actions}
     </Stack>
   );
 }

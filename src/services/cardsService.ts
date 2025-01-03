@@ -37,4 +37,25 @@ export const cardsService = {
     });
     return card.data;
   },
+
+  update: async (id: string, data: ICreateCard, image?: Blob) => {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    if (data.type) formData.append('type', data.type);
+    formData.append('gender', data.gender);
+    formData.append('isActive', data.isActive.toString());
+    formData.append('locationId', data.locationId.toString());
+    formData.append('episodesId', JSON.stringify(data.episodesId));
+    if (image) formData.append('image', image);
+    const card = await apiWithAuth.patch<ICard>(`/cards/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return card.data;
+  },
+
+  delete: async (id: string) => {
+    await apiWithAuth.delete(`/cards/${id}`);
+  },
 };

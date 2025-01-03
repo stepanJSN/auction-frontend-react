@@ -1,10 +1,18 @@
-import { Alert, Grid2, GridSize, SxProps, Typography } from '@mui/material';
+import { useMemo } from 'react';
+import {
+  Alert,
+  Button,
+  Grid2,
+  GridSize,
+  SxProps,
+  Typography,
+} from '@mui/material';
 import ImageUpload from '../components/ImageUpload/ImageUpload';
 import useImage from '../hooks/useImage';
 import ManageCardForm from '../features/cards/ManageCardForm';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
-import { createCardErrorMessages } from '../features/cards/createImageErrorMessages';
+import { createCardErrorMessages } from '../features/cards/createCardErrorMessages';
 import useCreateCard from '../features/cards/useCreateCard';
 
 const alertStyles: SxProps = {
@@ -30,6 +38,17 @@ export default function CreateCardPage() {
     image?.image,
   );
 
+  const actions = useMemo(
+    () => (
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={status === MutationStatusEnum.PENDING}>
+        {status === MutationStatusEnum.PENDING ? 'Creating...' : 'Create'}
+      </Button>
+    ),
+    [status],
+  );
   return (
     <>
       <Typography variant="h4" gutterBottom>
@@ -62,10 +81,7 @@ export default function CreateCardPage() {
           />
         </Grid2>
         <Grid2 size="grow">
-          <ManageCardForm
-            onSubmit={handleSubmit}
-            isPending={status === MutationStatusEnum.PENDING}
-          />
+          <ManageCardForm onSubmit={handleSubmit} actions={actions} />
         </Grid2>
       </Grid2>
     </>

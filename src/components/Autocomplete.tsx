@@ -39,7 +39,8 @@ export default function Autocomplete<T>({
   const { data, status } = useQuery({
     requestFn: searchFunc,
     params: searchValue,
-    autoFetch: searchValue.length >= startFromLetter,
+    autoFetch:
+      searchValue.length >= startFromLetter && searchValue !== getLabel(value),
   });
 
   const handleChange = useCallback(
