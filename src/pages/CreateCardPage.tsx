@@ -35,6 +35,12 @@ export default function CreateCardPage() {
       <Typography variant="h4" gutterBottom>
         Create Card
       </Typography>
+      {status !== MutationStatusEnum.ERROR &&
+        status !== MutationStatusEnum.SUCCESS && (
+          <Alert severity="info" sx={alertStyles}>
+            Note: you can create a card only if all cards from api were sold
+          </Alert>
+        )}
       {status === MutationStatusEnum.ERROR && (
         <Alert severity="error" sx={alertStyles}>
           {getErrorMessage(errorCode)}
