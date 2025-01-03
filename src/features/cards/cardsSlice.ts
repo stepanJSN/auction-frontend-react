@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store';
 
 export interface CardsState {
   cards: {
-    [page: number]: ICardSummary[];
+    [page: number]: ICardSummary[] | null;
   };
   totalPages: number;
   currentPage: number;
@@ -48,7 +48,7 @@ export const cardsSlice = createSlice({
     },
 
     resetLastPage: (state) => {
-      state.cards[state.totalPages] = [];
+      state.cards[state.totalPages] = null;
     },
   },
 });

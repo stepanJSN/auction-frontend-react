@@ -33,7 +33,7 @@ export default function AllCardsPage() {
       <FaqHeader currentPage={ROUTES.CARDS} />
       {status === QueryStatusEnum.ERROR && <PageError />}
       {status === QueryStatusEnum.LOADING && <PageLoader />}
-      {status === QueryStatusEnum.SUCCESS && cards.length !== 0 && (
+      {status === QueryStatusEnum.SUCCESS && cards && cards.length !== 0 && (
         <>
           <Grid2 container spacing={2}>
             {cards.map((card) => (
@@ -58,7 +58,7 @@ export default function AllCardsPage() {
           />
         </>
       )}
-      {status === QueryStatusEnum.SUCCESS && cards.length === 0 && (
+      {status === QueryStatusEnum.SUCCESS && cards && cards.length === 0 && (
         <Typography variant="h5" gutterBottom>
           There are no active cards
         </Typography>

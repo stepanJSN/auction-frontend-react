@@ -1,4 +1,4 @@
-import { Alert, Grid2, SxProps, Typography } from '@mui/material';
+import { Alert, Grid2, GridSize, SxProps, Typography } from '@mui/material';
 import ImageUpload from '../components/ImageUpload/ImageUpload';
 import useImage from '../hooks/useImage';
 import ManageCardForm from '../features/cards/ManageCardForm';
@@ -12,7 +12,13 @@ const alertStyles: SxProps = {
 };
 
 const imageContainerStyles: SxProps = {
+  minWidth: '250px',
   height: '300px',
+};
+
+const imageBreakpoints: Record<string, GridSize> = {
+  xs: 12,
+  sm: 'auto',
 };
 
 export default function CreateCardPage() {
@@ -40,7 +46,7 @@ export default function CreateCardPage() {
         </Alert>
       )}
       <Grid2 container spacing={3}>
-        <Grid2 size={3} sx={imageContainerStyles}>
+        <Grid2 size={imageBreakpoints} sx={imageContainerStyles}>
           <ImageUpload
             imageUrl={image?.url}
             handleDelete={handleDelete}

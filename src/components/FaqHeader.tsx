@@ -7,9 +7,8 @@ import {
   Button,
 } from '@mui/material';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ROUTES } from '../config/routesConfig';
-import Link from './Link';
 
 type FaqHeaderProps = {
   currentPage: string;
