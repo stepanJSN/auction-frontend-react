@@ -50,6 +50,10 @@ export const cardsSlice = createSlice({
     resetLastPage: (state) => {
       state.cards[state.totalPages] = null;
     },
+
+    resetCurrentPage: (state) => {
+      state.cards[state.currentPage] = null;
+    },
   },
 });
 
@@ -59,6 +63,7 @@ export const {
   getCardsError,
   changeCardsPage,
   resetLastPage,
+  resetCurrentPage,
 } = cardsSlice.actions;
 export const selectCards = createSelector(
   (state: RootState) => state.cards,
