@@ -28,7 +28,7 @@ export const cardsService = {
     formData.append('gender', data.gender);
     formData.append('isActive', data.isActive.toString());
     formData.append('locationId', data.locationId.toString());
-    formData.append('episodesIds', data.episodesIds.join(','));
+    formData.append('episodesId', JSON.stringify(data.episodesId));
     formData.append('image', image);
     const card = await apiWithAuth.post<ICard>('/cards', formData, {
       headers: {

@@ -62,7 +62,7 @@ export default function Autocomplete<T>({
         {...params}
         label={label}
         error={isError}
-        helperText={errorText}
+        helperText={isError ? errorText : null}
       />
     ),
     [errorText, isError, label],
