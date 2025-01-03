@@ -37,6 +37,7 @@ const imgContainerStyles: SxProps = {
   alignSelf: 'stretch',
   minHeight: 200,
   minWidth: 200,
+  maxHeight: 450,
 };
 const cardTitleStyles: SxProps = {
   typography: 'h4',
