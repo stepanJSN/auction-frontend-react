@@ -2,7 +2,8 @@ import { Button, CircularProgress, styled, SxProps } from '@mui/material';
 
 type UploadButtonProps = {
   handleUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  loading: boolean;
+  isLoading: boolean;
+  isError: boolean;
 };
 
 const VisuallyHiddenInput = styled('input')({
@@ -24,18 +25,19 @@ const buttonStyles: SxProps = {
 
 export default function UploadButton({
   handleUpload,
-  loading,
+  isLoading,
+  isError,
 }: UploadButtonProps) {
   return (
     <>
       <Button
         component="label"
-        role={undefined}
         variant="outlined"
         tabIndex={-1}
-        disabled={loading}
+        disabled={isLoading}
+        color={isError ? 'error' : 'primary'}
         sx={buttonStyles}>
-        {loading ? <CircularProgress /> : 'Upload image'}
+        {isLoading ? <CircularProgress /> : 'Upload image'}
         <VisuallyHiddenInput
           type="file"
           onChange={handleUpload}

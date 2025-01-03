@@ -1,9 +1,10 @@
-import { Box, IconButton, SxProps } from '@mui/material';
+import { Box, IconButton, SxProps, Typography } from '@mui/material';
 import UploadButton from './UploadButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type ImageUploadProps = {
   isPending: boolean;
+  isError: boolean;
   handleUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleDelete: () => void;
   imageUrl?: string;
@@ -27,6 +28,7 @@ export default function ImageUpload({
   handleUpload,
   handleDelete,
   imageUrl,
+  isError,
 }: ImageUploadProps) {
   return (
     <>
@@ -35,13 +37,25 @@ export default function ImageUpload({
           <IconButton
             color="error"
             onClick={handleDelete}
-            sx={deleteButtonStyles}>
+            sx={deleteButtonStyles}
+            disabled={isPending}>
             <DeleteIcon />
           </IconButton>
           <img src={imageUrl} alt="uploaded" />
         </Box>
       ) : (
-        <UploadButton loading={isPending} handleUpload={handleUpload} />
+        <>
+          <UploadButton
+            isLoading={isPending}
+            handleUpload={handleUpload}
+            isError={isError}
+          />
+          {isError && (
+            <Typography color="error" variant="subtitle2">
+              Image is required
+            </Typography>
+          )}
+        </>
       )}
     </>
   );
