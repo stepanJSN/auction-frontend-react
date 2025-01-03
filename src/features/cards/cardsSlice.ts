@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store';
 
 export interface CardsState {
   cards: {
-    [page: number]: ICardSummary[];
+    [page: number]: ICardSummary[] | null;
   };
   totalPages: number;
   currentPage: number;
@@ -46,11 +46,20 @@ export const cardsSlice = createSlice({
     getCardsError: (state) => {
       state.status = QueryStatusEnum.ERROR;
     },
+
+    resetLastPage: (state) => {
+      state.cards[state.totalPages] = null;
+    },
   },
 });
 
-export const { getCards, getCardsSuccess, getCardsError, changeCardsPage } =
-  cardsSlice.actions;
+export const {
+  getCards,
+  getCardsSuccess,
+  getCardsError,
+  changeCardsPage,
+  resetLastPage,
+} = cardsSlice.actions;
 export const selectCards = createSelector(
   (state: RootState) => state.cards,
   (cards) => ({

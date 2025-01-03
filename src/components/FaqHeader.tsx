@@ -4,9 +4,10 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   SxProps,
+  Button,
 } from '@mui/material';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ROUTES } from '../config/routesConfig';
 
 type FaqHeaderProps = {
@@ -15,6 +16,7 @@ type FaqHeaderProps = {
 
 const containerStyles: SxProps = {
   mb: 2,
+  alignItems: 'center',
 };
 
 export default function FaqHeader({ currentPage }: FaqHeaderProps) {
@@ -39,6 +41,9 @@ export default function FaqHeader({ currentPage }: FaqHeaderProps) {
         <ToggleButton value={ROUTES.CARDS}>Cards</ToggleButton>
         <ToggleButton value={ROUTES.SETS}>Sets</ToggleButton>
       </ToggleButtonGroup>
+      <Button component={Link} to={ROUTES.CREATE_CARD} variant="outlined">
+        Create card
+      </Button>
     </Stack>
   );
 }

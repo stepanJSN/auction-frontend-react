@@ -3,11 +3,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { ErrorCodesEnum } from '../enums/errorCodes.enum';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 
-export default function useQuery<T, R = unknown>(
-  requestFn: (data: T) => Promise<R>,
-  params: T,
-  autoFetch: boolean = true,
-) {
+export default function useQuery<T, R = unknown>({
+  requestFn,
+  params,
+  autoFetch = true,
+}: {
+  requestFn: (data: T) => Promise<R>;
+  params: T;
+  autoFetch: boolean;
+}) {
   const [status, setStatus] = useState<QueryStatusEnum>(QueryStatusEnum.IDLE);
   const [errorCode, setErrorCode] = useState<ErrorCodesEnum | null>(null);
   const [data, setData] = useState<R | null>(null);
