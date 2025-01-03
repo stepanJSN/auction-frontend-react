@@ -21,7 +21,6 @@ export default function useDeleteCard(cardId?: string) {
   }, [cardId, dispatch, mutate]);
 
   useEffect(() => {
-    console.log(status);
     if (status === MutationStatusEnum.SUCCESS) {
       navigate(-1);
     }
