@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import { ICreateLocation } from '../../types/locations.interfaces';
+import { useEffect } from 'react';
 
 const fieldValueLength = {
   min: 2,
@@ -10,14 +11,22 @@ const fieldValueLength = {
 
 type CreateLocationFormProps = {
   isLoading: boolean;
+  isSuccess: boolean;
   onSubmit: (data: ICreateLocation) => void;
 };
 
 export default function CreateLocationForm({
   isLoading,
+  isSuccess,
   onSubmit,
 }: CreateLocationFormProps) {
-  const { control, handleSubmit } = useForm<ICreateLocation>();
+  const { control, handleSubmit, reset } = useForm<ICreateLocation>();
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+    }
+  }, [isSuccess, reset]);
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -31,12 +40,11 @@ export default function CreateLocationForm({
       />
       <FormInput
         name="type"
-        label="Password"
+        label="Type"
         control={control}
         errorText="The type must be between 2 and 15 characters long"
         length={fieldValueLength}
         required
-        type="password"
       />
       <Button variant="contained" fullWidth disabled={isLoading} type="submit">
         {isLoading ? 'Creating...' : 'Create'}

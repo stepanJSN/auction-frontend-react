@@ -3,6 +3,7 @@ import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { RootState } from '../../redux/store';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 import {
+  ICreateLocation,
   IGetLocationsResponse,
   ILocation,
 } from '../../types/locations.interfaces';
@@ -79,7 +80,7 @@ export const locationsSlice = createSlice({
       state.status = QueryStatusEnum.ERROR;
     },
 
-    createLocation: (state, _action: PayloadAction<ILocation>) => {
+    createLocation: (state, _action: PayloadAction<ICreateLocation>) => {
       state.creationStatus = MutationStatusEnum.PENDING;
     },
 
@@ -177,9 +178,17 @@ export const selectLocations = createSelector(
 
 export const selectLocationsSearchParams = createSelector(
   (state: RootState) => state.locations,
-  (users) => ({
-    locationName: users.locationName,
-    currentPage: users.currentPage,
+  (locations) => ({
+    locationName: locations.locationName,
+    currentPage: locations.currentPage,
+  }),
+);
+
+export const selectLocationCreationStatus = createSelector(
+  (state: RootState) => state.locations,
+  (locations) => ({
+    creationStatus: locations.creationStatus,
+    errorCode: locations.creationErrorCode,
   }),
 );
 

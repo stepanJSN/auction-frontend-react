@@ -67,8 +67,11 @@ function* filterLocationsByNameSaga(action: PayloadAction<string>) {
 
 function* createLocationSaga(action: PayloadAction<ILocation>) {
   try {
-    yield call(locationsService.create, action.payload);
-    yield put(createLocationSuccess(action.payload));
+    const location: ILocation = yield call(
+      locationsService.create,
+      action.payload,
+    );
+    yield put(createLocationSuccess(location));
   } catch (error) {
     yield put(
       createLocationError(

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import CloseIcon from '@mui/icons-material/Close';
 
 type ModalPageProps = {
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   children: React.ReactNode;
 };
 
@@ -14,15 +15,18 @@ const closeIconStyles: SxProps = {
   backgroundColor: 'common.white',
 };
 
-export default function ModalPage({ children }: ModalPageProps) {
+export default function ModalPage({
+  children,
+  maxWidth = 'lg',
+}: ModalPageProps) {
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
-    navigate(-1);
+    navigate('../');
   }, [navigate]);
 
   return (
-    <Dialog open maxWidth="lg" onClose={handleClose}>
+    <Dialog open maxWidth={maxWidth} onClose={handleClose}>
       <IconButton onClick={handleClose} aria-label="close" sx={closeIconStyles}>
         <CloseIcon />
       </IconButton>

@@ -2,10 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Role } from '../../enums/role.enum';
-import {
-  ISingInRequest,
-  ISingInResponse,
-} from '../../types/auth.interfaces';
+import { ISingInRequest, ISingInResponse } from '../../types/auth.interfaces';
 import { RootState } from '../../redux/store';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 

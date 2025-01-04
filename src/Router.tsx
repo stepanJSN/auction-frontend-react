@@ -13,6 +13,7 @@ import UsersPage from './pages/UsersPage';
 import CreateCardPage from './pages/CreateCardPage';
 import EditCardPage from './pages/EditCardPage';
 import LocationsPage from './pages/LocationPage';
+import CreateLocationPage from './pages/CreateLocationPage';
 
 export default function Router() {
   return (
@@ -37,7 +38,9 @@ export default function Router() {
           </Route>
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/users" element={<UsersPage />} />
-          <Route path="/locations" element={<LocationsPage />} />
+          <Route path="/locations" element={<LocationsPage />}>
+            <Route path="/locations/create" element={<CreateLocationPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
