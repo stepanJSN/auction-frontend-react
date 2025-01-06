@@ -15,6 +15,9 @@ import EditCardPage from './pages/EditCardPage';
 import LocationsPage from './pages/LocationsPage';
 import CreateLocationPage from './pages/CreateLocationPage';
 import EditLocationPage from './pages/EditLocationPage';
+import EpisodesPage from './pages/EpisodesPage';
+import CreateEpisodePage from './pages/CreateEpisodePage';
+import EditEpisodePage from './pages/EditEpisodePage';
 
 export default function Router() {
   return (
@@ -44,6 +47,13 @@ export default function Router() {
             <Route
               path="/locations/edit/:locationId"
               element={<EditLocationPage />}
+            />
+          </Route>
+          <Route path="/episodes" element={<EpisodesPage />}>
+            <Route path="/episodes/create" element={<CreateEpisodePage />} />
+            <Route
+              path="/episodes/edit/:episodeId"
+              element={<EditEpisodePage />}
             />
           </Route>
         </Route>
