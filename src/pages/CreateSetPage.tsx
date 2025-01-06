@@ -3,6 +3,7 @@ import SetForm from '../features/sets/SetForm';
 import { useMemo } from 'react';
 import useCreateSet from '../features/sets/useCreateSet';
 import { MutationStatusEnum } from '../enums/mutationStatus';
+import { Outlet } from 'react-router';
 
 export default function CreateSetPage() {
   const { status, handleSubmit } = useCreateSet();
@@ -38,6 +39,7 @@ export default function CreateSetPage() {
         <Alert severity="success">Set created successfully</Alert>
       )}
       <SetForm onSubmit={handleSubmit} actions={actions} />
+      <Outlet />
     </>
   );
 }
