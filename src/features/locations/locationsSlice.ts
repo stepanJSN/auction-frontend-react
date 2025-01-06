@@ -13,6 +13,7 @@ export interface LocationsState {
     data: ILocation;
     updateStatus: MutationStatusEnum;
     deleteStatus: MutationStatusEnum;
+    errorCode: number | null;
   }[];
   totalPages: number;
   currentPage: number;
@@ -69,6 +70,7 @@ export const locationsSlice = createSlice({
             data: location,
             updateStatus: MutationStatusEnum.IDLE,
             deleteStatus: MutationStatusEnum.IDLE,
+            errorCode: null,
           })),
         );
         state.currentPage += 1;
@@ -89,6 +91,7 @@ export const locationsSlice = createSlice({
         data: action.payload,
         updateStatus: MutationStatusEnum.IDLE,
         deleteStatus: MutationStatusEnum.IDLE,
+        errorCode: null,
       });
       state.creationStatus = MutationStatusEnum.SUCCESS;
     },
@@ -135,14 +138,19 @@ export const locationsSlice = createSlice({
       state.locations[locationIndex].updateStatus = MutationStatusEnum.SUCCESS;
     },
 
-    updateLocationError: (state, action: PayloadAction<number>) => {
-      const locationIndex = findLocationIndex(state, action.payload);
+    updateLocationError: (
+      state,
+      action: PayloadAction<{ id: number; errorCode: number }>,
+    ) => {
+      const locationIndex = findLocationIndex(state, action.payload.id);
       state.locations[locationIndex].updateStatus = MutationStatusEnum.ERROR;
+      state.locations[locationIndex].errorCode = action.payload.errorCode;
     },
 
     resetUpdateLocationStatus: (state, action: PayloadAction<number>) => {
       const locationIndex = findLocationIndex(state, action.payload);
       state.locations[locationIndex].updateStatus = MutationStatusEnum.IDLE;
+      state.locations[locationIndex].errorCode = null;
     },
   },
 });
@@ -190,6 +198,15 @@ export const selectLocationCreationStatus = createSelector(
     creationStatus: locations.creationStatus,
     errorCode: locations.creationErrorCode,
   }),
+);
+
+export const selectLocationById = createSelector(
+  [
+    (state: RootState) => state.locations,
+    (_: RootState, locationId: string | number) => +locationId,
+  ],
+  (locations, locationId: number) =>
+    locations.locations.find((location) => location.data.id === locationId),
 );
 
 export default locationsSlice.reducer;

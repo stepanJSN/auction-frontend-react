@@ -12,4 +12,10 @@ export const ROUTES = {
   STATISTICS: '/statistics',
   USERS: '/users',
   TRANSACTIONS: '/transactions',
+  LOCATIONS: '/locations',
+  CREATE_LOCATION: '/locations/create',
+  EDIT_LOCATION: '/locations/edit/:locationId',
+  EPISODES: '/episodes',
+  CREATE_EPISODE: '/episodes/create',
+  EDIT_EPISODE: '/episodes/edit/:episodeId',
 };

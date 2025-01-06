@@ -78,6 +78,7 @@ function* createLocationSaga(action: PayloadAction<ILocation>) {
         (error as AxiosError).status || ErrorCodesEnum.ServerError,
       ),
     );
+  } finally {
     yield delay(NOTIFICATION_TIMEOUT);
     yield put(resetCreateLocationStatus());
   }
@@ -99,7 +100,13 @@ function* updateLocationSaga(action: PayloadAction<ILocation>) {
     yield call(locationsService.update, action.payload.id, action.payload);
     yield put(updateLocationSuccess(action.payload));
   } catch (error) {
-    yield put(updateLocationError(action.payload.id));
+    yield put(
+      updateLocationError({
+        id: action.payload.id,
+        errorCode: (error as AxiosError).status || ErrorCodesEnum.ServerError,
+      }),
+    );
+  } finally {
     yield delay(NOTIFICATION_TIMEOUT);
     yield put(resetUpdateLocationStatus(action.payload.id));
   }
