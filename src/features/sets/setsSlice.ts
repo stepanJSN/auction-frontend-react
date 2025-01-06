@@ -5,7 +5,7 @@ import { IGetSetsResponse, ISet } from '../../types/sets.interface';
 
 export interface SetsState {
   sets: {
-    [page: number]: ISet[];
+    [page: number]: ISet[] | null;
   };
   totalPages: number;
   currentPage: number;
@@ -42,11 +42,25 @@ export const setsSlice = createSlice({
     getSetsError: (state) => {
       state.status = QueryStatusEnum.ERROR;
     },
+
+    resetLastPage: (state) => {
+      state.sets[state.totalPages] = null;
+    },
+
+    resetCurrentPage: (state) => {
+      state.sets[state.currentPage] = null;
+    },
   },
 });
 
-export const { getSets, getSetsSuccess, getSetsError, changeSetsPage } =
-  setsSlice.actions;
+export const {
+  getSets,
+  getSetsSuccess,
+  getSetsError,
+  changeSetsPage,
+  resetCurrentPage,
+  resetLastPage,
+} = setsSlice.actions;
 export const selectSets = createSelector(
   (state: RootState) => state.sets,
   (sets) => ({
