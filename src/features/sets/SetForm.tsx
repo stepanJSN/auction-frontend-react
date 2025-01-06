@@ -24,6 +24,9 @@ const stringLength = {
 };
 
 const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
+const inputColumnsNumber = { xs: 12, sm: 6 };
+
+const formSpacing = { xs: 0, sm: 1 };
 
 export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
   const { control, handleSubmit } = useForm<
@@ -71,11 +74,11 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
   return (
     <Grid2
       container
-      spacing={1}
+      spacing={formSpacing}
       component="form"
       onSubmit={handleSubmit(handleSubmitWithTransformation)}
       sx={formContainerStyles}>
-      <Grid2 size={6}>
+      <Grid2 size={inputColumnsNumber}>
         <FormInput
           name="name"
           label="Name"
@@ -85,7 +88,7 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
           length={stringLength}
         />
       </Grid2>
-      <Grid2 size={6}>
+      <Grid2 size={inputColumnsNumber}>
         <FormInput
           name="bonus"
           label="Bonus"
