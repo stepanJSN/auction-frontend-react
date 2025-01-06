@@ -59,7 +59,10 @@ export default function LocationsTableRow({
             direction="row"
             spacing={1}
             sx={buttonsContainerStyles}>
-            <Button variant="outlined" component={Link} to={`./${location.id}`}>
+            <Button
+              variant="outlined"
+              component={Link}
+              to={`./edit/${location.id}`}>
               {matches ? 'Edit' : <EditIcon />}
             </Button>
             <Button

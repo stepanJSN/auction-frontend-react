@@ -10,14 +10,14 @@ import { useCallback, useMemo } from 'react';
 import { ICreateLocation } from '../types/locations.interfaces';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
-import { createLocationErrorMessages } from '../features/locations/createLocationErrorMessages';
+import { locationErrorMessages } from '../features/locations/locationErrorMessages';
 
 export default function CreateLocationPage() {
   const { errorCode, creationStatus } = useSelector(
     selectLocationCreationStatus,
   );
   const dispatch = useDispatch();
-  const getErrorMessage = useErrorMessage(createLocationErrorMessages);
+  const getErrorMessage = useErrorMessage(locationErrorMessages);
 
   const handleCreate = useCallback(
     (data: ICreateLocation) => {
