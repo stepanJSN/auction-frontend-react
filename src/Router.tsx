@@ -12,9 +12,8 @@ import Transactions from './pages/Transactions';
 import UsersPage from './pages/UsersPage';
 import CreateCardPage from './pages/CreateCardPage';
 import EditCardPage from './pages/EditCardPage';
-import LocationsPage from './pages/LocationPage';
+import LocationsPage from './pages/LocationsPage';
 import CreateLocationPage from './pages/CreateLocationPage';
-import { Edit } from '@mui/icons-material';
 import EditLocationPage from './pages/EditLocationPage';
 
 export default function Router() {
