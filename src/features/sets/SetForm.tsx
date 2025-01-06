@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { Button, Grid2, Stack } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { ICreateSet, ISet } from '../../types/sets.interface';
@@ -63,7 +63,7 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
   ) => {
     onSubmit({
       name: data.name,
-      bonus: data.bonus,
+      bonus: +data.bonus,
       cardsId: data.cards.map((card) => card.id),
     });
   };
