@@ -9,6 +9,7 @@ export const ROUTES = {
   CARDS: '/cards',
   CREATE_CARD: '/create-card',
   SETS: '/sets',
+  CREATE_SET: '/sets/create',
   STATISTICS: '/statistics',
   USERS: '/users',
   TRANSACTIONS: '/transactions',
