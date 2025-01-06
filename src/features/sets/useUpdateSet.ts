@@ -12,7 +12,7 @@ export default function useUpdateSet(id?: string) {
       return setsService.update(data.id, data.setData);
     },
   );
-  const handleSubmit = useCallback(
+  const handleUpdate = useCallback(
     (data: ICreateSet) => {
       if (!id) return;
       mutate({ id: id, setData: data });
@@ -21,5 +21,5 @@ export default function useUpdateSet(id?: string) {
     [mutate, dispatch, id],
   );
 
-  return { handleSubmit, status, errorCode };
+  return { handleUpdate, status, errorCode };
 }
