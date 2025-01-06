@@ -16,11 +16,10 @@ function* getUserCardsSaga(action: PayloadAction<number>) {
     return;
   }
   try {
-    const userCards: IGetCardsResponse = yield call(
-      cardsService.getAll,
-      action.payload,
-      true,
-    );
+    const userCards: IGetCardsResponse = yield call(cardsService.getAll, {
+      page: action.payload,
+      onlyUserCards: true,
+    });
     yield put(getCardsSuccess(userCards));
   } catch {
     yield put(getCardsError());

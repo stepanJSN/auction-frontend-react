@@ -8,7 +8,7 @@ import {
 export const cardsService = {
   getAll: async ({
     page,
-    onlyUserCards,
+    onlyUserCards = false,
     name,
   }: {
     page: number;
