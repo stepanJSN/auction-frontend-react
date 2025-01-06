@@ -1,4 +1,4 @@
-import { TextField, Typography } from '@mui/material';
+import { Grid2, SxProps, TextField, Typography } from '@mui/material';
 import CardsGrid from '../../components/CardsGrid';
 import Pagination from '../../components/Pagination';
 import { useCallback } from 'react';
@@ -12,6 +12,14 @@ import useCardList from './useCardList';
 type CardsListProps = {
   cardsInSet: ICardSummary[];
   handleAddCard: (value: ICardSummary) => void;
+};
+
+const headerStyles: SxProps = {
+  mt: 2,
+  mb: 1,
+};
+const inputStyles: SxProps = {
+  mb: 1,
 };
 
 export default function CardsList({
@@ -34,19 +42,30 @@ export default function CardsList({
 
   return (
     <>
-      <Typography variant="h4">Cards List</Typography>
-      <TextField label="Card Name" onChange={handleFilterChange} size="small" />
+      <Typography variant="h5" sx={headerStyles}>
+        Cards List
+      </Typography>
+      <TextField
+        label="Card Name"
+        onChange={handleFilterChange}
+        size="small"
+        fullWidth
+        sx={inputStyles}
+      />
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.ERROR && <PageError />}
-      {status === QueryStatusEnum.SUCCESS && data && (
+      {status === QueryStatusEnum.SUCCESS && data?.data.length !== 0 && (
         <>
-          <CardsGrid cards={data.data} cardActions={cardActions} />
+          <CardsGrid cards={data!.data} cardActions={cardActions} />
           <Pagination
             currentPage={page}
-            totalPages={data.info.totalPages}
+            totalPages={data!.info.totalPages}
             handleChange={handlePageChange}
           />
         </>
+      )}
+      {status === QueryStatusEnum.SUCCESS && data && data.data.length === 0 && (
+        <Typography variant="h6">No cards found</Typography>
       )}
     </>
   );
