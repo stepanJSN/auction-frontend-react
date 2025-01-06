@@ -28,7 +28,7 @@ export default function SetsPage() {
       <FaqHeader currentPage={ROUTES.SETS} />
       {status === QueryStatusEnum.ERROR && <PageError />}
       {status === QueryStatusEnum.LOADING && <PageLoader />}
-      {status === QueryStatusEnum.SUCCESS && sets.length !== 0 && (
+      {status === QueryStatusEnum.SUCCESS && sets && sets.length !== 0 && (
         <>
           <Stack spacing={2}>
             {sets.map((set) => (
@@ -42,7 +42,7 @@ export default function SetsPage() {
           />
         </>
       )}
-      {status === QueryStatusEnum.SUCCESS && sets.length === 0 && (
+      {status === QueryStatusEnum.SUCCESS && sets && sets.length === 0 && (
         <Typography variant="h5" gutterBottom>
           There are no sets available
         </Typography>

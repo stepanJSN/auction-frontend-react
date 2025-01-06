@@ -1,4 +1,4 @@
-import { Grid2, SxProps, TextField, Typography } from '@mui/material';
+import { SxProps, TextField, Typography } from '@mui/material';
 import CardsGrid from '../../components/CardsGrid';
 import Pagination from '../../components/Pagination';
 import { useCallback } from 'react';
