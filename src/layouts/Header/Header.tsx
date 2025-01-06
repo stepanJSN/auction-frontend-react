@@ -25,7 +25,7 @@ import useMenu from './useMenu';
 const HeaderStyled = styled(Grid2)<Grid2Props>(({ theme }) => ({
   position: 'relative',
   padding: theme.spacing(1, 0),
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up('lg')]: {
     padding: theme.spacing(0),
   },
 }));
@@ -52,7 +52,7 @@ export default function Header() {
   const { anchorMenuEl, isMenuOpen, handleMenuClick, handleMenuClose } =
     useMenu();
   const theme = useTheme();
-  const isBigScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const isBigScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
   const menuItems = useMemo(
     () => (role === Role.USER ? userMenu : adminMenu),
@@ -67,10 +67,10 @@ export default function Header() {
         alignItems="center"
         spacing={2}>
         <Grid2 {...logoGridStyles}>
-          <Typography sx={logoStyles}>Rick and Morty cards auction</Typography>
+          <Typography sx={logoStyles}>Rick & Morty cards</Typography>
         </Grid2>
         {isBigScreen && (
-          <Grid2 size={5}>
+          <Grid2 size={8}>
             <Menu menuItems={menuItems} />
           </Grid2>
         )}

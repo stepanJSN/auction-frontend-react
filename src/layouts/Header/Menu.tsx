@@ -11,14 +11,14 @@ type MenuProps = {
 const listStyles: SxProps = {
   display: {
     xs: 'block',
-    md: 'flex',
+    lg: 'flex',
   },
 };
 
 const itemStyles: SxProps = {
   justifyContent: {
     xs: 'initial',
-    md: 'center',
+    lg: 'center',
   },
 };
 
