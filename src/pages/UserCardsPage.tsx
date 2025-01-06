@@ -4,8 +4,7 @@ import {
   getCards,
   selectUserCards,
 } from '../features/userCards/userCardsSlice';
-import { Button, Grid2, Typography } from '@mui/material';
-import Card from '../components/Card';
+import { Button, Typography } from '@mui/material';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
@@ -13,8 +12,8 @@ import PageError from '../components/PageError';
 import { Outlet } from 'react-router';
 import NoCards from '../features/userCards/NoCards';
 import usePaginatedData from '../hooks/usePaginatedData';
-
-const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
+import CardsGrid from '../components/CardsGrid';
+import { useCallback } from 'react';
 
 export default function UserCardsPage() {
   const { status, cards, currentPage, totalPages } =
@@ -23,6 +22,17 @@ export default function UserCardsPage() {
     currentPage,
     getCards,
     changeUserCardsPage,
+  );
+
+  const cardActions = useCallback(
+    () => (
+      <>
+        <Button size="small" color="success">
+          Sell
+        </Button>
+      </>
+    ),
+    [],
   );
 
   return (
@@ -34,17 +44,7 @@ export default function UserCardsPage() {
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.SUCCESS && cards.length !== 0 && (
         <>
-          <Grid2 container spacing={2}>
-            {cards.map((card) => (
-              <Grid2 size={cardColumnsNumber} key={card.id}>
-                <Card {...card}>
-                  <Button size="small" color="success">
-                    Sell
-                  </Button>
-                </Card>
-              </Grid2>
-            ))}
-          </Grid2>
+          <CardsGrid cards={cards} cardActions={cardActions} />
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}
