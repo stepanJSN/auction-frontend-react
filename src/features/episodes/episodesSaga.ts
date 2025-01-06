@@ -11,7 +11,9 @@ import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
 import {
   createEpisode,
+  createEpisodeError,
   createEpisodeSuccess,
+  deleteEpisode,
   deleteEpisodeError,
   deleteEpisodeSuccess,
   filterEpisodesByName,
@@ -22,6 +24,7 @@ import {
   resetDeleteEpisodeStatus,
   resetUpdateEpisodeStatus,
   selectEpisodesSearchParams,
+  updateEpisode,
   updateEpisodeError,
   updateEpisodeSuccess,
 } from './episodesSlice';
@@ -30,11 +33,6 @@ import {
   IGetEpisodesResponse,
 } from '../../types/episodes.interfaces';
 import { episodesService } from '../../services/episodesService';
-import {
-  createLocationError,
-  deleteLocation,
-  updateLocation,
-} from '../locations/locationsSlice';
 
 const NOTIFICATION_TIMEOUT = 1500;
 
@@ -69,14 +67,14 @@ function* filterEpisodesByNameSaga(action: PayloadAction<string>) {
 
 function* createEpisodeSaga(action: PayloadAction<IEpisode>) {
   try {
-    const location: IEpisode = yield call(
+    const episode: IEpisode = yield call(
       episodesService.create,
       action.payload,
     );
-    yield put(createEpisodeSuccess(location));
+    yield put(createEpisodeSuccess(episode));
   } catch (error) {
     yield put(
-      createLocationError(
+      createEpisodeError(
         (error as AxiosError).status || ErrorCodesEnum.ServerError,
       ),
     );
@@ -118,6 +116,6 @@ export function* watchEpisodesSaga() {
   yield takeLatest(getEpisodes.type, getEpisodesSaga);
   yield takeLatest(filterEpisodesByName.type, filterEpisodesByNameSaga);
   yield takeEvery(createEpisode.type, createEpisodeSaga);
-  yield takeEvery(updateLocation.type, updateEpisodeSaga);
-  yield takeEvery(deleteLocation.type, deleteEpisodeSaga);
+  yield takeEvery(updateEpisode.type, updateEpisodeSaga);
+  yield takeEvery(deleteEpisode.type, deleteEpisodeSaga);
 }
