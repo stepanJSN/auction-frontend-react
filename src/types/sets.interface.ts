@@ -14,3 +14,9 @@ export interface IGetSetsResponse {
   data: ISet[];
   info: IPagination;
 }
+
+export interface ICreateSet {
+  name: string;
+  bonus: number;
+  cardsId: string[];
+}
