@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <MainContainer>
       <Typography textAlign="center" sx={typographyStyles}>
-        Rick and Morty cards auction | 2024
+        Rick & Morty cards | 2024
       </Typography>
     </MainContainer>
   );

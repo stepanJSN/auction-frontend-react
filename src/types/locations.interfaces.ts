@@ -10,3 +10,8 @@ export interface IGetLocationsResponse {
   data: ILocation[];
   info: IPagination;
 }
+
+export interface ICreateLocation {
+  name: string;
+  type: string;
+}

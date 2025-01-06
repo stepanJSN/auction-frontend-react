@@ -1,19 +1,10 @@
-import { useCallback } from 'react';
-import { Dialog, IconButton, SxProps } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import useQuery from '../hooks/useQuery';
 import { cardsService } from '../services/cardsService';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import CardData from '../features/card/CardData';
 import CardSkeleton from '../features/card/CardSkeleton';
-
-const closeIconStyles: SxProps = {
-  position: 'absolute',
-  top: 5,
-  right: 5,
-  backgroundColor: 'common.white',
-};
+import ModalPage from '../components/ModalPage';
 
 export default function CardPage() {
   const { cardId } = useParams();
@@ -22,17 +13,9 @@ export default function CardPage() {
     params: cardId!,
     autoFetch: true,
   });
-  const navigate = useNavigate();
-
-  const handleClose = useCallback(() => {
-    navigate(-1);
-  }, [navigate]);
 
   return (
-    <Dialog open maxWidth="lg" onClose={handleClose}>
-      <IconButton onClick={handleClose} aria-label="close" sx={closeIconStyles}>
-        <CloseIcon />
-      </IconButton>
+    <ModalPage>
       {status !== QueryStatusEnum.SUCCESS && (
         <CardSkeleton isError={status === QueryStatusEnum.ERROR} />
       )}
@@ -49,6 +32,6 @@ export default function CardPage() {
           isUserHaveThisCard={data!.is_owned}
         />
       )}
-    </Dialog>
+    </ModalPage>
   );
 }

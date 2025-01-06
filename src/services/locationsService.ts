@@ -1,5 +1,9 @@
 import { apiWithAuth } from '../apiConfig';
-import { IGetLocationsResponse } from '../types/locations.interfaces';
+import {
+  ICreateLocation,
+  IGetLocationsResponse,
+  ILocation,
+} from '../types/locations.interfaces';
 
 export const locationsService = {
   getAll: async ({ page = 1, name }: { page?: number; name?: string }) => {
@@ -13,5 +17,22 @@ export const locationsService = {
       },
     );
     return locations.data;
+  },
+
+  create: async (data: ICreateLocation) => {
+    const location = await apiWithAuth.post<ILocation>('/locations', data);
+    return location.data;
+  },
+
+  update: async (id: number, data: ILocation) => {
+    const location = await apiWithAuth.patch<ILocation>(
+      `/locations/${id}`,
+      data,
+    );
+    return location.data;
+  },
+
+  delete: async (id: number) => {
+    await apiWithAuth.delete(`/locations/${id}`);
   },
 };

@@ -13,5 +13,7 @@ export const adminMenu = [
   { label: 'Cards', path: ROUTES.CARDS },
   { label: 'Auctions', path: ROUTES.AUCTIONS },
   { label: 'Sets', path: ROUTES.SETS },
+  { label: 'Locations', path: ROUTES.LOCATIONS },
+  { label: 'Episodes', path: ROUTES.EPISODES },
   { label: 'Statistics', path: ROUTES.STATISTICS },
 ];

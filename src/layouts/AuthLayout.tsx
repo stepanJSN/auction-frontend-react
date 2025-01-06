@@ -22,7 +22,7 @@ export default function AuthLayout() {
   return (
     <Box sx={authContainerStyles}>
       <Typography variant="h4" sx={titleStyles}>
-        Rick and Morty cards auction
+        Rick & Morty cards
       </Typography>
       <Outlet />
     </Box>
