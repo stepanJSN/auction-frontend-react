@@ -10,3 +10,8 @@ export interface IGetEpisodesResponse {
   data: IEpisode[];
   info: IPagination;
 }
+
+export interface ICreateEpisode {
+  name: string;
+  code: string;
+}

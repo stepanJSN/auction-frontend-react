@@ -1,5 +1,9 @@
 import { apiWithAuth } from '../apiConfig';
-import { IGetEpisodesResponse } from '../types/episodes.interfaces';
+import {
+  ICreateEpisode,
+  IEpisode,
+  IGetEpisodesResponse,
+} from '../types/episodes.interfaces';
 
 export const episodesService = {
   getAll: async ({ page = 1, name }: { page?: number; name?: string }) => {
@@ -10,5 +14,19 @@ export const episodesService = {
       params,
     });
     return episodes.data;
+  },
+
+  create: async (data: ICreateEpisode) => {
+    const episode = await apiWithAuth.post<IEpisode>('/episodes', data);
+    return episode.data;
+  },
+
+  update: async (id: number, data: IEpisode) => {
+    const episode = await apiWithAuth.patch<IEpisode>(`/episodes/${id}`, data);
+    return episode.data;
+  },
+
+  delete: async (id: number) => {
+    await apiWithAuth.delete(`/episodes/${id}`);
   },
 };
