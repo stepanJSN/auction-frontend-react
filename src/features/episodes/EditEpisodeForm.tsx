@@ -3,11 +3,7 @@ import { Box, Button } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import { ICreateEpisode } from '../../types/episodes.interfaces';
-
-const fieldValueLength = {
-  min: 2,
-  max: 15,
-};
+import { textFieldValueLength } from '../../constants/textFieldValueLength';
 
 type EditEpisodeFormProps = {
   episode: ICreateEpisode;
@@ -38,7 +34,7 @@ export default function EditEpisodeForm({
         label="Name"
         control={control}
         errorText="The name must be between 2 and 15 characters long"
-        length={fieldValueLength}
+        length={textFieldValueLength}
         required
       />
       <FormInput
@@ -46,7 +42,7 @@ export default function EditEpisodeForm({
         label="Code"
         control={control}
         errorText="The code must be between 2 and 15 characters long"
-        length={fieldValueLength}
+        length={textFieldValueLength}
         required
       />
       <Button variant="contained" fullWidth disabled={isLoading} type="submit">

@@ -7,6 +7,7 @@ import Card from '../../components/Card';
 import CardsList from './CardsList';
 import { ICardSummary } from '../../types/cards.interface';
 import RemoveCardButton from './RemoveCardButton';
+import { textFieldValueLength } from '../../constants/textFieldValueLength';
 
 type SetFormProps = {
   data?: Pick<ISet, 'name' | 'bonus' | 'cards'>;
@@ -16,11 +17,6 @@ type SetFormProps = {
 
 const formContainerStyles = {
   width: '100%',
-};
-
-const stringLength = {
-  min: 2,
-  max: 15,
 };
 
 const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
@@ -85,7 +81,7 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
           control={control}
           errorText="The name must be between 2 and 15 characters long"
           required
-          length={stringLength}
+          length={textFieldValueLength}
         />
       </Grid2>
       <Grid2 size={inputColumnsNumber}>
