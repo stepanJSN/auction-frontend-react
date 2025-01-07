@@ -1,14 +1,18 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { getSets, getSetsError, getSetsSuccess } from './setsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { IGetSetsResponse } from '../../types/sets.interface';
 import { setsService } from '../../services/setsService';
+import { RootState } from '../../redux/store';
 
-function* getSetsSaga(action: PayloadAction<number>) {
+function* getSetsSaga(action: PayloadAction<number | undefined>) {
+  const currentPage: number = yield select(
+    (state: RootState) => state.sets.currentPage,
+  );
   try {
     const sets: IGetSetsResponse = yield call(
       setsService.getAll,
-      action.payload,
+      action.payload ?? currentPage,
     );
     yield put(getSetsSuccess(sets));
   } catch {

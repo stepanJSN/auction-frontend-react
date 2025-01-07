@@ -25,7 +25,7 @@ export const setsSlice = createSlice({
       state.status = QueryStatusEnum.LOADING;
       state.currentPage = action.payload;
     },
-    getSets: (state, _action: PayloadAction<number>) => {
+    getSets: (state, _action: PayloadAction<number | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
     },
 
