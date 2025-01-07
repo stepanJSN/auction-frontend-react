@@ -1,4 +1,3 @@
-/* eslint-disable @arthurgeron/react-usememo/require-usememo */
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Typography } from '@mui/material';

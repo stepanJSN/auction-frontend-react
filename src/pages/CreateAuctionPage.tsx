@@ -4,10 +4,7 @@ import { cardsService } from '../services/cardsService';
 import useQuery from '../hooks/useQuery';
 import CardData from '../features/auctions/CardData';
 import AuctionForm from '../features/auctions/AuctionForm';
-import { useCallback, useMemo } from 'react';
-import useMutation from '../hooks/useMutation';
-import { ICreateAuction } from '../types/auctions.interfaces';
-import { auctionService } from '../services/auctionService';
+import { useMemo } from 'react';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageLoader from '../components/PageLoader';
@@ -15,6 +12,7 @@ import PageError from '../components/PageError';
 import Notification from '../components/Notification';
 import useErrorMessage from '../hooks/useErrorMessage';
 import { createAuctionErrorMessages } from '../features/auctions/createAuctionErrorMessages';
+import useCreateAuction from '../features/auctions/useCreateAuction';
 
 export default function CreateAuctionPage() {
   const { cardId } = useParams();
@@ -24,28 +22,7 @@ export default function CreateAuctionPage() {
     autoFetch: !!cardId,
   });
   const getErrorMessage = useErrorMessage(createAuctionErrorMessages);
-
-  const {
-    mutate,
-    status: creationStatus,
-    errorCode,
-  } = useMutation((data: ICreateAuction) => {
-    return auctionService.create(data);
-  }, false);
-
-  const handleCreate = useCallback(
-    (data: Omit<ICreateAuction, 'cardId'>) => {
-      mutate({
-        minBidStep: +data.minBidStep,
-        maxBid: data.maxBid ? +data.maxBid : undefined,
-        startingBid: +data.startingBid,
-        minLength: +data.minLength,
-        endTime: data.endTime,
-        cardId: cardId!,
-      });
-    },
-    [mutate, cardId],
-  );
+  const { handleCreate, creationStatus, errorCode } = useCreateAuction(cardId);
 
   const actions = useMemo(
     () => (
