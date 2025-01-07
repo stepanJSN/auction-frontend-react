@@ -33,9 +33,10 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
         defaultValues: {
           name: data?.name,
           bonus: data?.bonus,
+          cards: data?.cards || [],
         },
       }),
-      [data?.bonus, data?.name],
+      [data?.bonus, data?.name, data?.cards],
     ),
   );
 
