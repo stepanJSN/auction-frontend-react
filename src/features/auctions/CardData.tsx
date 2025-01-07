@@ -11,10 +11,20 @@ const episodesListStyles: SxProps = {
   overflowY: 'auto',
 };
 
+const imgContainerStyles: SxProps = {
+  maxHeight: 300,
+};
+
+const imgGridContainerColumns = {
+  xs: 12,
+  sm: 6,
+  md: 3,
+};
+
 export default function CardData({ data }: CardDataProps) {
   return (
     <Grid2 container spacing={3}>
-      <Grid2 size={3}>
+      <Grid2 size={imgGridContainerColumns} sx={imgContainerStyles}>
         <img src={data.image_url} alt={data.name} />
       </Grid2>
       <Grid2 size="grow" container spacing={2}>

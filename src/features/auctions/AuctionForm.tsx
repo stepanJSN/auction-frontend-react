@@ -9,6 +9,11 @@ type AuctionFormProps = {
   onSubmit: (data: Omit<ICreateAuction, 'cardId'>) => void;
 };
 
+const inputGridSize = {
+  xs: 12,
+  sm: 6,
+};
+
 export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
   const { control, handleSubmit } = useForm<Omit<ICreateAuction, 'cardId'>>();
   return (
@@ -17,7 +22,7 @@ export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
       spacing={1}
       component="form"
       onSubmit={handleSubmit(onSubmit)}>
-      <Grid2 size={6}>
+      <Grid2 size={inputGridSize}>
         <FormInput
           name="startingBid"
           label="Starting bid"
@@ -29,7 +34,7 @@ export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
           required
         />
       </Grid2>
-      <Grid2 size={6}>
+      <Grid2 size={inputGridSize}>
         <FormInput
           name="minBidStep"
           label="Min bid step"
@@ -41,7 +46,7 @@ export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
           required
         />
       </Grid2>
-      <Grid2 size={6}>
+      <Grid2 size={inputGridSize}>
         <FormInput
           name="maxBid"
           label="Max bid"
@@ -52,7 +57,7 @@ export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
           errorText="Max bid must ne number"
         />
       </Grid2>
-      <Grid2 size={6}>
+      <Grid2 size={inputGridSize}>
         <FormInput
           name="minLength"
           label="Min length in minutes"
@@ -64,7 +69,7 @@ export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
           errorText="Min length is required and must ne number"
         />
       </Grid2>
-      <Grid2 size={6}>
+      <Grid2 size={inputGridSize}>
         <FormDateTimePicker
           name="endTime"
           label="End time"
