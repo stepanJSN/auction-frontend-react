@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import useMutation from '../../hooks/useMutation';
 import { useCallback } from 'react';
-import { resetLastPage } from './cardsSlice';
 import { ICreateCard } from '../../types/cards.interface';
 import { cardsService } from '../../services/cardsService';
+import { getCards } from './cardsSlice';
 
 export default function useCreateCard(
   setIsImageError: React.Dispatch<React.SetStateAction<boolean>>,
@@ -19,7 +19,7 @@ export default function useCreateCard(
     (data: ICreateCard) => {
       if (image) {
         mutate({ cardData: data, image: image });
-        dispatch(resetLastPage());
+        dispatch(getCards());
       } else {
         setIsImageError(true);
       }

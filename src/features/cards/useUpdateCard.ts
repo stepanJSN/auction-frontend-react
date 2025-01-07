@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import useMutation from '../../hooks/useMutation';
 import { useCallback } from 'react';
-import { resetCurrentPage } from './cardsSlice';
+import { getCards } from './cardsSlice';
 import { ICreateCard } from '../../types/cards.interface';
 import { cardsService } from '../../services/cardsService';
 
@@ -21,7 +21,7 @@ export default function useUpdateCard(
       if (!id) return;
       if (image && image.url) {
         mutate({ id: id, cardData: data, image: image.image });
-        dispatch(resetCurrentPage());
+        dispatch(getCards());
       } else {
         setIsImageError(true);
       }
