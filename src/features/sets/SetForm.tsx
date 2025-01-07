@@ -99,7 +99,7 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
       <Grid2 container spacing={2} size={12}>
         {fields.map((field, index) => (
           <Grid2 key={field.formId} size={cardColumnsNumber}>
-            <Card {...field}>
+            <Card {...field} cardPagePath="./cards/">
               <RemoveCardButton index={index} remove={remove} />
             </Card>
           </Grid2>

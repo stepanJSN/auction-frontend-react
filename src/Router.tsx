@@ -40,12 +40,23 @@ export default function Router() {
           <Route path="/create-card" element={<CreateCardPage />} />
           <Route path="/edit-card/:cardId" element={<EditCardPage />} />
           <Route path="/sets" element={<SetsPage />}>
-            <Route path=":cardId" element={<CardPage />} />
+            <Route
+              path="/sets/cards/:cardId"
+              element={<CardPage parentPath={'/sets'} />}
+            />
           </Route>
           <Route path="/set-create" element={<CreateSetPage />}>
-            <Route path=":cardId" element={<CardPage />} />
+            <Route
+              path="/set-create/cards/:cardId"
+              element={<CardPage parentPath="/set-create" />}
+            />
           </Route>
-          <Route path="/set-edit/:setId" element={<EditSetPage />} />
+          <Route path="/set-edit/:setId" element={<EditSetPage />}>
+            <Route
+              path="/set-edit/:setId/cards/:cardId"
+              element={<CardPage parentPath="../" />}
+            />
+          </Route>
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/locations" element={<LocationsPage />}>

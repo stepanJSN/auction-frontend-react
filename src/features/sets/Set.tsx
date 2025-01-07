@@ -56,7 +56,7 @@ export default function Set({ set }: SetProps) {
       <Grid2 container spacing={2}>
         {set.cards.map((card) => (
           <Grid2 size={cardColumnsNumber} key={card.id}>
-            <Card {...card} />
+            <Card {...card} cardPagePath="./cards/" />
           </Grid2>
         ))}
       </Grid2>
