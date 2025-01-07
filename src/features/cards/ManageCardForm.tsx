@@ -11,6 +11,7 @@ import { IEpisode } from '../../types/episodes.interfaces';
 import { Gender } from '../../enums/gender.enum';
 import { ICard, ICreateCard } from '../../types/cards.interface';
 import EpisodesListForm from './EpisodesListForm';
+import { textFieldValueLength } from '../../constants/textFieldValueLength';
 
 export interface ICreateCardFrom {
   name: string;
@@ -25,11 +26,6 @@ type ManageCardFormProps = {
   data?: ICard;
   onSubmit: (data: ICreateCard) => void;
   actions: React.ReactNode;
-};
-
-const stringLength = {
-  min: 2,
-  max: 15,
 };
 
 const genderOptions = [
@@ -112,14 +108,14 @@ export default function ManageCardForm({
         control={control}
         errorText="The name must be between 2 and 15 characters long"
         required
-        length={stringLength}
+        length={textFieldValueLength}
       />
       <FormInput
         name="type"
         label="Type"
         control={control}
         errorText="The type must be between 2 and 15 characters long"
-        length={stringLength}
+        length={textFieldValueLength}
       />
       <FormSelect
         name="gender"

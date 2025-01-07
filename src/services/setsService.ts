@@ -1,5 +1,5 @@
 import { apiWithAuth } from '../apiConfig';
-import { ICreateSet, IGetSetsResponse } from '../types/sets.interface';
+import { ICreateSet, IGetSetsResponse, ISet } from '../types/sets.interface';
 
 export const setsService = {
   getAll: async (page: number) => {
@@ -9,6 +9,13 @@ export const setsService = {
       params,
     });
     return sets.data;
+  },
+
+  getOne: async (id: string) => {
+    const set = await apiWithAuth.get<Omit<ISet, 'is_user_has_set'>>(
+      `/sets/${id}`,
+    );
+    return set.data;
   },
 
   create: async (data: ICreateSet) => {

@@ -15,6 +15,7 @@ import { Link } from 'react-router';
 
 type CardProps = ICardSummary & {
   children?: React.ReactNode;
+  cardPagePath?: string;
 };
 
 const cardMediaStyles = {
@@ -35,6 +36,7 @@ export default function Card({
   is_owned,
   type,
   children,
+  cardPagePath = './',
 }: CardProps) {
   const cardStyles: SxProps = useMemo(
     () => ({
@@ -64,7 +66,7 @@ export default function Card({
           {type && <Typography variant="body1">Type: {type}</Typography>}
         </CardContent>
         <CardActions>
-          <Button component={Link} to={`./${id}`} size="small">
+          <Button component={Link} to={`${cardPagePath}${id}`} size="small">
             Learn More
           </Button>
           {children}

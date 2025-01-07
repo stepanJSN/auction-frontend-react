@@ -1,7 +1,16 @@
-import { Box, Stack, Typography, Chip, Grid2, SxProps } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Chip,
+  Grid2,
+  SxProps,
+  Button,
+} from '@mui/material';
 import { useMemo } from 'react';
 import { ISet } from '../../types/sets.interface';
 import Card from '../../components/Card';
+import { Link } from 'react-router';
 
 type SetProps = {
   set: ISet;
@@ -10,6 +19,10 @@ type SetProps = {
 const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
 const setHeaderStyles: SxProps = {
   alignItems: 'center',
+};
+
+const subHeaderStyles: SxProps = {
+  mb: 1,
 };
 
 export default function Set({ set }: SetProps) {
@@ -34,13 +47,16 @@ export default function Set({ set }: SetProps) {
           <Chip label="You have collected this set" color="success" />
         )}
       </Stack>
-      <Typography variant="h6" gutterBottom>
-        Bonus: {set.bonus}
-      </Typography>
+      <Stack direction="row" spacing={2} sx={subHeaderStyles}>
+        <Typography variant="h6">Bonus: {set.bonus}</Typography>
+        <Button variant="outlined" component={Link} to={`/set-edit/${set.id}`}>
+          Edit
+        </Button>
+      </Stack>
       <Grid2 container spacing={2}>
         {set.cards.map((card) => (
           <Grid2 size={cardColumnsNumber} key={card.id}>
-            <Card {...card} />
+            <Card {...card} cardPagePath="./cards/" />
           </Grid2>
         ))}
       </Grid2>

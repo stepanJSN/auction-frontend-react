@@ -14,7 +14,9 @@ export default function CardsGrid({ cards, cardActions }: CardsGridProps) {
     <Grid2 container spacing={2}>
       {cards.map((card) => (
         <Grid2 size={cardColumnsNumber} key={card.id}>
-          <Card {...card}>{cardActions && cardActions(card)}</Card>
+          <Card {...card} cardPagePath="./cards/">
+            {cardActions && cardActions(card)}
+          </Card>
         </Grid2>
       ))}
     </Grid2>

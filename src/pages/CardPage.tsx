@@ -6,7 +6,11 @@ import CardData from '../features/card/CardData';
 import CardSkeleton from '../features/card/CardSkeleton';
 import ModalPage from '../components/ModalPage';
 
-export default function CardPage() {
+type CardPageProps = {
+  parentPath?: string;
+};
+
+export default function CardPage({ parentPath }: CardPageProps) {
   const { cardId } = useParams();
   const { data, status } = useQuery({
     requestFn: cardsService.getOne,
@@ -15,7 +19,7 @@ export default function CardPage() {
   });
 
   return (
-    <ModalPage>
+    <ModalPage parentPath={parentPath}>
       {status !== QueryStatusEnum.SUCCESS && (
         <CardSkeleton isError={status === QueryStatusEnum.ERROR} />
       )}

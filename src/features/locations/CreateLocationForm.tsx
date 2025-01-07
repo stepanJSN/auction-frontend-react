@@ -3,11 +3,7 @@ import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import { ICreateLocation } from '../../types/locations.interfaces';
 import { useEffect } from 'react';
-
-const fieldValueLength = {
-  min: 2,
-  max: 15,
-};
+import { textFieldValueLength } from '../../constants/textFieldValueLength';
 
 type CreateLocationFormProps = {
   isLoading: boolean;
@@ -35,7 +31,7 @@ export default function CreateLocationForm({
         label="Name"
         control={control}
         errorText="The name must be between 2 and 15 characters long"
-        length={fieldValueLength}
+        length={textFieldValueLength}
         required
       />
       <FormInput
@@ -43,7 +39,7 @@ export default function CreateLocationForm({
         label="Type"
         control={control}
         errorText="The type must be between 2 and 15 characters long"
-        length={fieldValueLength}
+        length={textFieldValueLength}
         required
       />
       <Button variant="contained" fullWidth disabled={isLoading} type="submit">
