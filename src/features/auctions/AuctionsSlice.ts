@@ -50,7 +50,7 @@ export const auctionsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getAuctions: (state, _action: PayloadAction<number>) => {
+    getAuctions: (state, _action: PayloadAction<number | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
     },
 
@@ -104,10 +104,6 @@ export const auctionsSlice = createSlice({
     getAuctionsError: (state) => {
       state.status = QueryStatusEnum.ERROR;
     },
-
-    updateCurrentPage: (state) => {
-      state.status = QueryStatusEnum.LOADING;
-    },
   },
 });
 
@@ -116,7 +112,6 @@ export const {
   getAuctions,
   getAuctionsSuccess,
   getAuctionsError,
-  updateCurrentPage,
   setLocation,
   setCardName,
   setShowOnlyWhereUserTakePart,
