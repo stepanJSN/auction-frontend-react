@@ -15,7 +15,7 @@ export default function CardPage({ parentPath }: CardPageProps) {
   const { data, status } = useQuery({
     requestFn: cardsService.getOne,
     params: cardId!,
-    autoFetch: true,
+    autoFetch: !!cardId,
   });
 
   return (

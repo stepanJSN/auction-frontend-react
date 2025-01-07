@@ -33,7 +33,12 @@ export default function AllCardsPage() {
       if (role && role === Role.ADMIN) {
         return (
           <>
-            <Button size="small" color="success">
+            <Button
+              size="small"
+              color="success"
+              component={Link}
+              disabled={!card.is_active}
+              to={`/auction-create/${card.id}`}>
               Sell
             </Button>
             <Button component={Link} to={`/edit-card/${card.id}`} size="small">
