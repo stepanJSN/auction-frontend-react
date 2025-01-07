@@ -18,6 +18,7 @@ import EditLocationPage from './pages/EditLocationPage';
 import EpisodesPage from './pages/EpisodesPage';
 import CreateEpisodePage from './pages/CreateEpisodePage';
 import EditEpisodePage from './pages/EditEpisodePage';
+import CreateSetPage from './pages/CreateSetPage';
 
 export default function Router() {
   return (
@@ -38,6 +39,9 @@ export default function Router() {
           <Route path="/create-card" element={<CreateCardPage />} />
           <Route path="/edit-card/:cardId" element={<EditCardPage />} />
           <Route path="/sets" element={<SetsPage />}>
+            <Route path=":cardId" element={<CardPage />} />
+          </Route>
+          <Route path="/sets-create" element={<CreateSetPage />}>
             <Route path=":cardId" element={<CardPage />} />
           </Route>
           <Route path="/transactions" element={<Transactions />} />

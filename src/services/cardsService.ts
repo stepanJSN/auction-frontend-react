@@ -6,9 +6,18 @@ import {
 } from '../types/cards.interface';
 
 export const cardsService = {
-  getAll: async (page: number, onlyUserCards: boolean = false) => {
+  getAll: async ({
+    page,
+    onlyUserCards = false,
+    name,
+  }: {
+    page: number;
+    onlyUserCards?: boolean;
+    name?: string;
+  }) => {
     const params = new URLSearchParams();
     params.append('page', page.toString());
+    if (name) params.append('name', name);
     const url = onlyUserCards ? '/cards/myCards' : '/cards';
     const cards = await apiWithAuth.get<IGetCardsResponse>(url, {
       params,

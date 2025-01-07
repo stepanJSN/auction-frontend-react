@@ -41,8 +41,13 @@ export default function FaqHeader({ currentPage }: FaqHeaderProps) {
         <ToggleButton value={ROUTES.CARDS}>Cards</ToggleButton>
         <ToggleButton value={ROUTES.SETS}>Sets</ToggleButton>
       </ToggleButtonGroup>
-      <Button component={Link} to={ROUTES.CREATE_CARD} variant="outlined">
-        Create card
+      <Button
+        component={Link}
+        to={
+          currentPage === ROUTES.CARDS ? ROUTES.CREATE_CARD : ROUTES.CREATE_SET
+        }
+        variant="outlined">
+        {currentPage === ROUTES.CARDS ? 'Create card' : 'Create set'}
       </Button>
     </Stack>
   );

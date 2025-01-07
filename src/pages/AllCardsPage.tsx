@@ -1,6 +1,6 @@
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Grid2, Typography } from '@mui/material';
-import Card from '../components/Card';
+import { Button, Typography } from '@mui/material';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import Pagination from '../components/Pagination';
 import PageLoader from '../components/PageLoader';
@@ -16,8 +16,8 @@ import { ROUTES } from '../config/routesConfig';
 import usePaginatedData from '../hooks/usePaginatedData';
 import { selectAuth } from '../features/auth/authSlice';
 import { Role } from '../enums/role.enum';
-
-const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
+import CardsGrid from '../components/CardsGrid';
+import { ICardSummary } from '../types/cards.interface';
 
 export default function AllCardsPage() {
   const { status, cards, currentPage, totalPages } = useSelector(selectCards);
@@ -28,6 +28,24 @@ export default function AllCardsPage() {
     changeCardsPage,
   );
 
+  const cardActions = useCallback(
+    (card: ICardSummary) => {
+      if (role && role === Role.ADMIN) {
+        return (
+          <>
+            <Button size="small" color="success">
+              Sell
+            </Button>
+            <Button component={Link} to={`/edit-card/${card.id}`} size="small">
+              Manage
+            </Button>
+          </>
+        );
+      }
+    },
+    [role],
+  );
+
   return (
     <>
       <FaqHeader currentPage={ROUTES.CARDS} />
@@ -35,27 +53,7 @@ export default function AllCardsPage() {
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.SUCCESS && cards && cards.length !== 0 && (
         <>
-          <Grid2 container spacing={2}>
-            {cards.map((card) => (
-              <Grid2 size={cardColumnsNumber} key={card.id}>
-                <Card {...card}>
-                  {role === Role.ADMIN && (
-                    <>
-                      <Button size="small" color="success">
-                        Sell
-                      </Button>
-                      <Button
-                        component={Link}
-                        to={`/edit-card/${card.id}`}
-                        size="small">
-                        Manage
-                      </Button>
-                    </>
-                  )}
-                </Card>
-              </Grid2>
-            ))}
-          </Grid2>
+          <CardsGrid cards={cards} cardActions={cardActions} />
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}

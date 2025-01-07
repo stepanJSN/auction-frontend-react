@@ -1,5 +1,5 @@
 import { apiWithAuth } from '../apiConfig';
-import { IGetSetsResponse } from '../types/sets.interface';
+import { ICreateSet, IGetSetsResponse } from '../types/sets.interface';
 
 export const setsService = {
   getAll: async (page: number) => {
@@ -9,5 +9,19 @@ export const setsService = {
       params,
     });
     return sets.data;
+  },
+
+  create: async (data: ICreateSet) => {
+    const set = await apiWithAuth.post<ICreateSet>('/sets', data);
+    return set.data;
+  },
+
+  update: async (id: string, data: ICreateSet) => {
+    const set = await apiWithAuth.patch<ICreateSet>(`/sets/${id}`, data);
+    return set.data;
+  },
+
+  delete: async (id: string) => {
+    await apiWithAuth.delete(`/sets/${id}`);
   },
 };
