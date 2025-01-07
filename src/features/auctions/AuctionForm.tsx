@@ -1,22 +1,22 @@
 import { Grid2 } from '@mui/material';
 import FormInput from '../../components/FormInput';
-import { textFieldValueLength } from '../../constants/textFieldValueLength';
 import { useForm } from 'react-hook-form';
 import { ICreateAuction } from '../../types/auctions.interfaces';
 import FormDateTimePicker from '../../components/FormDateTimePicker';
 
 type AuctionFormProps = {
   actions: React.ReactNode;
+  onSubmit: (data: Omit<ICreateAuction, 'cardId'>) => void;
 };
 
-export default function AuctionForm({ actions }: AuctionFormProps) {
+export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
   const { control, handleSubmit } = useForm<Omit<ICreateAuction, 'cardId'>>();
   return (
     <Grid2
       container
       spacing={1}
       component="form"
-      onSubmit={handleSubmit(() => {})}>
+      onSubmit={handleSubmit(onSubmit)}>
       <Grid2 size={6}>
         <FormInput
           name="startingBid"
@@ -27,7 +27,6 @@ export default function AuctionForm({ actions }: AuctionFormProps) {
           control={control}
           errorText="Starting bid is required and must ne number"
           required
-          length={textFieldValueLength}
         />
       </Grid2>
       <Grid2 size={6}>
@@ -40,7 +39,6 @@ export default function AuctionForm({ actions }: AuctionFormProps) {
           control={control}
           errorText="Min bid step is required and must ne number"
           required
-          length={textFieldValueLength}
         />
       </Grid2>
       <Grid2 size={6}>
@@ -52,7 +50,6 @@ export default function AuctionForm({ actions }: AuctionFormProps) {
           pattern={/^\d+$/}
           control={control}
           errorText="Max bid must ne number"
-          length={textFieldValueLength}
         />
       </Grid2>
       <Grid2 size={6}>
@@ -65,7 +62,6 @@ export default function AuctionForm({ actions }: AuctionFormProps) {
           control={control}
           required
           errorText="Min length is required and must ne number"
-          length={textFieldValueLength}
         />
       </Grid2>
       <Grid2 size={6}>

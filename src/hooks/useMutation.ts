@@ -6,6 +6,7 @@ import { delay } from '../helpers/delay';
 
 export default function useMutation<T, R = unknown>(
   requestFn: (data: T) => Promise<R> | void,
+  resetStatus: boolean = true,
 ) {
   const [status, setStatus] = useState<MutationStatusEnum>(
     MutationStatusEnum.IDLE,
@@ -24,11 +25,13 @@ export default function useMutation<T, R = unknown>(
           (error as AxiosError).status || ErrorCodesEnum.ServerError,
         );
       } finally {
-        await delay(2000);
-        setStatus(MutationStatusEnum.IDLE);
+        if (resetStatus) {
+          await delay(2000);
+          setStatus(MutationStatusEnum.IDLE);
+        }
       }
     },
-    [requestFn],
+    [requestFn, resetStatus],
   );
 
   return { status, mutate, errorCode };

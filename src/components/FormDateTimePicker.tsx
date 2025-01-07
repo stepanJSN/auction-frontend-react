@@ -32,6 +32,13 @@ export default function FormDateTimePicker<T extends FieldValues>({
             value={value ?? null}
             onChange={onChange}
             disablePast
+            ampm={false}
+            slotProps={{
+              textField: {
+                color: error ? 'error' : 'primary',
+                fullWidth: true,
+              },
+            }}
           />
           {error && errorText && (
             <Typography color="error" variant="subtitle2">
