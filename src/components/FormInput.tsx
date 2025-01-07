@@ -9,6 +9,7 @@ type FormInputProps<T extends FieldValues> = {
   label: string;
   control: Control<T>;
   type?: 'text' | 'password' | 'number';
+  margin?: 'dense' | 'normal' | 'none';
   errorText?: string;
   required?: boolean;
   pattern?: RegExp;
@@ -28,6 +29,7 @@ export default function FormInput<T extends FieldValues>({
   pattern,
   length,
   type,
+  margin = 'dense',
   placeholder,
 }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +58,7 @@ export default function FormInput<T extends FieldValues>({
           fullWidth
           label={label}
           placeholder={placeholder}
-          margin="dense"
+          margin={margin}
           variant="outlined"
           type={type === 'password' && showPassword ? 'text' : type}
           slotProps={{
