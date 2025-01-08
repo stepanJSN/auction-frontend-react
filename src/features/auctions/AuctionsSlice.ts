@@ -9,6 +9,7 @@ import {
 } from '../../types/auctions.interfaces';
 import { ILocation } from '../../types/locations.interfaces';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
+import { IAuctionNewBidEvent } from './auctionEvents.interfaces';
 
 export interface AuctionsState {
   auctions: IAuctionSummary[];
@@ -61,6 +62,18 @@ export const auctionsSlice = createSlice({
 
     getAuctions: (state, _action: PayloadAction<number | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
+    },
+
+    updateAuctionHighestBid: (
+      state,
+      action: PayloadAction<IAuctionNewBidEvent>,
+    ) => {
+      const indexOfAuction = state.auctions.findIndex(
+        (auction) => auction.id === action.payload.auctionId,
+      );
+      if (indexOfAuction !== -1) {
+        state.auctions[indexOfAuction].highest_bid = action.payload.bidAmount;
+      }
     },
 
     getPriceRangeSuccess: (state, action: PayloadAction<IPriceRange>) => {
@@ -147,6 +160,7 @@ export const {
   setSortBy,
   setPriceRange,
   resetFilters,
+  updateAuctionHighestBid,
 } = auctionsSlice.actions;
 
 export const getPriceRange = createAction('actions/getPriceRange');

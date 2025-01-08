@@ -4,16 +4,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getAuctions,
   selectAuctions,
+  updateAuctionHighestBid,
 } from '../features/auctions/AuctionsSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import AuctionCard from '../features/auctions/AuctionCard';
 import { useEffect } from 'react';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
+import { socket } from '../socket';
+import { AuctionEventEnum } from '../features/auctions/auctionEventEnum';
+import { IAuctionNewBidEvent } from '../features/auctions/auctionEvents.interfaces';
 
 export default function AuctionsPage() {
   const { auctions, status } = useSelector(selectAuctions);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleNewBidEvent = (event: IAuctionNewBidEvent) => {
+      dispatch(updateAuctionHighestBid(event));
+    };
+    socket.on(AuctionEventEnum.NEW_BID, handleNewBidEvent);
+    return () => {
+      socket.off(AuctionEventEnum.NEW_BID, handleNewBidEvent);
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getAuctions());
