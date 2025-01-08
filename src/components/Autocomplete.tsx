@@ -11,15 +11,15 @@ import { useCallback } from 'react';
 
 type AutocompleteProps<T> = {
   label: string;
-  value: T;
+  value: T | null;
   startFromLetter?: number;
   searchFunc: (
     searchValue: string,
   ) => Promise<{ data: Array<T>; info: IPagination }>;
   getLabel: (item: T | null) => string;
   onChange: (item: T | null) => void;
-  isError: boolean;
-  errorText: string;
+  isError?: boolean;
+  errorText?: string;
   noOptionsText?: string;
 };
 
