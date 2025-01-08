@@ -1,20 +1,25 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { RootState } from '../../redux/store';
 import {
   AuctionSortByEnum,
   IAuctionSummary,
   IGetAuctionsResponse,
+  IPriceRange,
 } from '../../types/auctions.interfaces';
 import { ILocation } from '../../types/locations.interfaces';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
 
 export interface AuctionsState {
-  auctions: IAuctionSummary[] | null;
+  auctions: IAuctionSummary[];
   filters: {
     location: ILocation | null;
     cardName: string;
-    priceRange: [number | null, number | null];
+    price: {
+      min: number | null;
+      max: number | null;
+      range: [number | null, number | null];
+    };
     showOnlyWhereUserTakePart: boolean;
     showOnlyWhereUserIsLeader: boolean;
     sortOrder: SortOrderEnum;
@@ -26,11 +31,15 @@ export interface AuctionsState {
 }
 
 const initialState: AuctionsState = {
-  auctions: null,
+  auctions: [],
   filters: {
     location: null,
     cardName: '',
-    priceRange: [null, null],
+    price: {
+      min: null,
+      max: null,
+      range: [null, null],
+    },
     showOnlyWhereUserTakePart: false,
     showOnlyWhereUserIsLeader: false,
     sortOrder: SortOrderEnum.ASC,
@@ -52,6 +61,12 @@ export const auctionsSlice = createSlice({
 
     getAuctions: (state, _action: PayloadAction<number | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
+    },
+
+    getPriceRangeSuccess: (state, action: PayloadAction<IPriceRange>) => {
+      state.filters.price.min = action.payload.min;
+      state.filters.price.max = action.payload.max;
+      state.filters.price.range = [action.payload.min, action.payload.max];
     },
 
     setLocation: (state, action: PayloadAction<ILocation | null>) => {
@@ -89,7 +104,7 @@ export const auctionsSlice = createSlice({
       action: PayloadAction<[number | null, number | null]>,
     ) => {
       state.status = QueryStatusEnum.LOADING;
-      state.filters.priceRange = action.payload;
+      state.filters.price.range = action.payload;
     },
 
     getAuctionsSuccess: (
@@ -112,6 +127,7 @@ export const {
   getAuctions,
   getAuctionsSuccess,
   getAuctionsError,
+  getPriceRangeSuccess,
   setLocation,
   setCardName,
   setShowOnlyWhereUserTakePart,
@@ -121,6 +137,9 @@ export const {
   setPriceRange,
 } = auctionsSlice.actions;
 
+export const getPriceRange = createAction('actions/getPriceRange');
+
 export const selectFilters = (state: RootState) => state.auctions.filters;
+export const selectAuctions = (state: RootState) => state.auctions;
 
 export default auctionsSlice.reducer;
