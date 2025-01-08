@@ -3,7 +3,7 @@ import useMutation from '../../hooks/useMutation';
 import { ICreateSet } from '../../types/sets.interface';
 import { setsService } from '../../services/setsService';
 import { useCallback } from 'react';
-import { resetLastPage } from './setsSlice';
+import { getSets } from './setsSlice';
 
 export default function useCreateSet() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ export default function useCreateSet() {
   const handleSubmit = useCallback(
     (data: ICreateSet) => {
       mutate(data);
-      dispatch(resetLastPage());
+      dispatch(getSets());
     },
     [mutate, dispatch],
   );
