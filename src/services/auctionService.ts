@@ -3,6 +3,7 @@ import {
   ICreateAuction,
   IGetAuctionsPayload,
   IGetAuctionsResponse,
+  IPriceRange,
 } from '../types/auctions.interfaces';
 
 export const auctionService = {
@@ -33,5 +34,12 @@ export const auctionService = {
       },
     );
     return auctions.data;
+  },
+
+  findPriceRange: async () => {
+    const priceRange = await apiWithAuth.get<IPriceRange>(
+      '/auctions/priceRange',
+    );
+    return priceRange.data;
   },
 };

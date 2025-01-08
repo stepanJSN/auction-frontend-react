@@ -14,7 +14,7 @@ export interface IAuctionSummary {
   id: string;
   starting_bid: number;
   min_bid_step: number;
-  max_bid: number;
+  max_bid?: number;
   end_time: string;
   created_at: string;
   created_by_id: string;
@@ -46,4 +46,9 @@ export interface IGetAuctionsPayload {
   isUserLeader?: boolean;
   sortOrder?: SortOrderEnum;
   sortBy?: AuctionSortByEnum;
+}
+
+export interface IPriceRange {
+  min: number;
+  max: number;
 }
