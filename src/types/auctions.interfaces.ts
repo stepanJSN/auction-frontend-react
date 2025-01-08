@@ -22,7 +22,7 @@ export interface IAuctionSummary {
   name: string;
   image_url: string;
   highest_bid: number | null;
-  highest_bid_user: string | null;
+  is_user_leader: boolean;
 }
 
 export interface IGetAuctionsResponse {
