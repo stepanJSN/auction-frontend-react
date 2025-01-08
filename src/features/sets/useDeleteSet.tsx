@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setsService } from '../../services/setsService';
 import useMutation from '../../hooks/useMutation';
-import { resetCurrentPage } from './setsSlice';
+import { getSets } from './setsSlice';
 import { useNavigate } from 'react-router';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 
@@ -15,7 +15,7 @@ export default function useDeleteSet(id?: string) {
   const handleDelete = useCallback(() => {
     if (!id) return;
     mutate(id);
-    dispatch(resetCurrentPage());
+    dispatch(getSets());
   }, [mutate, dispatch, id]);
 
   useEffect(() => {

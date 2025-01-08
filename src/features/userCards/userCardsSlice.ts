@@ -4,16 +4,14 @@ import { ICardSummary, IGetCardsResponse } from '../../types/cards.interface';
 import { RootState } from '../../redux/store';
 
 export interface UserCardsState {
-  cards: {
-    [page: number]: ICardSummary[];
-  };
+  cards: ICardSummary[] | null;
   totalPages: number;
   currentPage: number;
   status: QueryStatusEnum;
 }
 
 const initialState: UserCardsState = {
-  cards: {},
+  cards: null,
   totalPages: 0,
   currentPage: 1,
   status: QueryStatusEnum.IDLE,
@@ -32,15 +30,10 @@ export const userCardsSlice = createSlice({
       state.status = QueryStatusEnum.LOADING;
     },
 
-    getCardsSuccess: (
-      state,
-      action: PayloadAction<IGetCardsResponse | null>,
-    ) => {
+    getCardsSuccess: (state, action: PayloadAction<IGetCardsResponse>) => {
       state.status = QueryStatusEnum.SUCCESS;
-      if (action.payload) {
-        state.cards[state.currentPage] = action.payload.data;
-        state.totalPages = action.payload.info.totalPages;
-      }
+      state.cards = action.payload.data;
+      state.totalPages = action.payload.info.totalPages;
     },
 
     getCardsError: (state) => {
@@ -54,16 +47,11 @@ export const { getCards, getCardsSuccess, getCardsError, changeUserCardsPage } =
 export const selectUserCards = createSelector(
   (state: RootState) => state.userCards,
   (userCards) => ({
-    cards: userCards.cards[userCards.currentPage],
+    cards: userCards.cards,
     totalPages: userCards.totalPages,
     currentPage: userCards.currentPage,
     status: userCards.status,
   }),
-);
-
-export const selectIsPageLoaded = createSelector(
-  (state: RootState) => state.userCards,
-  (userCards) => !!userCards.cards[userCards.currentPage],
 );
 
 export default userCardsSlice.reducer;

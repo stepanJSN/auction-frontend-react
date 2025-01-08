@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { resetCurrentPage } from './cardsSlice';
+import { getCards } from './cardsSlice';
 import { useCallback, useEffect } from 'react';
 import useMutation from '../../hooks/useMutation';
 import { cardsService } from '../../services/cardsService';
@@ -17,7 +17,7 @@ export default function useDeleteCard(cardId?: string) {
   const handleDelete = useCallback(() => {
     if (!cardId) return;
     mutate({ id: cardId });
-    dispatch(resetCurrentPage());
+    dispatch(getCards());
   }, [cardId, dispatch, mutate]);
 
   useEffect(() => {

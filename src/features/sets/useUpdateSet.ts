@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setsService } from '../../services/setsService';
 import useMutation from '../../hooks/useMutation';
 import { ICreateSet } from '../../types/sets.interface';
-import { resetCurrentPage } from './setsSlice';
+import { getSets } from './setsSlice';
 
 export default function useUpdateSet(id?: string) {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export default function useUpdateSet(id?: string) {
     (data: ICreateSet) => {
       if (!id) return;
       mutate({ id: id, setData: data });
-      dispatch(resetCurrentPage());
+      dispatch(getSets());
     },
     [mutate, dispatch, id],
   );

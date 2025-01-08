@@ -4,16 +4,14 @@ import { ICardSummary, IGetCardsResponse } from '../../types/cards.interface';
 import { RootState } from '../../redux/store';
 
 export interface CardsState {
-  cards: {
-    [page: number]: ICardSummary[] | null;
-  };
+  cards: ICardSummary[] | null;
   totalPages: number;
   currentPage: number;
   status: QueryStatusEnum;
 }
 
 const initialState: CardsState = {
-  cards: {},
+  cards: null,
   totalPages: 0,
   currentPage: 1,
   status: QueryStatusEnum.IDLE,
@@ -28,7 +26,7 @@ export const cardsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getCards: (state, _action: PayloadAction<number>) => {
+    getCards: (state, _action: PayloadAction<number | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
     },
 
@@ -38,7 +36,7 @@ export const cardsSlice = createSlice({
     ) => {
       state.status = QueryStatusEnum.SUCCESS;
       if (action.payload) {
-        state.cards[state.currentPage] = action.payload.data;
+        state.cards = action.payload.data;
         state.totalPages = action.payload.info.totalPages;
       }
     },
@@ -46,38 +44,19 @@ export const cardsSlice = createSlice({
     getCardsError: (state) => {
       state.status = QueryStatusEnum.ERROR;
     },
-
-    resetLastPage: (state) => {
-      state.cards[state.totalPages] = null;
-    },
-
-    resetCurrentPage: (state) => {
-      state.cards[state.currentPage] = null;
-    },
   },
 });
 
-export const {
-  getCards,
-  getCardsSuccess,
-  getCardsError,
-  changeCardsPage,
-  resetLastPage,
-  resetCurrentPage,
-} = cardsSlice.actions;
+export const { getCards, getCardsSuccess, getCardsError, changeCardsPage } =
+  cardsSlice.actions;
 export const selectCards = createSelector(
   (state: RootState) => state.cards,
   (cards) => ({
-    cards: cards.cards[cards.currentPage],
+    cards: cards.cards,
     totalPages: cards.totalPages,
     currentPage: cards.currentPage,
     status: cards.status,
   }),
-);
-
-export const selectIsPageLoaded = createSelector(
-  (state: RootState) => state.cards,
-  (cards) => !!cards.cards[cards.currentPage],
 );
 
 export default cardsSlice.reducer;

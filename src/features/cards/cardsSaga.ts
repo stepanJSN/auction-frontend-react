@@ -1,23 +1,17 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { cardsService } from '../../services/cardsService';
 import { IGetCardsResponse } from '../../types/cards.interface';
-import {
-  getCards,
-  getCardsError,
-  getCardsSuccess,
-  selectIsPageLoaded,
-} from './cardsSlice';
+import { getCards, getCardsError, getCardsSuccess } from './cardsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../redux/store';
 
-function* getCardsSaga(action: PayloadAction<number>) {
-  const isPageLoaded: boolean = yield select(selectIsPageLoaded);
-  if (isPageLoaded) {
-    yield put(getCardsSuccess(null));
-    return;
-  }
+function* getCardsSaga(action: PayloadAction<number | undefined>) {
+  const currentPage: number = yield select(
+    (state: RootState) => state.cards.currentPage,
+  );
   try {
     const cards: IGetCardsResponse = yield call(cardsService.getAll, {
-      page: action.payload,
+      page: action.payload ?? currentPage,
     });
     yield put(getCardsSuccess(cards));
   } catch {
