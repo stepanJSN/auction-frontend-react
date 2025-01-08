@@ -1,5 +1,4 @@
-import { Stack, Button, SelectChangeEvent } from '@mui/material';
-import DebouncedInput from '../../components/DebouncedInput';
+import { Stack, Button, SelectChangeEvent, TextField } from '@mui/material';
 import Autocomplete from '../../components/Autocomplete';
 import Switch from '../../components/Switch';
 import Select from '../../components/Select';
@@ -58,8 +57,8 @@ export default function AuctionsFilters() {
   }, []);
 
   const handleCardNameChange = useCallback(
-    (cardName: string) => {
-      dispatch(setCardName(cardName));
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      dispatch(setCardName(event.target.value));
     },
     [dispatch],
   );
@@ -114,9 +113,11 @@ export default function AuctionsFilters() {
         getLabel={getLocationLabel}
         onChange={handleLocationChange}
       />
-      <DebouncedInput
+      <TextField
+        value={filters.cardName}
         label="Card name"
-        handleDebouncedChange={handleCardNameChange}
+        onChange={handleCardNameChange}
+        size="small"
       />
       {filters.price.max !== null && filters.price.min !== null && (
         <PriceSlider
