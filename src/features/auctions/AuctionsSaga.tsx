@@ -8,6 +8,7 @@ import {
   getAuctionsSuccess,
   getPriceRange,
   getPriceRangeSuccess,
+  resetFilters,
   selectFilters,
   setCardName,
   setLocation,
@@ -37,6 +38,8 @@ function* getAuctionsSaga(action: PayloadAction<number | undefined>) {
       cardName: filters.cardName,
       fromPrice: filters.price.range[0]!,
       toPrice: filters.price.range[1]!,
+      sortBy: filters.sortBy,
+      sortOrder: filters.sortOrder,
     });
     yield put(getAuctionsSuccess(auctions));
   } catch {
@@ -58,6 +61,8 @@ function* setAuctionsFiltersSaga() {
       cardName: filters.cardName,
       fromPrice: filters.price.range[0]!,
       toPrice: filters.price.range[1]!,
+      sortBy: filters.sortBy,
+      sortOrder: filters.sortOrder,
     });
     yield put(getAuctionsSuccess(auctions));
   } catch {
@@ -90,4 +95,5 @@ export function* watchAuctionsSaga() {
     setAuctionsFiltersSaga,
   );
   yield takeLatest(getPriceRange.type, getPriceRangeSaga);
+  yield takeLatest(resetFilters.type, getAuctionsSaga);
 }

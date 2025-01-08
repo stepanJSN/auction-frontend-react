@@ -6,6 +6,7 @@ import Select from '../../components/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getPriceRange,
+  resetFilters,
   selectFilters,
   setCardName,
   setLocation,
@@ -100,6 +101,10 @@ export default function AuctionsFilters() {
     [dispatch],
   );
 
+  const handleResetChange = useCallback(() => {
+    dispatch(resetFilters());
+  }, [dispatch]);
+
   return (
     <Stack spacing={1}>
       <Autocomplete
@@ -117,6 +122,7 @@ export default function AuctionsFilters() {
         <PriceSlider
           min={filters.price.min}
           max={filters.price.max}
+          range={filters.price.range}
           handlePriceRangeChange={handlePriceRangeChange}
         />
       )}
@@ -142,7 +148,11 @@ export default function AuctionsFilters() {
         options={sortOrderOptions}
         handleChange={handleSortOrderChange}
       />
-      <Button color="warning" variant="contained" fullWidth>
+      <Button
+        color="warning"
+        variant="contained"
+        fullWidth
+        onClick={handleResetChange}>
         Reset
       </Button>
     </Stack>

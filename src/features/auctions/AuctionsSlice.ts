@@ -119,6 +119,17 @@ export const auctionsSlice = createSlice({
     getAuctionsError: (state) => {
       state.status = QueryStatusEnum.ERROR;
     },
+
+    resetFilters: (state) => {
+      state.filters = {
+        ...initialState.filters,
+        price: {
+          min: state.filters.price.min,
+          max: state.filters.price.max,
+          range: [state.filters.price.min, state.filters.price.max],
+        },
+      };
+    },
   },
 });
 
@@ -135,6 +146,7 @@ export const {
   setSortOrder,
   setSortBy,
   setPriceRange,
+  resetFilters,
 } = auctionsSlice.actions;
 
 export const getPriceRange = createAction('actions/getPriceRange');
