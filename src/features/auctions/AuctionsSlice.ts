@@ -9,7 +9,10 @@ import {
 } from '../../types/auctions.interfaces';
 import { ILocation } from '../../types/locations.interfaces';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
-import { IAuctionNewBidEvent } from './auctionEvents.interfaces';
+import {
+  IAuctionChangedEvent,
+  IAuctionNewBidEvent,
+} from './auctionEvents.interfaces';
 
 export interface AuctionsState {
   auctions: IAuctionSummary[];
@@ -74,6 +77,27 @@ export const auctionsSlice = createSlice({
       if (indexOfAuction !== -1) {
         state.auctions[indexOfAuction].highest_bid = action.payload.bidAmount;
       }
+    },
+
+    updateAuctionGeneralInfo: (
+      state,
+      action: PayloadAction<IAuctionChangedEvent>,
+    ) => {
+      const indexOfAuction = state.auctions.findIndex(
+        (auction) => auction.id === action.payload.id,
+      );
+      if (indexOfAuction !== -1) {
+        state.auctions[indexOfAuction] = {
+          ...state.auctions[indexOfAuction],
+          ...action.payload,
+        };
+      }
+    },
+
+    removeAuctionFromList: (state, action: PayloadAction<string>) => {
+      state.auctions = state.auctions.filter(
+        (auction) => auction.id !== action.payload,
+      );
     },
 
     getPriceRangeSuccess: (state, action: PayloadAction<IPriceRange>) => {
@@ -161,6 +185,8 @@ export const {
   setPriceRange,
   resetFilters,
   updateAuctionHighestBid,
+  updateAuctionGeneralInfo,
+  removeAuctionFromList,
 } = auctionsSlice.actions;
 
 export const getPriceRange = createAction('actions/getPriceRange');
