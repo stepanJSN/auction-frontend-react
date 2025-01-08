@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import { Outlet } from 'react-router';
 import Footer from '../Footer';
 import useUserData from './useUserData';
+import useWebsocket from './useWebsocket';
 
 const globalWrapperStyles: SxProps = {
   minHeight: '100vh',
@@ -15,6 +16,7 @@ const containerStyles: SxProps = {
 
 export default function MainLayout() {
   useUserData();
+  useWebsocket();
 
   return (
     <Stack sx={globalWrapperStyles}>

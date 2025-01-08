@@ -1,5 +1,5 @@
 export enum AuctionEventEnum {
-  FINISHED = 'auction.finished',
-  CHANGED = 'auction.changed',
-  NEW_BID = 'bid.new',
+  FINISHED = 'auctions.finished',
+  CHANGED = 'auctions.changed',
+  NEW_BID = 'auctions.newBid',
 }
