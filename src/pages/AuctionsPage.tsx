@@ -8,6 +8,8 @@ import {
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import AuctionCard from '../features/auctions/AuctionCard';
 import { useEffect } from 'react';
+import PageLoader from '../components/PageLoader';
+import PageError from '../components/PageError';
 
 export default function AuctionsPage() {
   const { auctions, status } = useSelector(selectAuctions);
@@ -26,9 +28,12 @@ export default function AuctionsPage() {
         <Grid2 size={3}>
           <AuctionsFilters />
         </Grid2>
-        {status === QueryStatusEnum.SUCCESS && auctions.length !== 0 && (
-          <Grid2 container spacing={2} size={9}>
-            {auctions.map((auction) => (
+        <Grid2 container spacing={2} size={9}>
+          {status === QueryStatusEnum.LOADING && <PageLoader />}
+          {status === QueryStatusEnum.ERROR && <PageError />}
+          {status === QueryStatusEnum.SUCCESS &&
+            auctions.length !== 0 &&
+            auctions.map((auction) => (
               <Grid2 key={auction.id} size={4}>
                 <AuctionCard
                   cardName={auction.name}
@@ -42,8 +47,7 @@ export default function AuctionsPage() {
                 />
               </Grid2>
             ))}
-          </Grid2>
-        )}
+        </Grid2>
       </Grid2>
     </>
   );

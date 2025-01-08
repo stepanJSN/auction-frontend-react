@@ -2,6 +2,7 @@ import { CircularProgress, Stack, SxProps } from '@mui/material';
 
 const loaderContainerStyles: SxProps = {
   height: '70vh',
+  width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
 };
