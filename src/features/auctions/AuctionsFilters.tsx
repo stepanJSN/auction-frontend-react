@@ -1,16 +1,11 @@
-import {
-  Stack,
-  Slider,
-  Button,
-  SxProps,
-  SelectChangeEvent,
-} from '@mui/material';
+import { Stack, Button, SelectChangeEvent } from '@mui/material';
 import DebouncedInput from '../../components/DebouncedInput';
 import Autocomplete from '../../components/Autocomplete';
 import Switch from '../../components/Switch';
 import Select from '../../components/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  getPriceRange,
   selectFilters,
   setCardName,
   setLocation,
@@ -22,9 +17,10 @@ import {
 } from './AuctionsSlice';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
 import { AuctionSortByEnum } from '../../types/auctions.interfaces';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { locationsService } from '../../services/locationsService';
 import { ILocation } from '../../types/locations.interfaces';
+import PriceSlider from './PriceSlider';
 
 const sortByOptions = [
   { value: AuctionSortByEnum.CREATION_DATE, label: 'Creation date' },
@@ -37,23 +33,13 @@ const sortOrderOptions = [
   { value: SortOrderEnum.DESC, label: 'Descending' },
 ];
 
-const filtersContainerStyles: SxProps = {
-  maxWidth: 300,
-};
-
-const getPriceRangeAriaLabel = () => 'price range';
-
 export default function AuctionsFilters() {
   const filters = useSelector(selectFilters);
   const dispatch = useDispatch();
 
-  const priceRangeMarks = useMemo(
-    () => [
-      { value: filters.priceRange[0]!, label: filters.priceRange[0] },
-      { value: filters.priceRange[1]!, label: filters.priceRange[1] },
-    ],
-    [filters.priceRange],
-  );
+  useEffect(() => {
+    dispatch(getPriceRange());
+  }, [dispatch]);
 
   const handleLocationChange = useCallback(
     (location: ILocation | null) => {
@@ -78,7 +64,7 @@ export default function AuctionsFilters() {
   );
 
   const handlePriceRangeChange = useCallback(
-    (_event: Event, newValue: number | number[]) => {
+    (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
       if (Array.isArray(newValue)) {
         dispatch(setPriceRange([newValue[0], newValue[1]]));
       }
@@ -115,7 +101,7 @@ export default function AuctionsFilters() {
   );
 
   return (
-    <Stack spacing={1} sx={filtersContainerStyles}>
+    <Stack spacing={1}>
       <Autocomplete
         label="Location"
         searchFunc={searchLocation}
@@ -127,13 +113,13 @@ export default function AuctionsFilters() {
         label="Card name"
         handleDebouncedChange={handleCardNameChange}
       />
-      <Slider
-        getAriaLabel={getPriceRangeAriaLabel}
-        value={filters.priceRange as [number, number]}
-        onChange={handlePriceRangeChange}
-        valueLabelDisplay="auto"
-        marks={priceRangeMarks}
-      />
+      {filters.price.max !== null && filters.price.min !== null && (
+        <PriceSlider
+          min={filters.price.min}
+          max={filters.price.max}
+          handlePriceRangeChange={handlePriceRangeChange}
+        />
+      )}
       <Switch
         label="Show only where user take part"
         checked={filters.showOnlyWhereUserTakePart}
