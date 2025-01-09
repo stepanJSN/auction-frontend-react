@@ -1,5 +1,6 @@
 import { apiWithAuth } from '../apiConfig';
 import {
+  IAuction,
   ICreateAuction,
   IGetAuctionsPayload,
   IGetAuctionsResponse,
@@ -41,5 +42,10 @@ export const auctionService = {
       '/auctions/priceRange',
     );
     return priceRange.data;
+  },
+
+  findOne: async (id: string) => {
+    const auction = await apiWithAuth.get<IAuction>(`/auctions/${id}`);
+    return auction.data;
   },
 };
