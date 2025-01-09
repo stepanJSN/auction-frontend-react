@@ -1,17 +1,14 @@
-export interface IAuctionNewBidEvent {
-  auctionId: string;
-  bidAmount: number;
-}
+import { AuctionEventEnum } from './auctionEventEnum';
 
-export interface IAuctionChangedEvent {
-  id: string;
-  startingBid?: number;
-  minBidStep?: number;
-  maxBid?: number;
-  minLength?: number;
-  endTime?: Date;
-}
-
-export interface IAuctionFinishedEvent {
-  auctionId: string;
+export interface IAuctionEvent {
+  type: AuctionEventEnum;
+  payload: {
+    id: string;
+    startingBid?: number;
+    minBidStep?: number;
+    maxBid?: number;
+    minLength?: number;
+    endTime?: string;
+    bidAmount?: number;
+  };
 }

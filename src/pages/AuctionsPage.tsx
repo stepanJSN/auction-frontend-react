@@ -3,57 +3,19 @@ import AuctionsFilters from '../features/auctions/AuctionsFilters';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getAuctions,
-  removeAuctionFromList,
   selectAuctions,
-  updateAuctionGeneralInfo,
-  updateAuctionHighestBid,
 } from '../features/auctions/AuctionsSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import AuctionCard from '../features/auctions/AuctionCard';
 import { useEffect } from 'react';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
-import { socket } from '../socket';
-import { AuctionEventEnum } from '../features/auctions/auctionEventEnum';
-import {
-  IAuctionChangedEvent,
-  IAuctionFinishedEvent,
-  IAuctionNewBidEvent,
-} from '../features/auctions/auctionEvents.interfaces';
+import useAuctionsUpdateListener from '../features/auctions/useAuctionsUpdateListener';
 
 export default function AuctionsPage() {
   const { auctions, status } = useSelector(selectAuctions);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const handleNewBidEvent = (event: IAuctionNewBidEvent) => {
-      dispatch(updateAuctionHighestBid(event));
-    };
-    socket.on(AuctionEventEnum.NEW_BID, handleNewBidEvent);
-    return () => {
-      socket.off(AuctionEventEnum.NEW_BID, handleNewBidEvent);
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    const handleAuctionFinishedEvent = (event: IAuctionFinishedEvent) => {
-      dispatch(removeAuctionFromList(event.auctionId));
-    };
-    socket.on(AuctionEventEnum.FINISHED, handleAuctionFinishedEvent);
-    return () => {
-      socket.off(AuctionEventEnum.FINISHED, handleAuctionFinishedEvent);
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    const handleAuctionChangedEvent = (event: IAuctionChangedEvent) => {
-      dispatch(updateAuctionGeneralInfo(event));
-    };
-    socket.on(AuctionEventEnum.CHANGED, handleAuctionChangedEvent);
-    return () => {
-      socket.off(AuctionEventEnum.CHANGED, handleAuctionChangedEvent);
-    };
-  }, [dispatch]);
+  useAuctionsUpdateListener(auctions);
 
   useEffect(() => {
     dispatch(getAuctions());

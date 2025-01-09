@@ -9,10 +9,7 @@ import {
 } from '../../types/auctions.interfaces';
 import { ILocation } from '../../types/locations.interfaces';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
-import {
-  IAuctionChangedEvent,
-  IAuctionNewBidEvent,
-} from './auctionEvents.interfaces';
+import { IAuctionEvent } from './auctionEvents.interfaces';
 
 export interface AuctionsState {
   auctions: IAuctionSummary[];
@@ -69,28 +66,35 @@ export const auctionsSlice = createSlice({
 
     updateAuctionHighestBid: (
       state,
-      action: PayloadAction<IAuctionNewBidEvent>,
-    ) => {
-      const indexOfAuction = state.auctions.findIndex(
-        (auction) => auction.id === action.payload.auctionId,
-      );
-      if (indexOfAuction !== -1) {
-        state.auctions[indexOfAuction].highest_bid = action.payload.bidAmount;
-      }
-    },
-
-    updateAuctionGeneralInfo: (
-      state,
-      action: PayloadAction<IAuctionChangedEvent>,
+      action: PayloadAction<IAuctionEvent['payload']>,
     ) => {
       const indexOfAuction = state.auctions.findIndex(
         (auction) => auction.id === action.payload.id,
       );
       if (indexOfAuction !== -1) {
-        state.auctions[indexOfAuction] = {
-          ...state.auctions[indexOfAuction],
-          ...action.payload,
-        };
+        state.auctions[indexOfAuction].highest_bid = action.payload.bidAmount!;
+      }
+    },
+
+    updateAuctionGeneralInfo: (
+      state,
+      action: PayloadAction<IAuctionEvent['payload']>,
+    ) => {
+      const indexOfAuction = state.auctions.findIndex(
+        (auction) => auction.id === action.payload.id,
+      );
+      console.log(action, indexOfAuction);
+      if (indexOfAuction !== -1) {
+        state.auctions[indexOfAuction].starting_bid =
+          action.payload.startingBid ??
+          state.auctions[indexOfAuction].starting_bid;
+        state.auctions[indexOfAuction].min_bid_step =
+          action.payload.minBidStep ??
+          state.auctions[indexOfAuction].min_bid_step;
+        state.auctions[indexOfAuction].max_bid =
+          action.payload.maxBid ?? state.auctions[indexOfAuction].max_bid;
+        state.auctions[indexOfAuction].end_time =
+          action.payload.endTime ?? state.auctions[indexOfAuction].end_time;
       }
     },
 
