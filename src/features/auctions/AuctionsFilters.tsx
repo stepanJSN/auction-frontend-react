@@ -1,32 +1,13 @@
-import {
-  Stack,
-  Button,
-  SelectChangeEvent,
-  TextField,
-  SxProps,
-  Slide,
-} from '@mui/material';
+import { Stack, Button, TextField, SxProps, Slide } from '@mui/material';
 import Autocomplete from '../../components/Autocomplete';
 import Switch from '../../components/Switch';
 import Select from '../../components/Select';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getPriceRange,
-  resetFilters,
-  selectFilters,
-  setCardName,
-  setLocation,
-  setPriceRange,
-  setShowOnlyWhereUserTakePart,
-  setSortBy,
-  setSortOrder,
-} from './AuctionsSlice';
+import { useSelector } from 'react-redux';
+import { selectFilters } from './AuctionsSlice';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
 import { AuctionSortByEnum } from '../../types/auctions.interfaces';
-import { useCallback, useEffect } from 'react';
-import { locationsService } from '../../services/locationsService';
-import { ILocation } from '../../types/locations.interfaces';
 import PriceSlider from './PriceSlider';
+import useFilters from './useFilters';
 
 type AuctionsFiltersProps = {
   isOpen: boolean;
@@ -58,67 +39,17 @@ const filterStyles: SxProps = {
 
 export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
   const filters = useSelector(selectFilters);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPriceRange());
-  }, [dispatch]);
-
-  const handleLocationChange = useCallback(
-    (location: ILocation | null) => {
-      dispatch(setLocation(location));
-    },
-    [dispatch],
-  );
-
-  const getLocationLabel = useCallback((location: ILocation | null) => {
-    return location ? location.name : '';
-  }, []);
-
-  const searchLocation = useCallback((searchValue: string) => {
-    return locationsService.getAll({ name: searchValue });
-  }, []);
-
-  const handleCardNameChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      dispatch(setCardName(event.target.value));
-    },
-    [dispatch],
-  );
-
-  const handlePriceRangeChange = useCallback(
-    (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
-      if (Array.isArray(newValue)) {
-        dispatch(setPriceRange([newValue[0], newValue[1]]));
-      }
-    },
-    [dispatch],
-  );
-
-  const handleShowOnlyWhereUserTakePartChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(setShowOnlyWhereUserTakePart(event.target.checked));
-    },
-    [dispatch],
-  );
-
-  const handleSortByChange = useCallback(
-    (sortBy: SelectChangeEvent) => {
-      dispatch(setSortBy(sortBy.target.value as AuctionSortByEnum));
-    },
-    [dispatch],
-  );
-
-  const handleSortOrderChange = useCallback(
-    (sortOrder: SelectChangeEvent) => {
-      dispatch(setSortOrder(sortOrder.target.value as SortOrderEnum));
-    },
-    [dispatch],
-  );
-
-  const handleResetChange = useCallback(() => {
-    dispatch(resetFilters());
-  }, [dispatch]);
+  const {
+    searchLocation,
+    getLocationLabel,
+    handleCardNameChange,
+    handlePriceRangeChange,
+    handleShowOnlyWhereUserTakePartChange,
+    handleSortByChange,
+    handleSortOrderChange,
+    handleLocationChange,
+    handleResetChange,
+  } = useFilters();
 
   return (
     <Slide in={isOpen} direction="right">
