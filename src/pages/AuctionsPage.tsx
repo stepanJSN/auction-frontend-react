@@ -77,6 +77,11 @@ export default function AuctionsPage() {
           {status === QueryStatusEnum.SUCCESS && auctions.length !== 0 && (
             <AuctionsGrid auctions={auctions} />
           )}
+          {status === QueryStatusEnum.SUCCESS && auctions.length === 0 && (
+            <Typography variant="h5" gutterBottom>
+              There are no auctions available
+            </Typography>
+          )}
         </Grid2>
       </Grid2>
     </>

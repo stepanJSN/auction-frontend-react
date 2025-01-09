@@ -14,7 +14,7 @@ const auctionsGridBreakpoints = {
 
 export default function AuctionsGrid({ auctions }: AuctionsGridProps) {
   return (
-    <Grid2 container spacing={2}>
+    <Grid2 container spacing={2} size={12}>
       {auctions.length !== 0 &&
         auctions.map((auction) => (
           <Grid2 key={auction.id} size={auctionsGridBreakpoints}>
