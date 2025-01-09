@@ -1,22 +1,28 @@
 import { useMemo } from 'react';
-import { Button, Stack } from '@mui/material';
-import FormInput from '../../components/FormInput';
+import { Button, Stack, SxProps } from '@mui/material';
+import FormInput from '../../../components/FormInput';
 import { useForm } from 'react-hook-form';
 
 type NewBidFormProps = {
   onSubmit: (data: { bid: string }) => void;
   isFormInactive: boolean;
   isSubmitting: boolean;
-  label: string;
   min: number;
   max?: number;
+};
+
+const containerStyles: SxProps = {
+  maxWidth: '300px',
+};
+
+const buttonStyles: SxProps = {
+  height: 'max-content',
 };
 
 export default function NewBidForm({
   onSubmit,
   isFormInactive,
   isSubmitting,
-  label,
   min,
   max,
 }: NewBidFormProps) {
@@ -35,21 +41,23 @@ export default function NewBidForm({
       direction="row"
       component="form"
       onSubmit={handleSubmit(onSubmit)}
-      spacing={1}>
+      spacing={1}
+      sx={containerStyles}>
       <FormInput
         name="bid"
-        label={label}
+        label="Your bid"
         type="number"
         margin="none"
         rules={rules}
         control={control}
-        errorText="Starting bid is required and must ne number"
+        errorText={`Bid is required and should be more than ${min} ${max ? `and less than ${max}` : ''} `}
         disabled={isFormInactive}
       />
       <Button
         type="submit"
         disabled={isFormInactive || isSubmitting}
-        variant="contained">
+        variant="contained"
+        sx={buttonStyles}>
         {isSubmitting ? 'Submitting...' : 'Submit'}
       </Button>
     </Stack>

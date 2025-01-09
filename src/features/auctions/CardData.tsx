@@ -27,7 +27,7 @@ export default function CardData({ data }: CardDataProps) {
       <Grid2 size={imgGridContainerColumns} sx={imgContainerStyles}>
         <img src={data.image_url} alt={data.name} />
       </Grid2>
-      <Grid2 size="grow" spacing={2}>
+      <Grid2 size="grow">
         <Typography variant="h4" gutterBottom>
           {data.name}
         </Typography>
