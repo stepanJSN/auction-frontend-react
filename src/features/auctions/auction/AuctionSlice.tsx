@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MutationStatusEnum } from '../../../enums/mutationStatus';
 import { QueryStatusEnum } from '../../../enums/queryStatus.enum';
-import {
-  IAuction,
-  ICreateAuction,
-  IUpdateAuction,
-} from '../../../types/auctions.interfaces';
+import { IAuction, IUpdateAuction } from '../../../types/auctions.interfaces';
+import { RootState } from '../../../redux/store';
+import { ICreateBid } from '../../../types/bids.interfaces';
 
 export interface AuctionState {
   data: IAuction | null;
@@ -38,7 +36,7 @@ export const auctionSlice = createSlice({
       state.status = QueryStatusEnum.ERROR;
     },
 
-    createBid: (state, _action: PayloadAction<ICreateAuction>) => {
+    createBid: (state, _action: PayloadAction<ICreateBid>) => {
       state.bidCreationStatus = MutationStatusEnum.PENDING;
     },
 
@@ -55,6 +53,11 @@ export const auctionSlice = createSlice({
     createBidError: (state, action: PayloadAction<number>) => {
       state.bidCreationStatus = MutationStatusEnum.ERROR;
       state.bidCreationErrorCode = action.payload;
+    },
+
+    resetBidCreationStatus: (state) => {
+      state.bidCreationStatus = MutationStatusEnum.IDLE;
+      state.bidCreationErrorCode = null;
     },
 
     newBid: (state, action: PayloadAction<number>) => {
@@ -93,6 +96,9 @@ export const {
   newBid,
   updateAction,
   finishAuction,
+  resetBidCreationStatus,
 } = auctionSlice.actions;
+
+export const selectAuction = (state: RootState) => state.auction;
 
 export default auctionSlice.reducer;
