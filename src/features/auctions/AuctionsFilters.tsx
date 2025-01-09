@@ -17,7 +17,6 @@ import {
   setCardName,
   setLocation,
   setPriceRange,
-  setShowOnlyWhereUserIsLeader,
   setShowOnlyWhereUserTakePart,
   setSortBy,
   setSortOrder,
@@ -103,13 +102,6 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
     [dispatch],
   );
 
-  const handleShowOnlyWhereUserIsLeaderChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(setShowOnlyWhereUserIsLeader(event.target.checked));
-    },
-    [dispatch],
-  );
-
   const handleSortByChange = useCallback(
     (sortBy: SelectChangeEvent) => {
       dispatch(setSortBy(sortBy.target.value as AuctionSortByEnum));
@@ -156,11 +148,6 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
           label="Show only where user take part"
           checked={filters.showOnlyWhereUserTakePart}
           handleChange={handleShowOnlyWhereUserTakePartChange}
-        />
-        <Switch
-          label="Show only where user is leader"
-          checked={filters.showOnlyWhereUserIsLeader}
-          handleChange={handleShowOnlyWhereUserIsLeaderChange}
         />
         <Select
           label="Sort by"

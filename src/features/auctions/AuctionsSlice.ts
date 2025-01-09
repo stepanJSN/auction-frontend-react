@@ -22,7 +22,6 @@ export interface AuctionsState {
       range: [number | null, number | null];
     };
     showOnlyWhereUserTakePart: boolean;
-    showOnlyWhereUserIsLeader: boolean;
     sortOrder: SortOrderEnum;
     sortBy: AuctionSortByEnum;
   };
@@ -42,7 +41,6 @@ const initialState: AuctionsState = {
       range: [null, null],
     },
     showOnlyWhereUserTakePart: false,
-    showOnlyWhereUserIsLeader: false,
     sortOrder: SortOrderEnum.ASC,
     sortBy: AuctionSortByEnum.CREATION_DATE,
   },
@@ -73,6 +71,7 @@ export const auctionsSlice = createSlice({
       );
       if (indexOfAuction !== -1) {
         state.auctions[indexOfAuction].highest_bid = action.payload.bidAmount!;
+        state.auctions[indexOfAuction].is_user_leader = false;
       }
     },
 
@@ -83,7 +82,6 @@ export const auctionsSlice = createSlice({
       const indexOfAuction = state.auctions.findIndex(
         (auction) => auction.id === action.payload.id,
       );
-      console.log(action, indexOfAuction);
       if (indexOfAuction !== -1) {
         state.auctions[indexOfAuction].starting_bid =
           action.payload.startingBid ??
@@ -123,11 +121,6 @@ export const auctionsSlice = createSlice({
     setShowOnlyWhereUserTakePart: (state, action: PayloadAction<boolean>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.showOnlyWhereUserTakePart = action.payload;
-    },
-
-    setShowOnlyWhereUserIsLeader: (state, action: PayloadAction<boolean>) => {
-      state.status = QueryStatusEnum.LOADING;
-      state.filters.showOnlyWhereUserIsLeader = action.payload;
     },
 
     setSortOrder: (state, action: PayloadAction<SortOrderEnum>) => {
@@ -183,7 +176,6 @@ export const {
   setLocation,
   setCardName,
   setShowOnlyWhereUserTakePart,
-  setShowOnlyWhereUserIsLeader,
   setSortOrder,
   setSortBy,
   setPriceRange,
