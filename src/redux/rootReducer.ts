@@ -8,6 +8,7 @@ import locationsReducer from '../features/locations/locationsSlice';
 import episodesReducer from '../features/episodes/episodesSlice';
 import auctionsReducer from '../features/auctions/AuctionsSlice';
 import auctionReducer from '../features/auctions/auction/AuctionSlice';
+import chatsReducer from '../features/chats/chatsSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const combinedReducer = combineReducers({
@@ -21,6 +22,7 @@ const combinedReducer = combineReducers({
   episodes: episodesReducer,
   auctions: auctionsReducer,
   auction: auctionReducer,
+  chats: chatsReducer,
 });
 
 export const rootReducer = (state: any, action: any) => {
