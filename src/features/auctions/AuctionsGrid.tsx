@@ -23,18 +23,31 @@ export default function AuctionsGrid({ auctions }: AuctionsGridProps) {
               cardName={auction.name}
               imageUrl={auction.image_url}
               isUserLeader={auction.is_user_leader}
+              isCompleted={auction.is_completed}
+              isThisUserAuction={auction.is_this_user_auction}
               endTime={auction.end_time}
               highestBid={auction.highest_bid}
               maxBid={auction.max_bid}
               minBidStep={auction.min_bid_step}
               startingBid={auction.starting_bid}>
-              <Button
-                fullWidth
-                variant="contained"
-                component={Link}
-                to={`/auctions/${auction.id}`}>
-                Make bid
-              </Button>
+              {auction.is_this_user_auction ? (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  component={Link}
+                  to={`/auctions/edit/${auction.id}`}>
+                  Edit auction
+                </Button>
+              ) : (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="success"
+                  component={Link}
+                  to={`/auctions/${auction.id}`}>
+                  Make bid
+                </Button>
+              )}
             </AuctionCard>
           </Grid2>
         ))}
