@@ -12,6 +12,7 @@ type AuctionFormProps = {
     'card' | 'is_this_user_auction' | 'highest_bid' | 'is_completed'
   >;
   actions: React.ReactNode;
+  isFormInactive?: boolean;
   onSubmit: (
     data: Omit<ICreateAuction, 'cardId' | 'endTime'> & { endTime: Dayjs },
   ) => void;
@@ -34,6 +35,7 @@ const optionalInputValidationRules = {
 export default function AuctionForm({
   actions,
   onSubmit,
+  isFormInactive,
   data,
 }: AuctionFormProps) {
   const { control, handleSubmit } = useForm<
@@ -71,6 +73,7 @@ export default function AuctionForm({
           type="number"
           margin="none"
           rules={inputValidationRules}
+          disabled={isFormInactive}
           control={control}
           errorText="Starting bid is required and must ne number"
         />
@@ -82,6 +85,7 @@ export default function AuctionForm({
           type="number"
           margin="none"
           rules={inputValidationRules}
+          disabled={isFormInactive}
           control={control}
           errorText="Min bid step is required and must ne number"
         />
@@ -93,6 +97,7 @@ export default function AuctionForm({
           type="number"
           margin="none"
           rules={optionalInputValidationRules}
+          disabled={isFormInactive}
           control={control}
           errorText="Max bid must ne number"
         />
@@ -104,6 +109,7 @@ export default function AuctionForm({
           type="number"
           margin="none"
           rules={inputValidationRules}
+          disabled={isFormInactive}
           control={control}
           errorText="Min length is required and must ne number"
         />
@@ -113,6 +119,7 @@ export default function AuctionForm({
           name="endTime"
           label="End time"
           control={control}
+          disabled={isFormInactive}
           required
           errorText="End time is required"
         />
