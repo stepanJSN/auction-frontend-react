@@ -8,7 +8,7 @@ export interface ICreateAuction {
   minBidStep: number;
   maxBid?: number;
   minLength: number;
-  endTime: Date;
+  endTime: string;
 }
 
 export interface IUpdateAuction extends Omit<ICreateAuction, 'cardId'> {}

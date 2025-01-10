@@ -2,29 +2,30 @@ import { useCallback } from 'react';
 import useMutation from '../../../hooks/useMutation';
 import { IUpdateAuction } from '../../../types/auctions.interfaces';
 import { auctionService } from '../../../services/auctionService';
+import { Dayjs } from 'dayjs';
 
-export default function useUpdateAuction(cardId?: string) {
+export default function useUpdateAuction(auctionId?: string) {
   const {
     mutate,
-    status: creationStatus,
+    status: updateStatus,
     errorCode,
   } = useMutation((data: IUpdateAuction) => {
-    if (!cardId) return;
-    return auctionService.update(cardId, data);
+    if (!auctionId) return;
+    return auctionService.update(auctionId, data);
   });
 
-  const handleCreate = useCallback(
-    (data: IUpdateAuction) => {
+  const handleUpdate = useCallback(
+    (data: Omit<IUpdateAuction, 'endTime'> & { endTime: Dayjs }) => {
       mutate({
         minBidStep: +data.minBidStep,
         maxBid: data.maxBid ? +data.maxBid : undefined,
         startingBid: +data.startingBid,
         minLength: +data.minLength,
-        endTime: data.endTime,
+        endTime: data.endTime.toISOString(),
       });
     },
     [mutate],
   );
 
-  return { handleCreate, creationStatus, errorCode };
+  return { handleUpdate, updateStatus, errorCode };
 }
