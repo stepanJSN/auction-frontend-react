@@ -3,7 +3,7 @@ import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import { ICreateEpisode } from '../../types/episodes.interfaces';
 import { useEffect } from 'react';
-import { textFieldValueLength } from '../../constants/textFieldValueLength';
+import { textFieldValidationRules } from '../../constants/textFieldValidationRules';
 
 type CreateEpisodeFormProps = {
   isLoading: boolean;
@@ -31,16 +31,14 @@ export default function CreateEpisodeForm({
         label="Name"
         control={control}
         errorText="The name must be between 2 and 15 characters long"
-        length={textFieldValueLength}
-        required
+        rules={textFieldValidationRules}
       />
       <FormInput
         name="code"
         label="Code"
         control={control}
         errorText="The code must be between 2 and 15 characters long"
-        length={textFieldValueLength}
-        required
+        rules={textFieldValidationRules}
       />
       <Button variant="contained" fullWidth disabled={isLoading} type="submit">
         {isLoading ? 'Creating...' : 'Create'}

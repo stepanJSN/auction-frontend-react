@@ -7,7 +7,10 @@ import Card from '../../components/Card';
 import CardsList from './CardsList';
 import { ICardSummary } from '../../types/cards.interface';
 import RemoveCardButton from './RemoveCardButton';
-import { textFieldValueLength } from '../../constants/textFieldValueLength';
+import {
+  numberFieldValidationRules,
+  textFieldValidationRules,
+} from '../../constants/textFieldValidationRules';
 
 type SetFormProps = {
   data?: Pick<ISet, 'name' | 'bonus' | 'cards'>;
@@ -81,8 +84,7 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
           label="Name"
           control={control}
           errorText="The name must be between 2 and 15 characters long"
-          required
-          length={textFieldValueLength}
+          rules={textFieldValidationRules}
         />
       </Grid2>
       <Grid2 size={inputColumnsNumber}>
@@ -90,10 +92,9 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
           name="bonus"
           label="Bonus"
           type="number"
-          pattern={/^\d+$/}
           control={control}
           errorText="The bonus is required"
-          required
+          rules={numberFieldValidationRules}
         />
       </Grid2>
       <Grid2 container spacing={2} size={12}>

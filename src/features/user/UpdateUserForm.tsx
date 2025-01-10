@@ -11,8 +11,8 @@ type UpdateUserProps = {
   surname: string;
 };
 
-const nameAndSurnameLength = { min: 2, max: 15 };
-const passwordLength = { min: 8, max: 16 };
+const nameAndSurnameValidationRules = { minLength: 2, maxLength: 15 };
+const passwordValidationRules = { min: 8, max: 16 };
 const formButtonStyles: SxProps = { my: 1 };
 export default function UpdateUserForm({
   isUpdating,
@@ -35,7 +35,7 @@ export default function UpdateUserForm({
         control={control}
         placeholder={name}
         errorText="The name must be between 2 and 15 characters long"
-        length={nameAndSurnameLength}
+        rules={nameAndSurnameValidationRules}
       />
       <FormInput
         name="surname"
@@ -43,7 +43,7 @@ export default function UpdateUserForm({
         control={control}
         placeholder={surname}
         errorText="The surname must be between 2 and 15 characters long"
-        length={nameAndSurnameLength}
+        rules={nameAndSurnameValidationRules}
       />
       <FormInput
         name="password"
@@ -51,7 +51,7 @@ export default function UpdateUserForm({
         control={control}
         placeholder="********"
         errorText="The password must be between 8 and 16 characters long"
-        length={passwordLength}
+        rules={passwordValidationRules}
       />
       <Button
         variant="contained"
