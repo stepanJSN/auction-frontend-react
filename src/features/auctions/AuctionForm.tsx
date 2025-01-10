@@ -1,12 +1,20 @@
+import { useMemo } from 'react';
 import { Grid2 } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
-import { ICreateAuction } from '../../types/auctions.interfaces';
+import { IAuction, ICreateAuction } from '../../types/auctions.interfaces';
 import FormDateTimePicker from '../../components/FormDateTimePicker';
+import dayjs, { Dayjs } from 'dayjs';
 
 type AuctionFormProps = {
+  data?: Omit<
+    IAuction,
+    'card' | 'is_this_user_auction' | 'highest_bid' | 'is_completed'
+  >;
   actions: React.ReactNode;
-  onSubmit: (data: Omit<ICreateAuction, 'cardId'>) => void;
+  onSubmit: (
+    data: Omit<ICreateAuction, 'cardId' | 'endTime'> & { endTime: Dayjs },
+  ) => void;
 };
 
 const inputGridSize = {
@@ -23,8 +31,33 @@ const optionalInputValidationRules = {
   pattern: /^\d+$/,
 };
 
-export default function AuctionForm({ actions, onSubmit }: AuctionFormProps) {
-  const { control, handleSubmit } = useForm<Omit<ICreateAuction, 'cardId'>>();
+export default function AuctionForm({
+  actions,
+  onSubmit,
+  data,
+}: AuctionFormProps) {
+  const { control, handleSubmit } = useForm<
+    Omit<ICreateAuction, 'cardId' | 'endTime'> & { endTime: Dayjs }
+  >(
+    useMemo(
+      () => ({
+        defaultValues: {
+          startingBid: data?.starting_bid,
+          minBidStep: data?.min_bid_step,
+          minLength: data?.min_length,
+          endTime: dayjs(data?.end_time),
+          maxBid: data?.max_bid ?? undefined,
+        },
+      }),
+      [
+        data?.end_time,
+        data?.max_bid,
+        data?.min_bid_step,
+        data?.min_length,
+        data?.starting_bid,
+      ],
+    ),
+  );
   return (
     <Grid2
       container
