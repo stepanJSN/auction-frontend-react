@@ -22,5 +22,6 @@ export default function* rootSaga() {
     fork(watchEpisodesSaga),
     fork(watchAuctionsSaga),
     fork(watchAuctionSaga),
+    fork(watchAuctionSaga),
   ]);
 }
