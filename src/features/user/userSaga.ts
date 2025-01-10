@@ -20,12 +20,14 @@ import {
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
 import { transactionsService } from '../../services/transactionsService';
+import { authService } from '../../services/authService';
 
 const NOTIFICATION_TIMEOUT = 3000;
 
-function* getUserSaga(action: PayloadAction<string>) {
+function* getUserSaga(action: PayloadAction<string | undefined>) {
   try {
-    const userData: IUser = yield call(userService.getOne, action.payload);
+    const userId = action.payload ?? authService.getUserId()!;
+    const userData: IUser = yield call(userService.getOne, userId);
     yield put(getUserSuccess(userData));
   } catch (error) {
     yield put(

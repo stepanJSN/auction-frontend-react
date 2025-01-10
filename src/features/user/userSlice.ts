@@ -37,7 +37,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    getUser: (state, _action: PayloadAction<string>) => {
+    getUser: (state, _action: PayloadAction<string | undefined>) => {
       state.status = QueryStatusEnum.LOADING;
     },
     getUserSuccess: (state, action: PayloadAction<IUser>) => {

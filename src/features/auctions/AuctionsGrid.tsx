@@ -1,6 +1,7 @@
-import { Grid2 } from '@mui/material';
+import { Button, Grid2 } from '@mui/material';
 import AuctionCard from './AuctionCard';
 import { IAuctionSummary } from '../../types/auctions.interfaces';
+import { Link } from 'react-router';
 
 type AuctionsGridProps = {
   auctions: IAuctionSummary[];
@@ -26,8 +27,15 @@ export default function AuctionsGrid({ auctions }: AuctionsGridProps) {
               highestBid={auction.highest_bid}
               maxBid={auction.max_bid}
               minBidStep={auction.min_bid_step}
-              startingBid={auction.starting_bid}
-            />
+              startingBid={auction.starting_bid}>
+              <Button
+                fullWidth
+                variant="contained"
+                component={Link}
+                to={`/auctions/${auction.id}`}>
+                Make bid
+              </Button>
+            </AuctionCard>
           </Grid2>
         ))}
     </Grid2>

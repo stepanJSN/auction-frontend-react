@@ -7,6 +7,7 @@ import usersReducer from '../features/users/usersSlice';
 import locationsReducer from '../features/locations/locationsSlice';
 import episodesReducer from '../features/episodes/episodesSlice';
 import auctionsReducer from '../features/auctions/AuctionsSlice';
+import auctionReducer from '../features/auctions/auction/AuctionSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const combinedReducer = combineReducers({
@@ -19,6 +20,7 @@ const combinedReducer = combineReducers({
   locations: locationsReducer,
   episodes: episodesReducer,
   auctions: auctionsReducer,
+  auction: auctionReducer,
 });
 
 export const rootReducer = (state: any, action: any) => {

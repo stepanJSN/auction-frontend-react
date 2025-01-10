@@ -3,14 +3,17 @@ import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
 import { ICreateUser } from '../../types/user.interfaces';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
+import {
+  emailValidationRules,
+  passwordValidationRules,
+  userNameValidationRules,
+} from '../../constants/textFieldValidationRules';
 
 type SignupFormProps = {
   status: MutationStatusEnum;
   onSubmit: (data: ICreateUser) => void;
 };
 
-const nameAndSurnameLength = { min: 2, max: 15 };
-const passwordLength = { min: 8, max: 16 };
 const formButtonStyles: SxProps = { mt: 1 };
 export default function SignupForm({ status, onSubmit }: SignupFormProps) {
   const { control, handleSubmit } = useForm<ICreateUser>();
@@ -22,24 +25,21 @@ export default function SignupForm({ status, onSubmit }: SignupFormProps) {
         label="Email"
         control={control}
         errorText="Incorrect email"
-        required
-        pattern={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
+        rules={emailValidationRules}
       />
       <FormInput
         name="name"
         label="Name"
         control={control}
         errorText="The name must be between 2 and 15 characters long"
-        required
-        length={nameAndSurnameLength}
+        rules={userNameValidationRules}
       />
       <FormInput
         name="surname"
         label="Surname"
         control={control}
         errorText="The surname must be between 2 and 15 characters long"
-        required
-        length={nameAndSurnameLength}
+        rules={userNameValidationRules}
       />
       <FormInput
         name="password"
@@ -47,8 +47,7 @@ export default function SignupForm({ status, onSubmit }: SignupFormProps) {
         control={control}
         errorText="The password must be between 8 and 16 characters long"
         type="password"
-        required
-        length={passwordLength}
+        rules={passwordValidationRules}
       />
       <Button
         variant="contained"

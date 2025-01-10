@@ -2,13 +2,16 @@ import { useForm } from 'react-hook-form';
 import { ISingInRequest } from '../../types/auth.interfaces';
 import { Box, Button, SxProps } from '@mui/material';
 import FormInput from '../../components/FormInput';
+import {
+  emailValidationRules,
+  passwordValidationRules,
+} from '../../constants/textFieldValidationRules';
 
 type AuthFormProps = {
   isLoading: boolean;
   onSubmit: (data: ISingInRequest) => void;
 };
 
-const passwordLength = { min: 8, max: 16 };
 const formButtonStyles: SxProps = {
   mt: 1,
 };
@@ -23,16 +26,14 @@ export default function AuthForm({ isLoading, onSubmit }: AuthFormProps) {
         label="Email"
         control={control}
         errorText="Incorrect email"
-        required
-        pattern={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
+        rules={emailValidationRules}
       />
       <FormInput
         name="password"
         label="Password"
         control={control}
         errorText="Incorrect password"
-        required
-        length={passwordLength}
+        rules={passwordValidationRules}
         type="password"
       />
       <Button

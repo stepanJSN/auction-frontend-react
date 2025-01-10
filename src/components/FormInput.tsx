@@ -1,4 +1,10 @@
-import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import { IconButton, InputAdornment } from '@mui/material';
 import { useCallback, useState } from 'react';
@@ -11,26 +17,24 @@ type FormInputProps<T extends FieldValues> = {
   type?: 'text' | 'password' | 'number';
   margin?: 'dense' | 'normal' | 'none';
   errorText?: string;
-  required?: boolean;
-  pattern?: RegExp;
   placeholder?: string;
-  length?: {
-    min: number;
-    max: number;
-  };
+  disabled?: boolean;
+  rules?: Omit<
+    RegisterOptions<T>,
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+  >;
 };
 
 export default function FormInput<T extends FieldValues>({
   name,
   label,
   control,
-  required,
   errorText,
-  pattern,
-  length,
+  rules,
   type,
   margin = 'dense',
   placeholder,
+  disabled,
 }: FormInputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,12 +46,7 @@ export default function FormInput<T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      rules={{
-        required,
-        pattern,
-        minLength: length?.min,
-        maxLength: length?.max,
-      }}
+      rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           helperText={error ? errorText : null}
@@ -58,6 +57,7 @@ export default function FormInput<T extends FieldValues>({
           fullWidth
           label={label}
           placeholder={placeholder}
+          disabled={disabled}
           margin={margin}
           variant="outlined"
           type={type === 'password' && showPassword ? 'text' : type}

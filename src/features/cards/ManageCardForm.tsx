@@ -11,7 +11,10 @@ import { IEpisode } from '../../types/episodes.interfaces';
 import { Gender } from '../../enums/gender.enum';
 import { ICard, ICreateCard } from '../../types/cards.interface';
 import EpisodesListForm from './EpisodesListForm';
-import { textFieldValueLength } from '../../constants/textFieldValueLength';
+import {
+  optionalTextFieldValidationRules,
+  textFieldValidationRules,
+} from '../../constants/textFieldValidationRules';
 
 export interface ICreateCardFrom {
   name: string;
@@ -107,15 +110,14 @@ export default function ManageCardForm({
         label="Name"
         control={control}
         errorText="The name must be between 2 and 15 characters long"
-        required
-        length={textFieldValueLength}
+        rules={textFieldValidationRules}
       />
       <FormInput
         name="type"
         label="Type"
         control={control}
         errorText="The type must be between 2 and 15 characters long"
-        length={textFieldValueLength}
+        rules={optionalTextFieldValidationRules}
       />
       <FormSelect
         name="gender"

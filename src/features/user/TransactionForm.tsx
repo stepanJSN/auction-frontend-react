@@ -1,6 +1,7 @@
 import { Box, Typography, Button, SxProps } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
+import { numberFieldValidationRules } from '../../constants/textFieldValidationRules';
 
 type TransactionFormProps = {
   onSubmit: (data: { amount: string }) => void;
@@ -45,9 +46,8 @@ export default function TransactionForm({
           name="amount"
           label="Amount"
           type="number"
-          required
-          pattern={/^\d+$/}
           errorText="Amount is required and must be a number"
+          rules={numberFieldValidationRules}
         />
         <Button
           variant="contained"

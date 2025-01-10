@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -9,7 +8,6 @@ import {
   Typography,
 } from '@mui/material';
 import { CardLabel } from '../../components/CardLabel';
-import { Link } from 'react-router';
 import dayjs from 'dayjs';
 
 type AuctionCardProps = {
@@ -20,8 +18,9 @@ type AuctionCardProps = {
   highestBid: number | null;
   minBidStep: number;
   startingBid: number;
-  maxBid?: number;
+  maxBid: number | null;
   isCompleted?: boolean;
+  children?: React.ReactNode;
 };
 
 const cardWrapperStyles: SxProps = {
@@ -46,6 +45,7 @@ export default function AuctionCard({
   startingBid,
   minBidStep,
   isCompleted,
+  children,
 }: AuctionCardProps) {
   return (
     <Card sx={cardWrapperStyles}>
@@ -69,11 +69,7 @@ export default function AuctionCard({
           <Typography>Min bid step: {minBidStep}</Typography>
           {maxBid && <Typography>Max bid: {maxBid}</Typography>}
         </CardContent>
-        <CardActions>
-          <Button fullWidth variant="contained" component={Link} to="">
-            Make bid
-          </Button>
-        </CardActions>
+        <CardActions>{children}</CardActions>
       </Stack>
     </Card>
   );
