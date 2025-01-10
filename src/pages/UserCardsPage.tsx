@@ -15,6 +15,7 @@ import usePaginatedData from '../hooks/usePaginatedData';
 import CardsGrid from '../components/CardsGrid';
 import { useCallback } from 'react';
 import { ICardSummary } from '../types/cards.interface';
+import { ROUTES } from '../config/routesConfig';
 
 export default function UserCardsPage() {
   const { status, cards, currentPage, totalPages } =
@@ -25,6 +26,11 @@ export default function UserCardsPage() {
     changeUserCardsPage,
   );
 
+  const auctionCreateRoute = useCallback(
+    (cardId: string) => ROUTES.CREATE_AUCTION(cardId),
+    [],
+  );
+
   const cardActions = useCallback(
     (card: ICardSummary) => (
       <>
@@ -32,12 +38,12 @@ export default function UserCardsPage() {
           size="small"
           color="success"
           component={Link}
-          to={`/auction-create/${card.id}`}>
+          to={auctionCreateRoute(card.id)}>
           Sell
         </Button>
       </>
     ),
-    [],
+    [auctionCreateRoute],
   );
 
   return (
@@ -47,7 +53,7 @@ export default function UserCardsPage() {
       </Typography>
       {status === QueryStatusEnum.ERROR && <PageError />}
       {status === QueryStatusEnum.LOADING && <PageLoader />}
-      {status === QueryStatusEnum.SUCCESS && cards.length !== 0 && (
+      {status === QueryStatusEnum.SUCCESS && cards && cards.length !== 0 && (
         <>
           <CardsGrid cards={cards} cardActions={cardActions} />
           <Pagination
@@ -57,7 +63,7 @@ export default function UserCardsPage() {
           />
         </>
       )}
-      {status === QueryStatusEnum.SUCCESS && cards.length === 0 && <NoCards />}
+      {status === QueryStatusEnum.SUCCESS && cards?.length === 0 && <NoCards />}
       <Outlet />
     </>
   );

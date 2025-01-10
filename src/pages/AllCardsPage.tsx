@@ -28,6 +28,11 @@ export default function AllCardsPage() {
     changeCardsPage,
   );
 
+  const auctionCreateRoute = useCallback(
+    (cardId: string) => ROUTES.CREATE_AUCTION(cardId),
+    [],
+  );
+
   const cardActions = useCallback(
     (card: ICardSummary) => {
       if (role && role === Role.ADMIN) {
@@ -38,7 +43,7 @@ export default function AllCardsPage() {
               color="success"
               component={Link}
               disabled={!card.is_active}
-              to={`/auction-create/${card.id}`}>
+              to={auctionCreateRoute(card.id)}>
               Sell
             </Button>
             <Button component={Link} to={`/edit-card/${card.id}`} size="small">
@@ -48,7 +53,7 @@ export default function AllCardsPage() {
         );
       }
     },
-    [role],
+    [auctionCreateRoute, role],
   );
 
   return (

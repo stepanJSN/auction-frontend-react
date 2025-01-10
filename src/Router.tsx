@@ -79,14 +79,14 @@ export default function Router() {
           </Route>
           <Route path="/auctions" element={<AuctionsPage />} />
           <Route
+            path="/auctions/create/:cardId"
+            element={<CreateAuctionPage />}
+          />
+          <Route
             path="/auctions/edit/:auctionId"
             element={<EditAuctionPage />}
           />
           <Route path="/auctions/:auctionId" element={<AuctionPage />} />
-          <Route
-            path="/auction-create/:cardId"
-            element={<CreateAuctionPage />}
-          />
         </Route>
       </Routes>
     </BrowserRouter>
