@@ -1,7 +1,12 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { cardsService } from '../../services/cardsService';
 import { IGetCardsResponse } from '../../types/cards.interface';
-import { getCards, getCardsError, getCardsSuccess } from './cardsSlice';
+import {
+  changeCardsPage,
+  getCards,
+  getCardsError,
+  getCardsSuccess,
+} from './cardsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/store';
 
@@ -21,4 +26,5 @@ function* getCardsSaga(action: PayloadAction<number | undefined>) {
 
 export function* watchCardsSaga() {
   yield takeLatest(getCards.type, getCardsSaga);
+  yield takeLatest(changeCardsPage.type, getCardsSaga);
 }

@@ -22,11 +22,7 @@ import { ICardSummary } from '../types/cards.interface';
 export default function AllCardsPage() {
   const { status, cards, currentPage, totalPages } = useSelector(selectCards);
   const { role } = useSelector(selectAuth);
-  const handlePageChange = usePaginatedData(
-    currentPage,
-    getCards,
-    changeCardsPage,
-  );
+  const handlePageChange = usePaginatedData(getCards, changeCardsPage);
 
   const auctionCreateRoute = useCallback(
     (cardId: string) => ROUTES.CREATE_AUCTION(cardId),

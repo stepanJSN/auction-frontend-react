@@ -17,11 +17,7 @@ import usePaginatedData from '../hooks/usePaginatedData';
 
 export default function SetsPage() {
   const { status, sets, currentPage, totalPages } = useSelector(selectSets);
-  const handlePageChange = usePaginatedData(
-    currentPage,
-    getSets,
-    changeSetsPage,
-  );
+  const handlePageChange = usePaginatedData(getSets, changeSetsPage);
 
   return (
     <>

@@ -1,5 +1,10 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { getSets, getSetsError, getSetsSuccess } from './setsSlice';
+import {
+  changeSetsPage,
+  getSets,
+  getSetsError,
+  getSetsSuccess,
+} from './setsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { IGetSetsResponse } from '../../types/sets.interface';
 import { setsService } from '../../services/setsService';
@@ -22,4 +27,5 @@ function* getSetsSaga(action: PayloadAction<number | undefined>) {
 
 export function* watchSetsSaga() {
   yield takeLatest(getSets.type, getSetsSaga);
+  yield takeLatest(changeSetsPage.type, getSetsSaga);
 }

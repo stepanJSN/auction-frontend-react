@@ -26,7 +26,7 @@ export const userCardsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getCards: (state, _action: PayloadAction<number>) => {
+    getCards: (state) => {
       state.status = QueryStatusEnum.LOADING;
     },
 

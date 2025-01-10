@@ -2,15 +2,14 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export default function usePaginatedData(
-  currentPage: number,
-  fetchAction: (page: number) => any,
+  fetchAction: () => any,
   changePageAction: (page: number) => any,
 ) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAction(currentPage));
-  }, [dispatch, fetchAction, currentPage]);
+    dispatch(fetchAction());
+  }, [dispatch, fetchAction]);
 
   const handlePageChange = useCallback(
     (_event: React.ChangeEvent<unknown>, value: number) => {
