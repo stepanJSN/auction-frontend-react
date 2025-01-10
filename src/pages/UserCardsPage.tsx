@@ -30,6 +30,10 @@ export default function UserCardsPage() {
     (cardId: string) => ROUTES.CREATE_AUCTION(cardId),
     [],
   );
+  const cardDetailsRoute = useCallback(
+    (cardId: string) => ROUTES.CARD_DETAILS(cardId),
+    [],
+  );
 
   const cardActions = useCallback(
     (card: ICardSummary) => (
@@ -55,7 +59,11 @@ export default function UserCardsPage() {
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.SUCCESS && cards && cards.length !== 0 && (
         <>
-          <CardsGrid cards={cards} cardActions={cardActions} />
+          <CardsGrid
+            cards={cards}
+            cardActions={cardActions}
+            cardPagePath={cardDetailsRoute}
+          />
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}

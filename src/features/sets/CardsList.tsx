@@ -12,6 +12,7 @@ import useCardList from './useCardList';
 type CardsListProps = {
   cardsInSet: ICardSummary[];
   handleAddCard: (value: ICardSummary) => void;
+  cardDetailsRoute: (cardId: string) => string;
 };
 
 const headerStyles: SxProps = {
@@ -24,6 +25,7 @@ const inputStyles: SxProps = {
 
 export default function CardsList({
   handleAddCard,
+  cardDetailsRoute,
   cardsInSet,
 }: CardsListProps) {
   const { data, status, handleFilterChange, handlePageChange, page } =
@@ -56,7 +58,11 @@ export default function CardsList({
       {status === QueryStatusEnum.ERROR && <PageError />}
       {status === QueryStatusEnum.SUCCESS && data?.data.length !== 0 && (
         <>
-          <CardsGrid cards={data!.data} cardActions={cardActions} />
+          <CardsGrid
+            cards={data!.data}
+            cardActions={cardActions}
+            cardPagePath={cardDetailsRoute}
+          />
           <Pagination
             currentPage={page}
             totalPages={data!.info.totalPages}

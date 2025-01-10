@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IEpisode } from '../../types/episodes.interfaces';
 import { Link } from 'react-router';
 import EditIcon from '@mui/icons-material/Edit';
+import { ROUTES } from '../../config/routesConfig';
 
 type EpisodesTableRowProps = {
   episode: IEpisode;
@@ -46,6 +47,11 @@ export default function EpisodesTableRow({
     [onDelete, episode.id],
   );
 
+  const editEpisodeRoute = useCallback(
+    () => ROUTES.EDIT_EPISODE(episode.id),
+    [episode.id],
+  );
+
   return (
     <>
       <TableRow sx={rowStyles}>
@@ -59,10 +65,7 @@ export default function EpisodesTableRow({
             direction="row"
             spacing={1}
             sx={buttonsContainerStyles}>
-            <Button
-              variant="outlined"
-              component={Link}
-              to={`./edit/${episode.id}`}>
+            <Button variant="outlined" component={Link} to={editEpisodeRoute()}>
               {matches ? 'Edit' : <EditIcon />}
             </Button>
             <Button
