@@ -54,6 +54,12 @@ export enum AuctionSortByEnum {
   HIGHEST_BID = 'highestBid',
 }
 
+export enum AuctionTypeEnum {
+  CREATED_BY_USER = 'createdByUser',
+  WON_BY_USER = 'wonByUser',
+  AVAILABLE = 'available',
+}
+
 export interface IGetAuctionsPayload {
   page?: number;
   locationId?: number;
@@ -61,6 +67,7 @@ export interface IGetAuctionsPayload {
   fromPrice?: number;
   toPrice?: number;
   isUserTakePart?: boolean;
+  type: AuctionTypeEnum;
   isUserLeader?: boolean;
   sortOrder?: SortOrderEnum;
   sortBy?: AuctionSortByEnum;
