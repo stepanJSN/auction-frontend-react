@@ -39,7 +39,7 @@ function* createBidSaga(action: PayloadAction<ICreateBid>) {
   } catch (error) {
     yield put(
       createBidError(
-        ((error as AxiosError).response?.data.code as number) ||
+        ((error as AxiosError).response?.data?.code as number) ||
           ErrorCodesEnum.ServerError,
       ),
     );
