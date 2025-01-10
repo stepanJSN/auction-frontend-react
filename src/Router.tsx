@@ -21,6 +21,7 @@ import EditEpisodePage from './pages/EditEpisodePage';
 import CreateSetPage from './pages/CreateSetPage';
 import EditSetPage from './pages/EditSetPage';
 import CreateAuctionPage from './pages/CreateAuctionPage';
+import AuctionsPage from './pages/AuctionsPage';
 
 export default function Router() {
   return (
@@ -74,6 +75,7 @@ export default function Router() {
               element={<EditEpisodePage />}
             />
           </Route>
+          <Route path="/auctions" element={<AuctionsPage />} />
           <Route
             path="/auction-create/:cardId"
             element={<CreateAuctionPage />}
