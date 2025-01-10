@@ -16,6 +16,7 @@ import {
   setShowOnlyWhereUserTakePart,
   setSortBy,
   setSortOrder,
+  setType,
 } from './AuctionsSlice';
 import {
   IGetAuctionsResponse,
@@ -38,6 +39,7 @@ function* getAuctionsSaga(action: PayloadAction<number | undefined>) {
       toPrice: filters.price.range[1]!,
       sortBy: filters.sortBy,
       sortOrder: filters.sortOrder,
+      type: filters.type,
     });
     yield put(getAuctionsSuccess(auctions));
   } catch {
@@ -60,6 +62,7 @@ function* setAuctionsFiltersSaga() {
       toPrice: filters.price.range[1]!,
       sortBy: filters.sortBy,
       sortOrder: filters.sortOrder,
+      type: filters.type,
     });
     yield put(getAuctionsSuccess(auctions));
   } catch {
@@ -78,6 +81,7 @@ function* getPriceRangeSaga() {
 
 export function* watchAuctionsSaga() {
   yield takeLatest(getAuctions.type, getAuctionsSaga);
+  yield takeLatest(setType.type, setAuctionsFiltersSaga);
   yield debounce(
     500,
     [
