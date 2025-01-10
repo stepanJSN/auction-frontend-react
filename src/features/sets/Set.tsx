@@ -7,10 +7,11 @@ import {
   SxProps,
   Button,
 } from '@mui/material';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ISet } from '../../types/sets.interface';
 import Card from '../../components/Card';
 import { Link } from 'react-router';
+import { ROUTES } from '../../config/routesConfig';
 
 type SetProps = {
   set: ISet;
@@ -37,6 +38,15 @@ export default function Set({ set }: SetProps) {
     [set.is_user_has_set],
   );
 
+  const cardDetailsRoute = useCallback(
+    (cardId: string) => ROUTES.SET_CARD_DETAILS(cardId),
+    [],
+  );
+  const setEditRoute = useCallback(
+    (setId: string) => ROUTES.EDIT_SET(setId),
+    [],
+  );
+
   return (
     <Box sx={setContainerStyles}>
       <Stack direction="row" spacing={2} sx={setHeaderStyles}>
@@ -49,14 +59,14 @@ export default function Set({ set }: SetProps) {
       </Stack>
       <Stack direction="row" spacing={2} sx={subHeaderStyles}>
         <Typography variant="h6">Bonus: {set.bonus}</Typography>
-        <Button variant="outlined" component={Link} to={`/set-edit/${set.id}`}>
+        <Button variant="outlined" component={Link} to={setEditRoute(set.id)}>
           Edit
         </Button>
       </Stack>
       <Grid2 container spacing={2}>
         {set.cards.map((card) => (
           <Grid2 size={cardColumnsNumber} key={card.id}>
-            <Card {...card} cardPagePath="./cards/" />
+            <Card {...card} cardPagePath={cardDetailsRoute} />
           </Grid2>
         ))}
       </Grid2>

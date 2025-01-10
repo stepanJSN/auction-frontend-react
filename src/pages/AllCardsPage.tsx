@@ -28,6 +28,19 @@ export default function AllCardsPage() {
     changeCardsPage,
   );
 
+  const auctionCreateRoute = useCallback(
+    (cardId: string) => ROUTES.CREATE_AUCTION(cardId),
+    [],
+  );
+  const editCardPageRoute = useCallback(
+    (cardId: string) => ROUTES.EDIT_CARD(cardId),
+    [],
+  );
+  const cardDetailsRoute = useCallback(
+    (cardId: string) => ROUTES.CARD_DETAILS(cardId),
+    [],
+  );
+
   const cardActions = useCallback(
     (card: ICardSummary) => {
       if (role && role === Role.ADMIN) {
@@ -38,17 +51,20 @@ export default function AllCardsPage() {
               color="success"
               component={Link}
               disabled={!card.is_active}
-              to={`/auction-create/${card.id}`}>
+              to={auctionCreateRoute(card.id)}>
               Sell
             </Button>
-            <Button component={Link} to={`/edit-card/${card.id}`} size="small">
+            <Button
+              component={Link}
+              to={editCardPageRoute(card.id)}
+              size="small">
               Manage
             </Button>
           </>
         );
       }
     },
-    [role],
+    [auctionCreateRoute, editCardPageRoute, role],
   );
 
   return (
@@ -58,7 +74,11 @@ export default function AllCardsPage() {
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.SUCCESS && cards && cards.length !== 0 && (
         <>
-          <CardsGrid cards={cards} cardActions={cardActions} />
+          <CardsGrid
+            cards={cards}
+            cardActions={cardActions}
+            cardPagePath={cardDetailsRoute}
+          />
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}

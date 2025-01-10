@@ -14,6 +14,7 @@ type AuctionCardProps = {
   cardName: string;
   imageUrl: string;
   isUserLeader: boolean;
+  isThisUserAuction: boolean;
   endTime: string;
   highestBid: number | null;
   minBidStep: number;
@@ -45,6 +46,7 @@ export default function AuctionCard({
   startingBid,
   minBidStep,
   isCompleted,
+  isThisUserAuction,
   children,
 }: AuctionCardProps) {
   return (
@@ -55,7 +57,10 @@ export default function AuctionCard({
           <CardLabel colorVariant="success">Your bid is the highest</CardLabel>
         )}
         {isCompleted && (
-          <CardLabel colorVariant="success">Auction is completed</CardLabel>
+          <CardLabel colorVariant="info">Auction is completed</CardLabel>
+        )}
+        {isThisUserAuction && (
+          <CardLabel colorVariant="success">This is your auction</CardLabel>
         )}
         <CardContent sx={cardContentStyles}>
           <Typography variant="h5" gutterBottom>

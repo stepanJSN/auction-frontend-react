@@ -15,7 +15,7 @@ import { Link } from 'react-router';
 
 type CardProps = ICardSummary & {
   children?: React.ReactNode;
-  cardPagePath?: string;
+  cardPagePath: (cardId: string) => string;
 };
 
 const cardMediaStyles = {
@@ -36,7 +36,7 @@ export default function Card({
   is_owned,
   type,
   children,
-  cardPagePath = './',
+  cardPagePath,
 }: CardProps) {
   const cardStyles: SxProps = useMemo(
     () => ({
@@ -53,7 +53,7 @@ export default function Card({
       <Stack height="100%">
         <CardMedia sx={cardMediaStyles} image={image_url} title={name} />
         {is_created_by_admin && (
-          <CardLabel colorVariant="error">Card was created by admin</CardLabel>
+          <CardLabel colorVariant="info">Card was created by admin</CardLabel>
         )}
         {is_owned && (
           <CardLabel colorVariant="success">You have this card</CardLabel>
@@ -66,7 +66,7 @@ export default function Card({
           {type && <Typography variant="body1">Type: {type}</Typography>}
         </CardContent>
         <CardActions>
-          <Button component={Link} to={`${cardPagePath}${id}`} size="small">
+          <Button component={Link} to={cardPagePath(id)} size="small">
             Learn More
           </Button>
           {children}

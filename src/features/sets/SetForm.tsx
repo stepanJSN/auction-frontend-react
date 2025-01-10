@@ -11,6 +11,7 @@ import {
   numberFieldValidationRules,
   textFieldValidationRules,
 } from '../../constants/textFieldValidationRules';
+import { ROUTES } from '../../config/routesConfig';
 
 type SetFormProps = {
   data?: Pick<ISet, 'name' | 'bonus' | 'cards'>;
@@ -52,6 +53,11 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
       }),
       [control],
     ),
+  );
+
+  const cardDetailsRoute = useCallback(
+    (cardId: string) => ROUTES.SET_CARD_DETAILS(cardId),
+    [],
   );
 
   const handleAddCard = useCallback(
@@ -100,7 +106,7 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
       <Grid2 container spacing={2} size={12}>
         {fields.map((field, index) => (
           <Grid2 key={field.formId} size={cardColumnsNumber}>
-            <Card {...field} cardPagePath="./cards/">
+            <Card {...field} cardPagePath={cardDetailsRoute}>
               <RemoveCardButton index={index} remove={remove} />
             </Card>
           </Grid2>
@@ -108,7 +114,11 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
       </Grid2>
       <Grid2 size="auto">{actions}</Grid2>
       <Grid2 size={12}>
-        <CardsList handleAddCard={handleAddCard} cardsInSet={fields} />
+        <CardsList
+          handleAddCard={handleAddCard}
+          cardsInSet={fields}
+          cardDetailsRoute={cardDetailsRoute}
+        />
       </Grid2>
     </Grid2>
   );

@@ -5,12 +5,12 @@ import {
   IGetAuctionsPayload,
   IGetAuctionsResponse,
   IPriceRange,
+  IUpdateAuction,
 } from '../types/auctions.interfaces';
 
 export const auctionService = {
   create: async (data: ICreateAuction) => {
-    const auction = await apiWithAuth.post<ICreateAuction>('/auctions', data);
-    return auction.data;
+    await apiWithAuth.post('/auctions', data);
   },
 
   findAll: async (payload: IGetAuctionsPayload) => {
@@ -47,5 +47,13 @@ export const auctionService = {
   findOne: async (id: string) => {
     const auction = await apiWithAuth.get<IAuction>(`/auctions/${id}`);
     return auction.data;
+  },
+
+  update: async (id: string, data: IUpdateAuction) => {
+    await apiWithAuth.patch(`/auctions/${id}`, data);
+  },
+
+  delete: async (id: string) => {
+    await apiWithAuth.delete(`/auctions/${id}`);
   },
 };

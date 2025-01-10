@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ILocation } from '../../types/locations.interfaces';
 import { Link } from 'react-router';
 import EditIcon from '@mui/icons-material/Edit';
+import { ROUTES } from '../../config/routesConfig';
 
 type LocationsTableRowProps = {
   location: ILocation;
@@ -46,6 +47,11 @@ export default function LocationsTableRow({
     [onDelete, location.id],
   );
 
+  const editLocationRoute = useCallback(
+    () => ROUTES.EDIT_LOCATION(location.id),
+    [location.id],
+  );
+
   return (
     <>
       <TableRow sx={rowStyles}>
@@ -62,7 +68,7 @@ export default function LocationsTableRow({
             <Button
               variant="outlined"
               component={Link}
-              to={`./edit/${location.id}`}>
+              to={editLocationRoute()}>
               {matches ? 'Edit' : <EditIcon />}
             </Button>
             <Button

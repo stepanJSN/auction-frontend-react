@@ -7,6 +7,7 @@ type FormDateTimePickerProps<T extends FieldValues> = {
   label: string;
   control: Control<T>;
   required?: boolean;
+  disabled?: boolean;
   errorText?: string;
 };
 
@@ -15,6 +16,7 @@ export default function FormDateTimePicker<T extends FieldValues>({
   label,
   control,
   required,
+  disabled,
   errorText,
 }: FormDateTimePickerProps<T>) {
   return (
@@ -30,6 +32,7 @@ export default function FormDateTimePicker<T extends FieldValues>({
             label={label}
             value={value ?? null}
             onChange={onChange}
+            disabled={disabled}
             disablePast
             ampm={false}
             slotProps={{

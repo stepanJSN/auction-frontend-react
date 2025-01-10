@@ -23,6 +23,7 @@ import EditSetPage from './pages/EditSetPage';
 import CreateAuctionPage from './pages/CreateAuctionPage';
 import AuctionsPage from './pages/AuctionsPage';
 import AuctionPage from './pages/AuctionPage';
+import EditAuctionPage from './pages/EditAuctionPage';
 
 export default function Router() {
   return (
@@ -37,27 +38,27 @@ export default function Router() {
             <Route path=":cardId" element={<CardPage />} />
           </Route>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/cards/create" element={<CreateCardPage />} />
+          <Route path="/cards/edit/:cardId" element={<EditCardPage />} />
           <Route path="/cards" element={<AllCardsPage />}>
             <Route path=":cardId" element={<CardPage />} />
           </Route>
-          <Route path="/create-card" element={<CreateCardPage />} />
-          <Route path="/edit-card/:cardId" element={<EditCardPage />} />
-          <Route path="/sets" element={<SetsPage />}>
+          <Route path="/sets/create" element={<CreateSetPage />}>
             <Route
-              path="/sets/cards/:cardId"
-              element={<CardPage parentPath={'/sets'} />}
-            />
-          </Route>
-          <Route path="/set-create" element={<CreateSetPage />}>
-            <Route
-              path="/set-create/cards/:cardId"
+              path="cards/:cardId"
               element={<CardPage parentPath="/set-create" />}
             />
           </Route>
-          <Route path="/set-edit/:setId" element={<EditSetPage />}>
+          <Route path="/sets/edit/:setId" element={<EditSetPage />}>
             <Route
-              path="/set-edit/:setId/cards/:cardId"
+              path="cards/:cardId"
               element={<CardPage parentPath="../" />}
+            />
+          </Route>
+          <Route path="/sets" element={<SetsPage />}>
+            <Route
+              path="cards/:cardId"
+              element={<CardPage parentPath={'/sets'} />}
             />
           </Route>
           <Route path="/transactions" element={<Transactions />} />
@@ -77,11 +78,15 @@ export default function Router() {
             />
           </Route>
           <Route path="/auctions" element={<AuctionsPage />} />
-          <Route path="/auctions/:auctionId" element={<AuctionPage />} />
           <Route
-            path="/auction-create/:cardId"
+            path="/auctions/create/:cardId"
             element={<CreateAuctionPage />}
           />
+          <Route
+            path="/auctions/edit/:auctionId"
+            element={<EditAuctionPage />}
+          />
+          <Route path="/auctions/:auctionId" element={<AuctionPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
