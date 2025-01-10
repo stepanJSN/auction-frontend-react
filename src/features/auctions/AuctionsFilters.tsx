@@ -52,7 +52,7 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
   } = useFilters();
 
   return (
-    <Slide in={isOpen} direction="right">
+    <Slide appear={false} in={isOpen} direction="right">
       <Stack spacing={1} sx={filterStyles}>
         <Autocomplete
           label="Location"
