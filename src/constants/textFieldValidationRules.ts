@@ -4,6 +4,11 @@ export const textFieldValidationRules = {
   required: true,
 };
 
+export const optionalTextFieldValidationRules = {
+  minLength: 2,
+  maxLength: 30,
+};
+
 export const numberFieldValidationRules = {
   pattern: /^\d+$/,
   required: true,
