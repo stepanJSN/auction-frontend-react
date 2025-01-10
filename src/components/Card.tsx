@@ -53,7 +53,7 @@ export default function Card({
       <Stack height="100%">
         <CardMedia sx={cardMediaStyles} image={image_url} title={name} />
         {is_created_by_admin && (
-          <CardLabel colorVariant="error">Card was created by admin</CardLabel>
+          <CardLabel colorVariant="info">Card was created by admin</CardLabel>
         )}
         {is_owned && (
           <CardLabel colorVariant="success">You have this card</CardLabel>

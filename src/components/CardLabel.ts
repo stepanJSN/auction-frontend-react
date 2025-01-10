@@ -1,7 +1,7 @@
 import { styled, Typography } from '@mui/material';
 
 interface CardLabelProps {
-  colorVariant?: 'success' | 'error';
+  colorVariant?: 'success' | 'info';
 }
 
 export const CardLabel = styled(Typography, {
@@ -9,8 +9,8 @@ export const CardLabel = styled(Typography, {
 })<CardLabelProps>(({ theme, colorVariant }) => ({
   color: theme.palette.common.white,
   backgroundColor:
-    colorVariant === 'error'
-      ? theme.palette.error.light
+    colorVariant === 'info'
+      ? theme.palette.primary.main
       : theme.palette.success.main,
   padding: theme.spacing(0.5),
 }));
