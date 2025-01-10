@@ -61,7 +61,7 @@ export const auctionsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getAuctions: (state, _action: PayloadAction<number | undefined>) => {
+    getAuctions: (state) => {
       state.status = QueryStatusEnum.LOADING;
     },
 
