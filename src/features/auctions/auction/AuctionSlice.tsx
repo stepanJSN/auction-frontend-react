@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MutationStatusEnum } from '../../../enums/mutationStatus';
 import { QueryStatusEnum } from '../../../enums/queryStatus.enum';
-import { IAuction, IUpdateAuction } from '../../../types/auctions.interfaces';
+import { IAuction } from '../../../types/auctions.interfaces';
 import { RootState } from '../../../redux/store';
 import { ICreateBid } from '../../../types/bids.interfaces';
+import { IAuctionEvent } from '../auctionEvents.interfaces';
 
 export interface AuctionState {
   data: IAuction | null;
@@ -60,7 +61,7 @@ export const auctionSlice = createSlice({
       state.bidCreationErrorCode = null;
     },
 
-    newBid: (state, action: PayloadAction<number>) => {
+    updateHighestBid: (state, action: PayloadAction<number>) => {
       if (state.data) {
         state.data.highest_bid = {
           amount: action.payload,
@@ -69,12 +70,17 @@ export const auctionSlice = createSlice({
       }
     },
 
-    updateAction: (state, action: PayloadAction<IUpdateAuction>) => {
+    updateAuction: (state, action: PayloadAction<IAuctionEvent['payload']>) => {
       if (state.data) {
-        state.data = {
-          ...state.data,
-          ...action.payload,
-        };
+        if (action.payload.startingBid)
+          state.data.starting_bid = action.payload.startingBid;
+        if (action.payload.minBidStep)
+          state.data.min_bid_step = action.payload.minBidStep;
+        if (action.payload.maxBid) state.data.max_bid = action.payload.maxBid;
+        if (action.payload.endTime)
+          state.data.end_time = action.payload.endTime;
+        if (action.payload.minLength)
+          state.data.min_length = action.payload.minLength;
       }
     },
 
@@ -93,8 +99,8 @@ export const {
   createBid,
   createBidSuccess,
   createBidError,
-  newBid,
-  updateAction,
+  updateHighestBid,
+  updateAuction,
   finishAuction,
   resetBidCreationStatus,
 } = auctionSlice.actions;

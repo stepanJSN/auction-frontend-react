@@ -24,6 +24,8 @@ import {
 import { useCallback, useEffect } from 'react';
 import useErrorMessage from '../hooks/useErrorMessage';
 import { createBidErrorMessages } from '../features/auctions/auction/createBidErrorMessages';
+import useAuctionUpdateListener from '../features/auctions/auction/useAuctionListener';
+import { getUser } from '../features/user/userSlice';
 
 const chipStyles: SxProps = {
   maxWidth: '200px',
@@ -35,8 +37,10 @@ export default function AuctionPage() {
     useSelector(selectAuction);
   const dispatch = useDispatch();
   const getErrorMessage = useErrorMessage(createBidErrorMessages);
+  useAuctionUpdateListener(auctionId!);
 
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getAuction(auctionId!));
   }, [auctionId, dispatch]);
 
