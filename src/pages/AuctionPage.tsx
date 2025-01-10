@@ -1,19 +1,11 @@
 import { useParams } from 'react-router';
 import CardData from '../features/auctions/CardData';
-import {
-  Chip,
-  Divider,
-  Grid2,
-  Stack,
-  SxProps,
-  Typography,
-} from '@mui/material';
+import { Chip, Divider, Stack, SxProps } from '@mui/material';
 import NewBidForm from '../features/auctions/auction/NewBidForm';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import { MutationStatusEnum } from '../enums/mutationStatus';
-import dayjs from 'dayjs';
 import Notification from '../components/Notification';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -26,6 +18,7 @@ import useErrorMessage from '../hooks/useErrorMessage';
 import { createBidErrorMessages } from '../features/auctions/auction/createBidErrorMessages';
 import useAuctionUpdateListener from '../features/auctions/auction/useAuctionListener';
 import { getUser } from '../features/user/userSlice';
+import AuctionData from '../features/auctions/auction/AuctionData';
 
 const chipStyles: SxProps = {
   maxWidth: '200px',
@@ -66,36 +59,7 @@ export default function AuctionPage() {
         <Stack spacing={2}>
           <CardData data={data.card} />
           <Divider />
-          <Grid2 container spacing={1}>
-            <Grid2 size={6}>
-              <Typography variant="h6">
-                Starting bid: {data.starting_bid}
-              </Typography>
-              <Typography variant="h6">
-                Min bid step: {data.min_bid_step}
-              </Typography>
-              <Typography variant="h6">
-                Min length: {data.min_length}
-              </Typography>
-            </Grid2>
-            <Grid2 size={6}>
-              <Typography variant="h6">
-                End time: {dayjs(data.end_time).format('YYYY-MM-DD HH:mm')}{' '}
-                {data.is_completed && (
-                  <Chip label="Auction is completed" color="info" />
-                )}
-              </Typography>
-              <Typography variant="h6">
-                Highest bid: {data.highest_bid?.amount ?? 'None'}{' '}
-                {data.highest_bid?.is_this_user_bid && (
-                  <Chip label="Your bid is the highest" color="success" />
-                )}
-              </Typography>
-              {data.max_bid && (
-                <Typography variant="h6">Max bid: {data.max_bid}</Typography>
-              )}
-            </Grid2>
-          </Grid2>
+          <AuctionData data={data} />
           <Divider />
           {data.is_this_user_auction && (
             <Chip label="This is your auction" color="info" sx={chipStyles} />
