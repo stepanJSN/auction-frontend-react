@@ -23,6 +23,7 @@ import EditSetPage from './pages/EditSetPage';
 import CreateAuctionPage from './pages/CreateAuctionPage';
 import AuctionsPage from './pages/AuctionsPage';
 import AuctionPage from './pages/AuctionPage';
+import EditAuctionPage from './pages/EditAuctionPage';
 
 export default function Router() {
   return (
@@ -77,6 +78,10 @@ export default function Router() {
             />
           </Route>
           <Route path="/auctions" element={<AuctionsPage />} />
+          <Route
+            path="/auctions/edit/:auctionId"
+            element={<EditAuctionPage />}
+          />
           <Route path="/auctions/:auctionId" element={<AuctionPage />} />
           <Route
             path="/auction-create/:cardId"
