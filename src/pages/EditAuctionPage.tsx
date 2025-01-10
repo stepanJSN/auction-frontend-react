@@ -1,4 +1,4 @@
-import { Alert, Button, Stack, Typography } from '@mui/material';
+import { Alert, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router';
 import useQuery from '../hooks/useQuery';
 import CardData from '../features/auctions/CardData';
@@ -14,6 +14,7 @@ import useUpdateAuction from '../features/auctions/editAuction/useUpdateAuction'
 import useDeleteAuction from '../features/auctions/editAuction/useDeleteAuction';
 import useErrorMessage from '../hooks/useErrorMessage';
 import { editAuctionErrorMessages } from '../features/auctions/editAuction/editAuctionErrorMessage';
+import FormActions from '../features/auctions/editAuction/FormActions';
 
 export default function CreateAuctionPage() {
   const { auctionId } = useParams();
@@ -36,29 +37,12 @@ export default function CreateAuctionPage() {
 
   const actions = useMemo(
     () => (
-      <Stack direction="row" spacing={1}>
-        <Button
-          disabled={
-            updateStatus === MutationStatusEnum.PENDING || data?.is_completed
-          }
-          type="submit"
-          variant="contained">
-          {updateStatus === MutationStatusEnum.PENDING
-            ? 'Updating...'
-            : 'Update'}
-        </Button>
-        <Button
-          disabled={
-            deleteStatus === MutationStatusEnum.PENDING || data?.is_completed
-          }
-          color="error"
-          onClick={handleDelete}
-          variant="contained">
-          {deleteStatus === MutationStatusEnum.PENDING
-            ? 'Deleting...'
-            : 'Delete'}
-        </Button>
-      </Stack>
+      <FormActions
+        updateStatus={updateStatus}
+        deleteStatus={deleteStatus}
+        handleDelete={handleDelete}
+        isCompleted={data?.is_completed || true}
+      />
     ),
     [data?.is_completed, deleteStatus, handleDelete, updateStatus],
   );
