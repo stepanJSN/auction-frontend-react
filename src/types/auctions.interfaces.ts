@@ -35,8 +35,8 @@ export interface IAuctionSummary {
   max_bid: number | null;
   end_time: string;
   created_at: string;
-  created_by_id: string;
-  is_completed: number;
+  is_this_user_auction: boolean;
+  is_completed: boolean;
   name: string;
   image_url: string;
   highest_bid: number | null;
