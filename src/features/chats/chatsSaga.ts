@@ -1,23 +1,23 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
-  ChatsState,
   getChats,
   getChatsError,
   getChatsSuccess,
-  selectChats,
+  getMoreChats,
+  selectChatsSearchParams,
   setNameFilter,
-  setPage,
 } from './chatsSlice';
 import { IGetChatsResponse } from '../../types/chats.interfaces';
 import { chatsService } from '../../services/chatsService';
 
 function* getChatsSaga() {
-  const { currentPage, filters }: ChatsState = yield select(selectChats);
+  const { currentPage, name }: { currentPage: number; name: string } =
+    yield select(selectChatsSearchParams);
 
   try {
     const chats: IGetChatsResponse = yield call(chatsService.findAll, {
       page: currentPage,
-      name: filters.name,
+      name,
     });
     yield put(getChatsSuccess(chats));
   } catch {
@@ -27,7 +27,7 @@ function* getChatsSaga() {
 
 export function* watchChatsSaga() {
   yield takeLatest(
-    [getChats.type, setNameFilter.type, setPage.type],
+    [getChats.type, setNameFilter.type, getMoreChats.type],
     getChatsSaga,
   );
 }

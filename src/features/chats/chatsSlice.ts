@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { IChatSummary, IGetChatsResponse } from '../../types/chats.interfaces';
 import { RootState } from '../../redux/store';
@@ -33,7 +33,7 @@ export const chatsSlice = createSlice({
 
     getChatsSuccess: (state, action: PayloadAction<IGetChatsResponse>) => {
       state.status = QueryStatusEnum.SUCCESS;
-      state.chats = action.payload.data;
+      state.chats.push(...action.payload.data);
       state.totalPages = action.payload.info.totalPages;
     },
 
@@ -41,15 +41,15 @@ export const chatsSlice = createSlice({
       state.status = QueryStatusEnum.ERROR;
     },
 
+    getMoreChats: (state) => {
+      state.status = QueryStatusEnum.LOADING;
+      state.currentPage = state.currentPage + 1;
+    },
+
     setNameFilter: (state, action: PayloadAction<string>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.name = action.payload;
       state.currentPage = 1;
-    },
-
-    setPage: (state, action: PayloadAction<number>) => {
-      state.status = QueryStatusEnum.LOADING;
-      state.currentPage = action.payload;
     },
   },
 });
@@ -58,11 +58,24 @@ export const {
   getChats,
   getChatsSuccess,
   getChatsError,
+  getMoreChats,
   setNameFilter,
-  setPage,
 } = chatsSlice.actions;
 
-export const selectChats = (state: RootState) => state.chats;
-export const selectFilters = (state: RootState) => state.chats.filters;
+export const selectChats = createSelector(
+  (state: RootState) => state.chats,
+  (chats) => ({
+    chats: chats.chats,
+    hasMore: chats.totalPages !== chats.currentPage,
+    status: chats.status,
+  }),
+);
+export const selectChatsSearchParams = createSelector(
+  (state: RootState) => state.chats,
+  (chats) => ({
+    name: chats.filters.name,
+    currentPage: chats.currentPage,
+  }),
+);
 
 export default chatsSlice.reducer;
