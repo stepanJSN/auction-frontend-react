@@ -1,5 +1,6 @@
 import { apiWithAuth } from '../apiConfig';
 import {
+  AuctionTypeEnum,
   IAuction,
   ICreateAuction,
   IGetAuctionsPayload,
@@ -28,12 +29,17 @@ export const auctionService = {
       params.append('isUserLeader', payload.isUserLeader.toString());
     if (payload.sortOrder) params.append('sortOrder', payload.sortOrder);
     if (payload.sortBy) params.append('sortBy', payload.sortBy);
-    const auctions = await apiWithAuth.get<IGetAuctionsResponse[]>(
-      '/auctions',
-      {
-        params,
-      },
-    );
+
+    const url =
+      payload.type === AuctionTypeEnum.AVAILABLE
+        ? '/auctions'
+        : payload.type === AuctionTypeEnum.CREATED_BY_USER
+          ? '/auctions/createdByUser'
+          : '/auctions/wonByUser';
+
+    const auctions = await apiWithAuth.get<IGetAuctionsResponse[]>(url, {
+      params,
+    });
     return auctions.data;
   },
 

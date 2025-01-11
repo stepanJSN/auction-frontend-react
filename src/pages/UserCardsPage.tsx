@@ -20,11 +20,7 @@ import { ROUTES } from '../config/routesConfig';
 export default function UserCardsPage() {
   const { status, cards, currentPage, totalPages } =
     useSelector(selectUserCards);
-  const handlePageChange = usePaginatedData(
-    currentPage,
-    getCards,
-    changeUserCardsPage,
-  );
+  const handlePageChange = usePaginatedData(getCards, changeUserCardsPage);
 
   const auctionCreateRoute = useCallback(
     (cardId: string) => ROUTES.CREATE_AUCTION(cardId),

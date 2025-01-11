@@ -3,7 +3,10 @@ import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
 import { locationsService } from '../../services/locationsService';
-import { AuctionSortByEnum } from '../../types/auctions.interfaces';
+import {
+  AuctionSortByEnum,
+  AuctionTypeEnum,
+} from '../../types/auctions.interfaces';
 import { ILocation } from '../../types/locations.interfaces';
 import {
   getPriceRange,
@@ -14,6 +17,7 @@ import {
   setSortBy,
   setSortOrder,
   resetFilters,
+  setType,
 } from './AuctionsSlice';
 
 export default function useFilters() {
@@ -75,6 +79,13 @@ export default function useFilters() {
     [dispatch],
   );
 
+  const handleTypeChange = useCallback(
+    (type: SelectChangeEvent) => {
+      dispatch(setType(type.target.value as AuctionTypeEnum));
+    },
+    [dispatch],
+  );
+
   const handleResetChange = useCallback(() => {
     dispatch(resetFilters());
   }, [dispatch]);
@@ -89,5 +100,6 @@ export default function useFilters() {
     handleSortByChange,
     handleSortOrderChange,
     handleResetChange,
+    handleTypeChange,
   };
 }

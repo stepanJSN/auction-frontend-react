@@ -5,7 +5,10 @@ import Select from '../../components/Select';
 import { useSelector } from 'react-redux';
 import { selectFilters } from './AuctionsSlice';
 import { SortOrderEnum } from '../../enums/sortOrder.enum';
-import { AuctionSortByEnum } from '../../types/auctions.interfaces';
+import {
+  AuctionSortByEnum,
+  AuctionTypeEnum,
+} from '../../types/auctions.interfaces';
 import PriceSlider from './PriceSlider';
 import useFilters from './useFilters';
 
@@ -22,6 +25,12 @@ const sortByOptions = [
 const sortOrderOptions = [
   { value: SortOrderEnum.ASC, label: 'Ascending' },
   { value: SortOrderEnum.DESC, label: 'Descending' },
+];
+
+const auctionsTypeOptions = [
+  { value: AuctionTypeEnum.AVAILABLE, label: 'Available' },
+  { value: AuctionTypeEnum.CREATED_BY_USER, label: 'My auctions' },
+  { value: AuctionTypeEnum.WON_BY_USER, label: 'Won by me' },
 ];
 
 const filterStyles: SxProps = {
@@ -49,11 +58,17 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
     handleSortOrderChange,
     handleLocationChange,
     handleResetChange,
+    handleTypeChange,
   } = useFilters();
-
   return (
     <Slide appear={false} in={isOpen} direction="right">
       <Stack spacing={1} sx={filterStyles}>
+        <Select
+          label="Auction type"
+          value={filters.type}
+          options={auctionsTypeOptions}
+          handleChange={handleTypeChange}
+        />
         <Autocomplete
           label="Location"
           searchFunc={searchLocation}
@@ -67,19 +82,23 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
           onChange={handleCardNameChange}
           size="small"
         />
-        {filters.price.max !== null && filters.price.min !== null && (
-          <PriceSlider
-            min={filters.price.min}
-            max={filters.price.max}
-            range={filters.price.range}
-            handlePriceRangeChange={handlePriceRangeChange}
+        {filters.type === AuctionTypeEnum.AVAILABLE &&
+          filters.price.max !== null &&
+          filters.price.min !== null && (
+            <PriceSlider
+              min={filters.price.min}
+              max={filters.price.max}
+              range={filters.price.range}
+              handlePriceRangeChange={handlePriceRangeChange}
+            />
+          )}
+        {filters.type === AuctionTypeEnum.AVAILABLE && (
+          <Switch
+            label="Show only where user take part"
+            checked={filters.showOnlyWhereUserTakePart}
+            handleChange={handleShowOnlyWhereUserTakePartChange}
           />
         )}
-        <Switch
-          label="Show only where user take part"
-          checked={filters.showOnlyWhereUserTakePart}
-          handleChange={handleShowOnlyWhereUserTakePartChange}
-        />
         <Select
           label="Sort by"
           value={filters.sortBy}

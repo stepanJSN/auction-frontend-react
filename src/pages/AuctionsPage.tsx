@@ -7,19 +7,21 @@ import {
   Typography,
 } from '@mui/material';
 import AuctionsFilters from '../features/auctions/AuctionsFilters';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   getAuctions,
   selectAuctions,
+  setPage,
 } from '../features/auctions/AuctionsSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
-import { useEffect } from 'react';
 import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import useAuctionsUpdateListener from '../features/auctions/useAuctionsUpdateListener';
 import AuctionsGrid from '../features/auctions/AuctionsGrid';
 import useFilterVisibility from '../features/auctions/useFilterVisibility';
 import CloseIcon from '@mui/icons-material/Close';
+import Pagination from '../components/Pagination';
+import usePaginatedData from '../hooks/usePaginatedData';
 
 const filterGridBreakpoints = {
   xs: 0,
@@ -36,15 +38,12 @@ const closeButtonStyles: SxProps = {
 };
 
 export default function AuctionsPage() {
-  const { auctions, status } = useSelector(selectAuctions);
-  const dispatch = useDispatch();
+  const { auctions, status, totalPages, currentPage } =
+    useSelector(selectAuctions);
   useAuctionsUpdateListener(auctions);
   const { isFilterOpen, handleFilterOpen, handleFilterClose, isMobileVersion } =
     useFilterVisibility();
-
-  useEffect(() => {
-    dispatch(getAuctions());
-  }, [dispatch]);
+  const handlePageChange = usePaginatedData(getAuctions, setPage);
 
   return (
     <>
@@ -75,7 +74,14 @@ export default function AuctionsPage() {
           {status === QueryStatusEnum.LOADING && <PageLoader />}
           {status === QueryStatusEnum.ERROR && <PageError />}
           {status === QueryStatusEnum.SUCCESS && auctions.length !== 0 && (
-            <AuctionsGrid auctions={auctions} />
+            <>
+              <AuctionsGrid auctions={auctions} />
+              <Pagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                handleChange={handlePageChange}
+              />
+            </>
           )}
           {status === QueryStatusEnum.SUCCESS && auctions.length === 0 && (
             <Typography variant="h5" gutterBottom>

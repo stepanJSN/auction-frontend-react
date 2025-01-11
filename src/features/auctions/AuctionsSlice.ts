@@ -3,6 +3,7 @@ import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { RootState } from '../../redux/store';
 import {
   AuctionSortByEnum,
+  AuctionTypeEnum,
   IAuctionSummary,
   IGetAuctionsResponse,
   IPriceRange,
@@ -14,6 +15,7 @@ import { IAuctionEvent } from './auctionEvents.interfaces';
 export interface AuctionsState {
   auctions: IAuctionSummary[];
   filters: {
+    type: AuctionTypeEnum;
     location: ILocation | null;
     cardName: string;
     price: {
@@ -33,6 +35,7 @@ export interface AuctionsState {
 const initialState: AuctionsState = {
   auctions: [],
   filters: {
+    type: AuctionTypeEnum.AVAILABLE,
     location: null,
     cardName: '',
     price: {
@@ -58,7 +61,7 @@ export const auctionsSlice = createSlice({
       state.currentPage = action.payload;
     },
 
-    getAuctions: (state, _action: PayloadAction<number | undefined>) => {
+    getAuctions: (state) => {
       state.status = QueryStatusEnum.LOADING;
     },
 
@@ -106,6 +109,19 @@ export const auctionsSlice = createSlice({
       state.filters.price.min = action.payload.min;
       state.filters.price.max = action.payload.max;
       state.filters.price.range = [action.payload.min, action.payload.max];
+    },
+
+    setType: (state, action: PayloadAction<AuctionTypeEnum>) => {
+      state.status = QueryStatusEnum.LOADING;
+      state.filters = {
+        ...initialState.filters,
+        type: action.payload,
+        price: {
+          min: state.filters.price.min,
+          max: state.filters.price.max,
+          range: [state.filters.price.min, state.filters.price.max],
+        },
+      };
     },
 
     setLocation: (state, action: PayloadAction<ILocation | null>) => {
@@ -157,6 +173,7 @@ export const auctionsSlice = createSlice({
     resetFilters: (state) => {
       state.filters = {
         ...initialState.filters,
+        type: state.filters.type,
         price: {
           min: state.filters.price.min,
           max: state.filters.price.max,
@@ -173,6 +190,7 @@ export const {
   getAuctionsSuccess,
   getAuctionsError,
   getPriceRangeSuccess,
+  setType,
   setLocation,
   setCardName,
   setShowOnlyWhereUserTakePart,
