@@ -8,6 +8,7 @@ import {
   TableBody,
   useTheme,
   useMediaQuery,
+  SxProps,
 } from '@mui/material';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 import EpisodesTableRow from './EpisodesTableRow';
@@ -21,6 +22,10 @@ type EpisodesTableProps = {
   onDelete: (id: number) => void;
 };
 
+const tableContainerStyles: SxProps = {
+  mb: 1,
+};
+
 export default function EpisodesTable({
   episodes,
   onDelete,
@@ -29,7 +34,7 @@ export default function EpisodesTable({
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={tableContainerStyles}>
       <Table aria-label="episodes table" size={matches ? 'medium' : 'small'}>
         <TableHead>
           <TableRow>

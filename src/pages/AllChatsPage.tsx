@@ -19,10 +19,7 @@ import PageLoader from '../components/PageLoader';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageError from '../components/PageError';
 import { LinearProgressPlaceholder } from '../components/LinearProgressPlaceholder';
-
-const buttonsContainerStyles: SxProps = {
-  justifyContent: 'center',
-};
+import LoadMoreBtn from '../components/LoadMoreBtn';
 
 const headerStyles: SxProps = {
   mb: 2,
@@ -59,9 +56,6 @@ export default function AllChatsPage() {
         />
         <Button variant="outlined">Create chat</Button>
       </Stack>
-      {status === QueryStatusEnum.LOADING && chats.length !== 0 && (
-        <LinearProgress />
-      )}
       {status === QueryStatusEnum.LOADING && chats.length === 0 && (
         <PageLoader />
       )}
@@ -71,18 +65,16 @@ export default function AllChatsPage() {
       )}
       {chats.length !== 0 && (
         <>
-          <LinearProgressPlaceholder />
+          {status === QueryStatusEnum.LOADING && <LinearProgress />}
+          {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
           <ChatsTable chats={chats} />
+          <LoadMoreBtn
+            isLoading={status === QueryStatusEnum.LOADING}
+            hasMore={hasMore}
+            handleLoadMore={handleLoadMore}
+          />
         </>
       )}
-      <Stack direction="row" sx={buttonsContainerStyles}>
-        <Button
-          variant="contained"
-          onClick={handleLoadMore}
-          disabled={!hasMore}>
-          {status === QueryStatusEnum.LOADING ? 'Loading...' : 'Load more'}
-        </Button>
-      </Stack>
     </>
   );
 }

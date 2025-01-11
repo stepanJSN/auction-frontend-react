@@ -1,10 +1,4 @@
-import {
-  Button,
-  LinearProgress,
-  Stack,
-  SxProps,
-  Typography,
-} from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageError from '../components/PageError';
@@ -14,10 +8,8 @@ import { selectEpisodes } from '../features/episodes/episodesSlice';
 import useEpisodes from '../features/episodes/useEpisodes';
 import { Outlet } from 'react-router';
 import EpisodesHeader from '../features/episodes/EpisodesHeader';
-
-const buttonContainerStyles: SxProps = {
-  mt: 2,
-};
+import LoadMoreBtn from '../components/LoadMoreBtn';
+import { LinearProgressPlaceholder } from '../components/LinearProgressPlaceholder';
 
 export default function EpisodesPage() {
   const { status, episodes, hasMore } = useSelector(selectEpisodes);
@@ -35,19 +27,14 @@ export default function EpisodesPage() {
       {status === QueryStatusEnum.ERROR && <PageError />}
       {episodes.length !== 0 && (
         <>
-          <EpisodesTable episodes={episodes} onDelete={handleDelete} />
           {status === QueryStatusEnum.LOADING && <LinearProgress />}
-          <Stack
-            direction="row"
-            justifyContent="center"
-            sx={buttonContainerStyles}>
-            <Button
-              onClick={handleLoadMore}
-              disabled={!hasMore}
-              variant="contained">
-              Load more
-            </Button>
-          </Stack>
+          {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
+          <EpisodesTable episodes={episodes} onDelete={handleDelete} />
+          <LoadMoreBtn
+            isLoading={status === QueryStatusEnum.LOADING}
+            hasMore={hasMore}
+            handleLoadMore={handleLoadMore}
+          />
         </>
       )}
       {episodes.length === 0 && status === QueryStatusEnum.SUCCESS && (

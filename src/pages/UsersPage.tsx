@@ -1,10 +1,4 @@
-import {
-  Button,
-  LinearProgress,
-  Stack,
-  SxProps,
-  Typography,
-} from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 import UsersTable from '../features/users/UsersTable';
 import { useSelector } from 'react-redux';
 import { selectUsers } from '../features/users/usersSlice';
@@ -13,10 +7,8 @@ import PageError from '../components/PageError';
 import PageLoader from '../components/PageLoader';
 import useUsersLogic from '../features/users/useUsersLogic';
 import UsersFilters from '../features/users/UsersFilters';
-
-const buttonContainerStyles: SxProps = {
-  mt: 2,
-};
+import LoadMoreBtn from '../components/LoadMoreBtn';
+import { LinearProgressPlaceholder } from '../components/LinearProgressPlaceholder';
 
 export default function UsersPage() {
   const { status, users, hasMore, sortType, sortOrder, showOnlyAdmins } =
@@ -50,22 +42,17 @@ export default function UsersPage() {
       {users.length !== 0 && (
         <>
           {status === QueryStatusEnum.LOADING && <LinearProgress />}
+          {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
           <UsersTable
             users={users}
             onDelete={handleDelete}
             onUpdateRole={handleUpdate}
           />
-          <Stack
-            direction="row"
-            justifyContent="center"
-            sx={buttonContainerStyles}>
-            <Button
-              onClick={handleLoadMore}
-              disabled={!hasMore}
-              variant="contained">
-              Load more
-            </Button>
-          </Stack>
+          <LoadMoreBtn
+            isLoading={status === QueryStatusEnum.LOADING}
+            hasMore={hasMore}
+            handleLoadMore={handleLoadMore}
+          />
         </>
       )}
       {users.length === 0 && status === QueryStatusEnum.SUCCESS && (
