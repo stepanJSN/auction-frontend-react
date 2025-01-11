@@ -1,4 +1,10 @@
-import { TableRow, TableCell, SxProps } from '@mui/material';
+import {
+  TableRow,
+  TableCell,
+  SxProps,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { IChatSummary } from '../../types/chats.interfaces';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
@@ -17,18 +23,31 @@ const tableRowStyles: SxProps = {
 };
 
 export default function ChatsTableRow({ chat }: ChatsTableRowProps) {
+  const theme = useTheme();
+  const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
 
   const handleTableRowClick = useCallback(() => {
     navigate(ROUTES.CHAT(chat.id));
   }, [navigate, chat.id]);
 
+  const cutMessage = useCallback(
+    (message: string) => {
+      const maxMessageLength = isBigScreen ? 50 : 20;
+      if (message.length > maxMessageLength) {
+        return message.slice(0, maxMessageLength) + '...';
+      }
+      return message;
+    },
+    [isBigScreen],
+  );
+
   return (
     <TableRow onClick={handleTableRowClick} sx={tableRowStyles}>
       <TableCell>{chat.name}</TableCell>
       <TableCell>
         {chat.lastMessage
-          ? `${chat.lastMessage.sender.name} ${chat.lastMessage.sender.is_this_user_message ? '(You)' : ''}: ${chat.lastMessage.message} (${dayjs(chat.lastMessage.created_at).format('YYYY-MM-DD HH:mm')})`
+          ? `${chat.lastMessage.sender.is_this_user_message ? 'You' : chat.lastMessage.sender.name}: ${cutMessage('adkasd asdadad asdasdasdasd a sdasdadas  asdasdasasdasdasdasd asdasdasdasd asdadasdasdsd')} (${dayjs(chat.lastMessage.created_at).format('YYYY-MM-DD HH:mm')})`
           : 'No messages'}
       </TableCell>
     </TableRow>

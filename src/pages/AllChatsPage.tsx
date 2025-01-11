@@ -20,9 +20,15 @@ import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageError from '../components/PageError';
 import { LinearProgressPlaceholder } from '../components/LinearProgressPlaceholder';
 import LoadMoreBtn from '../components/LoadMoreBtn';
+import { ResponsiveStyleValue } from '@mui/system';
 
 const headerStyles: SxProps = {
   mb: 2,
+};
+
+const headerDirection: ResponsiveStyleValue<'row' | 'column'> = {
+  xs: 'column',
+  sm: 'row',
 };
 
 export default function AllChatsPage() {
@@ -49,7 +55,7 @@ export default function AllChatsPage() {
       <Typography variant="h4" gutterBottom>
         Your chats
       </Typography>
-      <Stack direction="row" spacing={2} sx={headerStyles}>
+      <Stack direction={headerDirection} spacing={1} sx={headerStyles}>
         <DebouncedInput
           handleDebouncedChange={handleNameFilterChange}
           label="Search"
