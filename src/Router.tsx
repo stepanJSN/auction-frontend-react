@@ -24,6 +24,7 @@ import CreateAuctionPage from './pages/CreateAuctionPage';
 import AuctionsPage from './pages/AuctionsPage';
 import AuctionPage from './pages/AuctionPage';
 import EditAuctionPage from './pages/EditAuctionPage';
+import AllChatsPage from './pages/AllChatsPage';
 
 export default function Router() {
   return (
@@ -87,6 +88,7 @@ export default function Router() {
             element={<EditAuctionPage />}
           />
           <Route path="/auctions/:auctionId" element={<AuctionPage />} />
+          <Route path="/chats" element={<AllChatsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
