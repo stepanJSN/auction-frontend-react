@@ -2,19 +2,16 @@ import { IPagination } from './pagination.interface';
 
 export interface IChatSummary {
   id: string;
-  users: {
-    name: string;
-    surname: string;
-  }[];
-  name: string | null;
+  name: string;
   lastMessage: {
     created_at: Date;
     message: string;
     sender: {
       name: string;
       surname: string;
+      is_this_user_message: boolean;
     };
-  };
+  } | null;
 }
 
 export interface IGetChatsResponse {
