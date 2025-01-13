@@ -11,7 +11,7 @@ const pageInnerWrapper: SxProps = {
   p: 2,
   minWidth: {
     xs: 'none',
-    sm: 350,
+    sm: 450,
   },
 };
 
@@ -46,7 +46,8 @@ export default function CreateChatPage() {
         <Typography variant="h5" gutterBottom>
           Create chat
         </Typography>
-        {creationStatus === MutationStatusEnum.IDLE && (
+        {(creationStatus === MutationStatusEnum.IDLE ||
+          creationStatus === MutationStatusEnum.PENDING) && (
           <Alert severity="info" sx={alertStyles}>
             Chat with more than 2 participants should have a name
           </Alert>
