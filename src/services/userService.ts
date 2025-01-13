@@ -33,6 +33,8 @@ export const userService = {
     if (payload.sortType) params.append('sortType', payload.sortType);
     if (payload.sortOrder) params.append('sortOrder', payload.sortOrder);
     if (payload.isAdmin) params.append('isAdmin', payload.isAdmin.toString());
+    if (payload.name) params.append('name', payload.name);
+    if (payload.surname) params.append('surname', payload.surname);
     const users = await apiWithAuth.get<IGetUsersResponse>('/users', {
       params,
     });
