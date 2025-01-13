@@ -53,6 +53,5 @@ export interface IGetUserPayload {
   sortType?: UsersSortTypeEnum;
   sortOrder?: SortOrderEnum;
   isAdmin?: boolean;
-  name: string;
-  surname: string;
+  fullName?: string;
 }
