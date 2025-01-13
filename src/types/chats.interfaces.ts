@@ -19,3 +19,12 @@ export interface IGetChatsResponse {
   data: IChatSummary[];
   info: IPagination;
 }
+
+export interface ICreateChat {
+  name?: string;
+  participants: string[];
+}
+
+export interface ICreateChatResponse {
+  id: string;
+}
