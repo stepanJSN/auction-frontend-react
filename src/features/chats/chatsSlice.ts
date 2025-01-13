@@ -77,6 +77,18 @@ export const chatsSlice = createSlice({
         };
       }
     },
+
+    updateLastMessage: (state, action: PayloadAction<IMessageEventPayload>) => {
+      const chatIndex = state.chats.findIndex(
+        (chat) => chat.id === action.payload.chat_id,
+      );
+      if (
+        chatIndex !== -1 &&
+        state.chats[chatIndex].lastMessage?.id === action.payload.id
+      ) {
+        state.chats[chatIndex].lastMessage.message = action.payload.message;
+      }
+    },
   },
 });
 
@@ -88,6 +100,7 @@ export const {
   setNameFilter,
   deleteChat,
   setLastMessage,
+  updateLastMessage,
 } = chatsSlice.actions;
 
 export const selectChats = createSelector(
