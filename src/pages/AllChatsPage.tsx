@@ -30,7 +30,7 @@ import {
   IDeleteMessageEventPayload,
   IMessageEventPayload,
 } from '../types/message.interfaces';
-import useNewMessageListener from '../features/chats/useNewMessageListner';
+import useNewMessageListener from '../features/chats/useNewMessageListener';
 import useUpdateMessageListener from '../features/chats/useUpdateMessageListener';
 import useDeleteMessageListener from '../features/chats/useDeleteMessageListener';
 
