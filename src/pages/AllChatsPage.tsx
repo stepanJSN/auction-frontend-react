@@ -16,6 +16,8 @@ import { LinearProgressPlaceholder } from '../components/LinearProgressPlacehold
 import LoadMoreBtn from '../components/LoadMoreBtn';
 import { ResponsiveStyleValue } from '@mui/system';
 import useChats from '../features/chats/useChats';
+import { Link, Outlet } from 'react-router';
+import { ROUTES } from '../config/routesConfig';
 
 const headerStyles: SxProps = {
   mb: 2,
@@ -40,7 +42,9 @@ export default function AllChatsPage() {
           handleDebouncedChange={handleNameFilterChange}
           label="Search"
         />
-        <Button variant="outlined">Create chat</Button>
+        <Button component={Link} to={ROUTES.CREATE_CHAT} variant="outlined">
+          Create chat
+        </Button>
       </Stack>
       {status === QueryStatusEnum.LOADING && chats.length === 0 && (
         <PageLoader />
@@ -61,6 +65,7 @@ export default function AllChatsPage() {
           />
         </>
       )}
+      <Outlet />
     </>
   );
 }
