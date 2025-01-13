@@ -48,7 +48,7 @@ export default function ChatsTableRow({ chat }: ChatsTableRowProps) {
       <TableCell>
         {chat.lastMessage
           ? `${chat.lastMessage.sender.is_this_user_message ? 'You' : chat.lastMessage.sender.name}: ${cutMessage('adkasd asdadad asdasdasdasd a sdasdadas  asdasdasasdasdasdasd asdasdasdasd asdadasdasdsd')} (${dayjs(chat.lastMessage.created_at).format('YYYY-MM-DD HH:mm')})`
-          : 'No messages'}
+          : 'No messages or last message was deleted'}
       </TableCell>
     </TableRow>
   );

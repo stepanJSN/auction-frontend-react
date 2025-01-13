@@ -2,7 +2,10 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { IChatSummary, IGetChatsResponse } from '../../types/chats.interfaces';
 import { RootState } from '../../redux/store';
-import { IMessageEventPayload } from '../../types/message.interfaces';
+import {
+  IDeleteMessageEventPayload,
+  IMessageEventPayload,
+} from '../../types/message.interfaces';
 
 export interface ChatsState {
   chats: IChatSummary[];
@@ -89,6 +92,21 @@ export const chatsSlice = createSlice({
         state.chats[chatIndex].lastMessage.message = action.payload.message;
       }
     },
+
+    deleteLastMessage: (
+      state,
+      action: PayloadAction<IDeleteMessageEventPayload>,
+    ) => {
+      const chatIndex = state.chats.findIndex(
+        (chat) => chat.id === action.payload.chat_id,
+      );
+      if (
+        chatIndex !== -1 &&
+        state.chats[chatIndex].lastMessage?.id === action.payload.id
+      ) {
+        state.chats[chatIndex].lastMessage = null;
+      }
+    },
   },
 });
 
@@ -101,6 +119,7 @@ export const {
   deleteChat,
   setLastMessage,
   updateLastMessage,
+  deleteLastMessage,
 } = chatsSlice.actions;
 
 export const selectChats = createSelector(

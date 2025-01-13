@@ -9,3 +9,8 @@ export interface IMessageEventPayload {
     surname: string;
   };
 }
+
+export interface IDeleteMessageEventPayload {
+  id: string;
+  chat_id: string;
+}
