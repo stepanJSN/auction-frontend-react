@@ -37,8 +37,9 @@ export const chatsSlice = createSlice({
 
     getChatsSuccess: (state, action: PayloadAction<IGetChatsResponse>) => {
       state.status = QueryStatusEnum.SUCCESS;
-      state.chats.push(...action.payload.data);
+      state.chats = action.payload.data;
       state.totalPages = action.payload.info.totalPages;
+      state.currentPage = 1;
     },
 
     getChatsError: (state) => {
@@ -47,13 +48,19 @@ export const chatsSlice = createSlice({
 
     getMoreChats: (state) => {
       state.status = QueryStatusEnum.LOADING;
+    },
+
+    getMoreChatsSuccess: (state, action: PayloadAction<IGetChatsResponse>) => {
+      state.status = QueryStatusEnum.SUCCESS;
+      state.chats = state.chats.concat(action.payload.data);
       state.currentPage = state.currentPage + 1;
     },
 
     setNameFilter: (state, action: PayloadAction<string>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.name = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 0;
+      state.chats = [];
     },
 
     deleteChat: (state, action: PayloadAction<string>) => {
@@ -115,6 +122,7 @@ export const {
   getChatsSuccess,
   getChatsError,
   getMoreChats,
+  getMoreChatsSuccess,
   setNameFilter,
   deleteChat,
   setLastMessage,
