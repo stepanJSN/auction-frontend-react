@@ -8,6 +8,7 @@ import {
   TableBody,
   useTheme,
   useMediaQuery,
+  SxProps,
 } from '@mui/material';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 import LocationsTableRow from './LocationsTableRow';
@@ -21,6 +22,10 @@ type LocationsTableProps = {
   onDelete: (id: number) => void;
 };
 
+const tableContainerStyles: SxProps = {
+  mb: 1,
+};
+
 export default function LocationsTable({
   locations,
   onDelete,
@@ -29,7 +34,7 @@ export default function LocationsTable({
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={tableContainerStyles}>
       <Table aria-label="locations table" size={matches ? 'medium' : 'small'}>
         <TableHead>
           <TableRow>

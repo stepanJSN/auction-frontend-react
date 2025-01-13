@@ -1,10 +1,4 @@
-import {
-  Button,
-  LinearProgress,
-  Stack,
-  SxProps,
-  Typography,
-} from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageError from '../components/PageError';
@@ -14,10 +8,8 @@ import { selectLocations } from '../features/locations/locationsSlice';
 import useLocations from '../features/locations/useLocations';
 import { Outlet } from 'react-router';
 import LocationsHeader from '../features/locations/LocationsHeader';
-
-const buttonContainerStyles: SxProps = {
-  mt: 2,
-};
+import LoadMoreBtn from '../components/LoadMoreBtn';
+import { LinearProgressPlaceholder } from '../components/LinearProgressPlaceholder';
 
 export default function LocationsPage() {
   const { status, locations, hasMore } = useSelector(selectLocations);
@@ -34,22 +26,20 @@ export default function LocationsPage() {
       {status === QueryStatusEnum.LOADING && locations.length === 0 && (
         <PageLoader />
       )}
+      {status === QueryStatusEnum.LOADING && locations.length !== 0 && (
+        <LinearProgress />
+      )}
       {status === QueryStatusEnum.ERROR && <PageError />}
       {locations.length !== 0 && (
         <>
-          <LocationsTable locations={locations} onDelete={handleDelete} />
           {status === QueryStatusEnum.LOADING && <LinearProgress />}
-          <Stack
-            direction="row"
-            justifyContent="center"
-            sx={buttonContainerStyles}>
-            <Button
-              onClick={handleLoadMore}
-              disabled={!hasMore}
-              variant="contained">
-              Load more
-            </Button>
-          </Stack>
+          {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
+          <LocationsTable locations={locations} onDelete={handleDelete} />
+          <LoadMoreBtn
+            isLoading={status === QueryStatusEnum.LOADING}
+            hasMore={hasMore}
+            handleLoadMore={handleLoadMore}
+          />
         </>
       )}
       {locations.length === 0 && status === QueryStatusEnum.SUCCESS && (
