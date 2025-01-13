@@ -12,6 +12,7 @@ import {
   getChats,
   getMoreChats,
   selectChats,
+  setLastMessage,
   setNameFilter,
 } from '../features/chats/chatsSlice';
 import { useCallback, useEffect } from 'react';
@@ -23,6 +24,8 @@ import { LinearProgressPlaceholder } from '../components/LinearProgressPlacehold
 import LoadMoreBtn from '../components/LoadMoreBtn';
 import { ResponsiveStyleValue } from '@mui/system';
 import useDeleteChatListener from '../features/chats/useDeleteChatListener';
+import { IMessageEventPayload } from '../types/message.interfaces';
+import useNewMessageListener from '../features/chats/useNewMessageListner';
 
 const headerStyles: SxProps = {
   mb: 2,
@@ -44,6 +47,14 @@ export default function AllChatsPage() {
     [dispatch],
   );
   useDeleteChatListener(handleDelete);
+
+  const handleNewMessage = useCallback(
+    (message: IMessageEventPayload) => {
+      dispatch(setLastMessage(message));
+    },
+    [dispatch],
+  );
+  useNewMessageListener(handleNewMessage);
 
   const handleNameFilterChange = useCallback(
     (name: string) => {

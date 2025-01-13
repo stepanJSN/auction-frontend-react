@@ -4,6 +4,7 @@ export interface IChatSummary {
   id: string;
   name: string;
   lastMessage: {
+    id: string;
     created_at: Date;
     message: string;
     sender: {
