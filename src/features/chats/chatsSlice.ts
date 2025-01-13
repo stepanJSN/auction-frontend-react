@@ -51,6 +51,10 @@ export const chatsSlice = createSlice({
       state.filters.name = action.payload;
       state.currentPage = 1;
     },
+
+    deleteChat: (state, action: PayloadAction<string>) => {
+      state.chats = state.chats.filter((chat) => chat.id !== action.payload);
+    },
   },
 });
 
@@ -60,6 +64,7 @@ export const {
   getChatsError,
   getMoreChats,
   setNameFilter,
+  deleteChat,
 } = chatsSlice.actions;
 
 export const selectChats = createSelector(

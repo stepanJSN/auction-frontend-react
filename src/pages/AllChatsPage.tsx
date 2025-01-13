@@ -8,6 +8,7 @@ import {
 import DebouncedInput from '../components/DebouncedInput';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  deleteChat,
   getChats,
   getMoreChats,
   selectChats,
@@ -21,6 +22,7 @@ import PageError from '../components/PageError';
 import { LinearProgressPlaceholder } from '../components/LinearProgressPlaceholder';
 import LoadMoreBtn from '../components/LoadMoreBtn';
 import { ResponsiveStyleValue } from '@mui/system';
+import useDeleteChatListener from '../features/chats/useDeleteChatListener';
 
 const headerStyles: SxProps = {
   mb: 2,
@@ -34,6 +36,14 @@ const headerDirection: ResponsiveStyleValue<'row' | 'column'> = {
 export default function AllChatsPage() {
   const { chats, hasMore, status } = useSelector(selectChats);
   const dispatch = useDispatch();
+
+  const handleDelete = useCallback(
+    (id: string) => {
+      dispatch(deleteChat(id));
+    },
+    [dispatch],
+  );
+  useDeleteChatListener(handleDelete);
 
   const handleNameFilterChange = useCallback(
     (name: string) => {
