@@ -2,8 +2,11 @@ import { useCallback } from 'react';
 import useMutation from '../../../hooks/useMutation';
 import { chatsService } from '../../../services/chatsService';
 import { ICreateChat } from '../../../types/chats.interfaces';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '../../../config/routesConfig';
 
 export default function useCreateChat() {
+  const navigate = useNavigate();
   const {
     mutate,
     status: creationStatus,
@@ -13,10 +16,11 @@ export default function useCreateChat() {
   }, false);
 
   const handleCreate = useCallback(
-    (data: ICreateChat) => {
-      mutate(data);
+    async (data: ICreateChat) => {
+      const response = await mutate(data);
+      if (response) navigate(ROUTES.CHAT(response.id));
     },
-    [mutate],
+    [mutate, navigate],
   );
 
   return { handleCreate, creationStatus, errorCode };
