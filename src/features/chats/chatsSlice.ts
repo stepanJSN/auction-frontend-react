@@ -1,6 +1,10 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
-import { IChatSummary, IGetChatsResponse } from '../../types/chats.interfaces';
+import {
+  IChatSummary,
+  ICreateChatEventPayload,
+  IGetChatsResponse,
+} from '../../types/chats.interfaces';
 import { RootState } from '../../redux/store';
 import {
   IDeleteMessageEventPayload,
@@ -54,6 +58,14 @@ export const chatsSlice = createSlice({
       state.status = QueryStatusEnum.SUCCESS;
       state.chats = state.chats.concat(action.payload.data);
       state.currentPage = state.currentPage + 1;
+    },
+
+    createChat: (state, action: PayloadAction<ICreateChatEventPayload>) => {
+      state.chats.unshift({
+        id: action.payload.id,
+        name: action.payload.name,
+        lastMessage: null,
+      });
     },
 
     setNameFilter: (state, action: PayloadAction<string>) => {
@@ -125,6 +137,7 @@ export const {
   getMoreChatsSuccess,
   setNameFilter,
   deleteChat,
+  createChat,
   setLastMessage,
   updateLastMessage,
   deleteLastMessage,

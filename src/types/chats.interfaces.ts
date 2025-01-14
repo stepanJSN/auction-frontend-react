@@ -28,3 +28,8 @@ export interface ICreateChat {
 export interface ICreateChatResponse {
   id: string;
 }
+
+export interface ICreateChatEventPayload {
+  id: string;
+  name: string;
+}
