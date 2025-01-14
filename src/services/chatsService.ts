@@ -8,6 +8,7 @@ import {
 import {
   ICreateMessage,
   IGetMessagesResponse,
+  IMessage,
 } from '../types/message.interfaces';
 
 export const chatsService = {
@@ -44,9 +45,13 @@ export const chatsService = {
   },
 
   createMessage: async (data: ICreateMessage) => {
-    await apiWithAuth.post(`/chats/${data.chatId}/messages`, {
-      message: data.message,
-    });
+    const response = await apiWithAuth.post<IMessage>(
+      `/chats/${data.chatId}/messages`,
+      {
+        message: data.message,
+      },
+    );
+    return response.data;
   },
 
   deleteMessage: async ({
