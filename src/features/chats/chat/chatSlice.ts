@@ -9,6 +9,18 @@ import {
 import { IChat } from '../../../types/chats.interfaces';
 import { RootState } from '../../../redux/store';
 
+export interface MessageState {
+  id?: string;
+  created_at?: string;
+  message: string;
+  sender: {
+    name?: string;
+    surname?: string;
+    is_this_user_message: boolean;
+  };
+  creationStatus: MutationStatusEnum;
+}
+
 export interface ChatState {
   name: string | null;
   participants: {
@@ -17,17 +29,7 @@ export interface ChatState {
     surname: string;
   }[];
   messages: {
-    data: {
-      id?: string;
-      created_at?: string;
-      message: string;
-      sender: {
-        name?: string;
-        surname?: string;
-        is_this_user_message: boolean;
-      };
-      creationStatus: MutationStatusEnum;
-    }[];
+    data: MessageState[];
     status: QueryStatusEnum;
     cursor: string;
     hasNextPage: boolean;
