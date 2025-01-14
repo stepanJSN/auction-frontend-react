@@ -51,7 +51,7 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    getChat: (state) => {
+    getChat: (state, _action: PayloadAction<string>) => {
       state.status = QueryStatusEnum.LOADING;
       state.messages.status = QueryStatusEnum.LOADING;
     },
@@ -66,7 +66,7 @@ export const chatSlice = createSlice({
       state.status = QueryStatusEnum.ERROR;
     },
 
-    getMoreMessages: (state) => {
+    getMoreMessages: (state, _action: PayloadAction<string>) => {
       state.messages.status = QueryStatusEnum.LOADING;
     },
 
@@ -103,8 +103,12 @@ export const chatSlice = createSlice({
       };
     },
 
-    createMessage: (state, action: PayloadAction<ICreateMessage>) => {
+    createMessage: (
+      state,
+      action: PayloadAction<ICreateMessage & { tempId: string }>,
+    ) => {
       state.messages.data.push({
+        id: action.payload.tempId,
         message: action.payload.message,
         sender: {
           is_this_user_message: true,
@@ -113,9 +117,12 @@ export const chatSlice = createSlice({
       });
     },
 
-    setMessageCreationSuccess: (state, action: PayloadAction<IMessage>) => {
+    setMessageCreationSuccess: (
+      state,
+      action: PayloadAction<IMessage & { tempId: string }>,
+    ) => {
       const messageIndex = state.messages.data.findIndex(
-        (message) => message.id === action.payload.id,
+        (message) => message.id === action.payload.tempId,
       );
       if (messageIndex !== -1) {
         state.messages.data[messageIndex] = {
@@ -125,9 +132,12 @@ export const chatSlice = createSlice({
       }
     },
 
-    setMessageCreationError: (state, action: PayloadAction<IMessage>) => {
+    setMessageCreationError: (
+      state,
+      action: PayloadAction<{ tempId: string }>,
+    ) => {
       const messageIndex = state.messages.data.findIndex(
-        (message) => message.id === action.payload.id,
+        (message) => message.id === action.payload.tempId,
       );
       if (messageIndex !== -1) {
         state.messages.data[messageIndex].creationStatus =
@@ -150,6 +160,7 @@ export const {
   setChatError,
   getMoreMessages,
   setInitialMessages,
+  setMessagesError,
   appendMessages,
   addMessage,
   createMessage,
