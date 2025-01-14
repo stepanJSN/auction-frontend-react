@@ -11,10 +11,8 @@ export default function ChatHeader({
 }: ChatHeaderProps) {
   return (
     <>
-      <Typography variant="h4" gutterBottom>
-        {name}
-      </Typography>
-      <Typography variant="h6">
+      <Typography variant="h4">{name}</Typography>
+      <Typography variant="subtitle1">
         Number of participants: {numberOfParticipants}
       </Typography>
       <Divider />
