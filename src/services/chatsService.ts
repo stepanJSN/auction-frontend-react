@@ -5,7 +5,10 @@ import {
   ICreateChat,
   ICreateChatResponse,
 } from '../types/chats.interfaces';
-import { IGetMessagesResponse } from '../types/message.interfaces';
+import {
+  ICreateMessage,
+  IGetMessagesResponse,
+} from '../types/message.interfaces';
 
 export const chatsService = {
   findAll: async ({ page, name }: { page?: number; name?: string }) => {
@@ -38,6 +41,12 @@ export const chatsService = {
   create: async (data: ICreateChat) => {
     const chat = await apiWithAuth.post<ICreateChatResponse>('/chats', data);
     return chat.data;
+  },
+
+  createMessage: async (data: ICreateMessage) => {
+    await apiWithAuth.post(`/chats/${data.chatId}/messages`, {
+      message: data.message,
+    });
   },
 
   deleteMessage: async ({

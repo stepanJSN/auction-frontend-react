@@ -2,7 +2,7 @@ export interface IMessageEventPayload {
   id: string;
   chat_id: string;
   message: string;
-  created_at: Date;
+  created_at: string;
   sender: {
     id: string;
     name: string;
@@ -17,7 +17,7 @@ export interface IDeleteMessageEventPayload {
 
 export interface IMessage {
   id: string;
-  created_at: Date;
+  created_at: string;
   message: string;
   sender: {
     name: string;
@@ -32,4 +32,9 @@ export interface IGetMessagesResponse {
     cursor: string;
     hasNextPage: boolean;
   };
+}
+
+export interface ICreateMessage {
+  chatId: string;
+  message: string;
 }
