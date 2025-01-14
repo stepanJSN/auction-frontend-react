@@ -1,6 +1,10 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
-import { IChatSummary, IGetChatsResponse } from '../../types/chats.interfaces';
+import {
+  IChatSummary,
+  ICreateChatEventPayload,
+  IGetChatsResponse,
+} from '../../types/chats.interfaces';
 import { RootState } from '../../redux/store';
 import {
   IDeleteMessageEventPayload,
@@ -37,8 +41,9 @@ export const chatsSlice = createSlice({
 
     getChatsSuccess: (state, action: PayloadAction<IGetChatsResponse>) => {
       state.status = QueryStatusEnum.SUCCESS;
-      state.chats.push(...action.payload.data);
+      state.chats = action.payload.data;
       state.totalPages = action.payload.info.totalPages;
+      state.currentPage = 1;
     },
 
     getChatsError: (state) => {
@@ -47,13 +52,27 @@ export const chatsSlice = createSlice({
 
     getMoreChats: (state) => {
       state.status = QueryStatusEnum.LOADING;
+    },
+
+    getMoreChatsSuccess: (state, action: PayloadAction<IGetChatsResponse>) => {
+      state.status = QueryStatusEnum.SUCCESS;
+      state.chats = state.chats.concat(action.payload.data);
       state.currentPage = state.currentPage + 1;
+    },
+
+    createChat: (state, action: PayloadAction<ICreateChatEventPayload>) => {
+      state.chats.unshift({
+        id: action.payload.id,
+        name: action.payload.name,
+        lastMessage: null,
+      });
     },
 
     setNameFilter: (state, action: PayloadAction<string>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.name = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 0;
+      state.chats = [];
     },
 
     deleteChat: (state, action: PayloadAction<string>) => {
@@ -115,8 +134,10 @@ export const {
   getChatsSuccess,
   getChatsError,
   getMoreChats,
+  getMoreChatsSuccess,
   setNameFilter,
   deleteChat,
+  createChat,
   setLastMessage,
   updateLastMessage,
   deleteLastMessage,

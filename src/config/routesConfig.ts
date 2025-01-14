@@ -8,6 +8,7 @@ export const ROUTES = {
   EDIT_AUCTION: (auctionId: string) => `/auctions/edit/${auctionId}`,
   CHATS: '/chats',
   CHAT: (id: string) => `/chats/${id}`,
+  CREATE_CHAT: '/chats/create',
   CARDS: '/cards',
   USER_CARDS: '/',
   CARD_DETAILS: (cardId: string) => `./${cardId}`,

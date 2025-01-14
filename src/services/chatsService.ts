@@ -1,5 +1,9 @@
 import { apiWithAuth } from '../apiConfig';
-import { IChatSummary } from '../types/chats.interfaces';
+import {
+  IChatSummary,
+  ICreateChat,
+  ICreateChatResponse,
+} from '../types/chats.interfaces';
 
 export const chatsService = {
   findAll: async ({ page, name }: { page?: number; name?: string }) => {
@@ -10,5 +14,10 @@ export const chatsService = {
       params,
     });
     return chats.data;
+  },
+
+  create: async (data: ICreateChat) => {
+    const chat = await apiWithAuth.post<ICreateChatResponse>('/chats', data);
+    return chat.data;
   },
 };

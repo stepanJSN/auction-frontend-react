@@ -12,11 +12,14 @@ import {
   setNameFilter,
   getMoreChats,
   getChats,
+  createChat,
 } from './chatsSlice';
 import useDeleteChatListener from './useDeleteChatListener';
 import useDeleteMessageListener from './useDeleteMessageListener';
 import useNewMessageListener from './useNewMessageListener';
 import useUpdateMessageListener from './useUpdateMessageListener';
+import { ICreateChatEventPayload } from '../../types/chats.interfaces';
+import useCreateChatListener from './useCreateChat';
 
 export default function useChats() {
   const dispatch = useDispatch();
@@ -52,6 +55,14 @@ export default function useChats() {
     [dispatch],
   );
   useDeleteMessageListener(handleDeleteMessage);
+
+  const handleCreateChat = useCallback(
+    (chatData: ICreateChatEventPayload) => {
+      dispatch(createChat(chatData));
+    },
+    [dispatch],
+  );
+  useCreateChatListener(handleCreateChat);
 
   const handleNameFilterChange = useCallback(
     (name: string) => {
