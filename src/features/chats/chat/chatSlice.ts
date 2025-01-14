@@ -147,9 +147,23 @@ export const chatSlice = createSlice({
       }
     },
 
-    addMessage: (state, action: PayloadAction<IMessage>) => {
+    addMessage: (
+      state,
+      action: PayloadAction<
+        Omit<IMessage, 'sender'> & {
+          sender: Omit<IMessage['sender'], 'is_this_user_message'>;
+        }
+      >,
+    ) => {
       state.messages.data.push({
-        ...action.payload,
+        id: action.payload.id,
+        created_at: action.payload.created_at,
+        message: action.payload.message,
+        sender: {
+          name: action.payload.sender.name,
+          surname: action.payload.sender.surname,
+          is_this_user_message: false,
+        },
         creationStatus: MutationStatusEnum.SUCCESS,
       });
     },

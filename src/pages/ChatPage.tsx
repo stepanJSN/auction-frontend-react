@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
+  addMessage,
   createMessage,
   getChat,
   selectChat,
@@ -12,11 +13,15 @@ import ChatField from '../features/chats/chat/ChatField';
 import { useCallback, useEffect } from 'react';
 import ChatSettings from '../features/chats/chat/ChatSettings';
 import MessageForm from '../features/chats/chat/MessageForm';
+import useNewMessageListener from '../features/chats/useNewMessageListener';
+import { IMessageEventPayload } from '../types/message.interfaces';
+import { selectAuth } from '../features/auth/authSlice';
 
 export default function ChatPage() {
   const { chatId } = useParams();
   const dispatch = useDispatch();
   const { name, participants, status, messages } = useSelector(selectChat);
+  const { id } = useSelector(selectAuth);
 
   useEffect(() => {
     if (!chatId) return;
@@ -36,6 +41,15 @@ export default function ChatPage() {
     },
     [chatId, dispatch],
   );
+
+  const handleNewMessage = useCallback(
+    (message: IMessageEventPayload) => {
+      if (message.chat_id !== chatId || message.sender.id === id) return;
+      dispatch(addMessage(message));
+    },
+    [chatId, dispatch, id],
+  );
+  useNewMessageListener(handleNewMessage);
 
   return (
     <Grid2 container spacing={1}>
