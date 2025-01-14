@@ -1,18 +1,20 @@
+import { IMessage } from './message.interfaces';
 import { IPagination } from './pagination.interface';
 
 export interface IChatSummary {
   id: string;
   name: string;
-  lastMessage: {
+  lastMessage: IMessage | null;
+}
+
+export interface IChat {
+  id: string;
+  name: string;
+  users: {
     id: string;
-    created_at: Date;
-    message: string;
-    sender: {
-      name: string;
-      surname: string;
-      is_this_user_message: boolean;
-    };
-  } | null;
+    name: string;
+    surname: string;
+  }[];
 }
 
 export interface IGetChatsResponse {
