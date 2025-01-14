@@ -13,14 +13,19 @@ type MessageFormProps = {
 };
 
 export default function MessageForm({ onSubmit }: MessageFormProps) {
-  const { control, handleSubmit } = useForm<{ message: string }>();
+  const { control, handleSubmit, reset } = useForm<{ message: string }>();
+
+  const onFormSubmit = (data: { message: string }) => {
+    onSubmit(data);
+    reset();
+  };
 
   return (
     <Stack
       direction="row"
       spacing={1}
       component="form"
-      onSubmit={handleSubmit(onSubmit)}>
+      onSubmit={handleSubmit(onFormSubmit)}>
       <FormInput
         name="message"
         label="Message"
