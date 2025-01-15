@@ -13,7 +13,7 @@ type ChatFieldProps = {
 };
 
 const messageFieldContainerStyles: SxProps = {
-  height: '70vh',
+  height: 'calc(100vh - 250px)',
   overflow: 'auto',
 };
 
