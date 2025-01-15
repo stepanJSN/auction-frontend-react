@@ -8,6 +8,7 @@ import {
   getMoreMessages,
   resendMessage,
   selectChat,
+  setDeleteMessageSuccess,
 } from '../features/chats/chat/chatSlice';
 import { Divider, Grid2 } from '@mui/material';
 import ChatHeader from '../features/chats/chat/ChatHeader';
@@ -17,8 +18,12 @@ import { useCallback, useEffect, useState } from 'react';
 import ChatSettings from '../features/chats/chat/ChatSettings';
 import MessageForm from '../features/chats/chat/MessageForm';
 import useNewMessageListener from '../features/chats/useNewMessageListener';
-import { IMessageEventPayload } from '../types/message.interfaces';
+import {
+  IDeleteMessageEventPayload,
+  IMessageEventPayload,
+} from '../types/message.interfaces';
 import { selectAuth } from '../features/auth/authSlice';
+import useDeleteMessageListener from '../features/chats/useDeleteMessageListener';
 
 export default function ChatPage() {
   const { chatId } = useParams();
@@ -88,6 +93,14 @@ export default function ChatPage() {
     [chatId, dispatch, id],
   );
   useNewMessageListener(handleNewMessage);
+
+  const handleDeleteMessageEvent = useCallback(
+    (data: IDeleteMessageEventPayload) => {
+      dispatch(setDeleteMessageSuccess(data.id));
+    },
+    [dispatch],
+  );
+  useDeleteMessageListener(handleDeleteMessageEvent);
 
   return (
     <Grid2 container spacing={1}>

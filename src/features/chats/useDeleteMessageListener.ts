@@ -5,7 +5,7 @@ import { ChatsEventEnum } from './chatsEventsEnum';
 import { IDeleteMessageEventPayload } from '../../types/message.interfaces';
 
 export default function useDeleteMessageListener(
-  onDeleteMessage: (id: IDeleteMessageEventPayload) => void,
+  onDeleteMessage: (data: IDeleteMessageEventPayload) => void,
 ) {
   const dispatch = useDispatch();
 
