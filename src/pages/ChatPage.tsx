@@ -24,6 +24,8 @@ import {
 } from '../types/message.interfaces';
 import { selectAuth } from '../features/auth/authSlice';
 import useDeleteMessageListener from '../features/chats/useDeleteMessageListener';
+import useDeleteChatListener from '../features/chats/useDeleteChatListener';
+import ChatDeletedDialog from '../features/chats/chat/ChatDeletedDialog';
 
 export default function ChatPage() {
   const { chatId } = useParams();
@@ -31,6 +33,7 @@ export default function ChatPage() {
   const { name, participants, status, messages } = useSelector(selectChat);
   const { id } = useSelector(selectAuth);
   const [isScrollToBottomActive, setIsScrollToBottomActive] = useState(true);
+  const [isChatDeletedDialogOpen, setIsChatDeletedDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!chatId) return;
@@ -102,32 +105,40 @@ export default function ChatPage() {
   );
   useDeleteMessageListener(handleDeleteMessageEvent);
 
+  const handleDeleteChatEvent = useCallback((_id: string) => {
+    setIsChatDeletedDialogOpen(true);
+  }, []);
+  useDeleteChatListener(handleDeleteChatEvent);
+
   return (
-    <Grid2 container spacing={1}>
-      <Grid2 size="grow">
-        {status === QueryStatusEnum.SUCCESS && (
-          <>
-            <ChatHeader
-              name={name!}
-              numberOfParticipants={participants!.length}
-            />
-            <ChatField
-              messages={messages!.data}
-              isScrollToBottomActive={isScrollToBottomActive}
-              onDeleteMessage={handleMessageDelete}
-              onResendMessage={handleMessageResend}
-              onLoadMoreMessages={handleLoadMore}
-            />
-            <MessageForm onSubmit={handleSubmit} />
-          </>
-        )}
+    <>
+      <Grid2 container spacing={1}>
+        <Grid2 size="grow">
+          {status === QueryStatusEnum.SUCCESS && (
+            <>
+              <ChatHeader
+                name={name!}
+                numberOfParticipants={participants!.length}
+              />
+              <ChatField
+                messages={messages!.data}
+                isScrollToBottomActive={isScrollToBottomActive}
+                onDeleteMessage={handleMessageDelete}
+                onResendMessage={handleMessageResend}
+                onLoadMoreMessages={handleLoadMore}
+              />
+              <MessageForm onSubmit={handleSubmit} />
+            </>
+          )}
+        </Grid2>
+        <Divider orientation="vertical" flexItem />
+        <Grid2 size={4}>
+          {status === QueryStatusEnum.SUCCESS && (
+            <ChatSettings participants={participants!} chatId={chatId!} />
+          )}
+        </Grid2>
       </Grid2>
-      <Divider orientation="vertical" flexItem />
-      <Grid2 size={4}>
-        {status === QueryStatusEnum.SUCCESS && (
-          <ChatSettings participants={participants!} chatId={chatId!} />
-        )}
-      </Grid2>
-    </Grid2>
+      <ChatDeletedDialog open={isChatDeletedDialogOpen} />
+    </>
   );
 }
