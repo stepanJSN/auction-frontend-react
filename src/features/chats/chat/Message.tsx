@@ -45,7 +45,7 @@ export default function Message({ message, onDelete, onResend }: MessageProps) {
       borderRadius: 2,
       color: 'common.white',
       minWidth: '30%',
-      maxWidth: '50%',
+      maxWidth: '70%',
     }),
     [message.sender.is_this_user_message],
   );

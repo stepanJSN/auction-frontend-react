@@ -26,6 +26,12 @@ import { selectAuth } from '../features/auth/authSlice';
 import useDeleteMessageListener from '../features/chats/useDeleteMessageListener';
 import useDeleteChatListener from '../features/chats/useDeleteChatListener';
 import ChatDeletedDialog from '../features/chats/chat/ChatDeletedDialog';
+import useSidebarVisibility from '../hooks/useSidebarVisibility';
+
+const settingsGridBreakpoints = {
+  xs: 0,
+  md: 4,
+};
 
 export default function ChatPage() {
   const { chatId } = useParams();
@@ -34,6 +40,13 @@ export default function ChatPage() {
   const { id } = useSelector(selectAuth);
   const [isScrollToBottomActive, setIsScrollToBottomActive] = useState(true);
   const [isChatDeletedDialogOpen, setIsChatDeletedDialogOpen] = useState(false);
+  const {
+    isSidebarOpen,
+    isMobileVersion,
+    handleSidebarOpen,
+    handleSidebarClose,
+    ref,
+  } = useSidebarVisibility('md');
 
   useEffect(() => {
     if (!chatId) return;
@@ -118,7 +131,9 @@ export default function ChatPage() {
             <>
               <ChatHeader
                 name={name!}
+                isOpenSettingsButtonShown={isMobileVersion}
                 numberOfParticipants={participants!.length}
+                onSettingsButtonClick={handleSidebarOpen}
               />
               <ChatField
                 messages={messages!.data}
@@ -131,10 +146,17 @@ export default function ChatPage() {
             </>
           )}
         </Grid2>
-        <Divider orientation="vertical" flexItem />
-        <Grid2 size={4}>
+        {!isMobileVersion && <Divider orientation="vertical" flexItem />}
+        <Grid2 size={settingsGridBreakpoints}>
           {status === QueryStatusEnum.SUCCESS && (
-            <ChatSettings participants={participants!} chatId={chatId!} />
+            <ChatSettings
+              ref={ref}
+              isOpen={isSidebarOpen}
+              participants={participants!}
+              chatId={chatId!}
+              onClose={handleSidebarClose}
+              isMobileVersion={isMobileVersion}
+            />
           )}
         </Grid2>
       </Grid2>
