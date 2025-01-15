@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Grow,
   IconButton,
@@ -12,6 +13,8 @@ import {
 import { ChatState } from './chatSlice';
 import CloseIcon from '@mui/icons-material/Close';
 import { forwardRef } from 'react';
+import useDeleteChat from '../delete/useDeleteChat';
+import { MutationStatusEnum } from '../../../enums/mutationStatus';
 
 const mainContainerStyles: SxProps = {
   height: '100%',
@@ -42,9 +45,12 @@ type ChatSettingsProps = {
 };
 
 export default forwardRef(function ChatSettings(
-  { participants, isOpen, isMobileVersion, onClose }: ChatSettingsProps,
+  { participants, isOpen, isMobileVersion, onClose, chatId }: ChatSettingsProps,
   ref,
 ) {
+  const { handleDelete, deleteStatus } = useDeleteChat(chatId);
+  const isDeleting = deleteStatus === MutationStatusEnum.PENDING;
+
   return (
     <Grow ref={ref} in={isOpen}>
       <Stack sx={mainContainerStyles}>
@@ -62,11 +68,21 @@ export default forwardRef(function ChatSettings(
           ))}
         </List>
         <Stack spacing={1}>
+          {deleteStatus === MutationStatusEnum.ERROR && (
+            <Alert severity="error">
+              Failed to delete chat. Something went wrong
+            </Alert>
+          )}
           <Button variant="contained" fullWidth>
             Edit
           </Button>
-          <Button variant="contained" color="error" fullWidth>
-            Delete
+          <Button
+            variant="contained"
+            color="error"
+            disabled={isDeleting}
+            fullWidth
+            onClick={handleDelete}>
+            {isDeleting ? 'Deleting...' : 'Delete'}
           </Button>
         </Stack>
       </Stack>
