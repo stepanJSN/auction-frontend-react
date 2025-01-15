@@ -3,6 +3,7 @@ import { MutationStatusEnum } from '../../../enums/mutationStatus';
 import { QueryStatusEnum } from '../../../enums/queryStatus.enum';
 import {
   ICreateMessage,
+  IDeleteMessage,
   IGetMessagesResponse,
   IMessage,
 } from '../../../types/message.interfaces';
@@ -19,6 +20,7 @@ export interface MessageState {
     is_this_user_message: boolean;
   };
   creationStatus: MutationStatusEnum;
+  deletionStatus: MutationStatusEnum;
 }
 
 export interface ChatState {
@@ -80,6 +82,7 @@ export const chatSlice = createSlice({
         data: action.payload.data.map((message) => ({
           ...message,
           creationStatus: MutationStatusEnum.SUCCESS,
+          deletionStatus: MutationStatusEnum.IDLE,
         })),
         status: QueryStatusEnum.SUCCESS,
         cursor: action.payload.pagination.cursor,
@@ -97,6 +100,7 @@ export const chatSlice = createSlice({
           action.payload.data.map((message) => ({
             ...message,
             creationStatus: MutationStatusEnum.SUCCESS,
+            deletionStatus: MutationStatusEnum.IDLE,
           })),
         ),
         status: QueryStatusEnum.SUCCESS,
@@ -116,7 +120,21 @@ export const chatSlice = createSlice({
           is_this_user_message: true,
         },
         creationStatus: MutationStatusEnum.PENDING,
+        deletionStatus: MutationStatusEnum.IDLE,
       });
+    },
+
+    resendMessage: (
+      state,
+      action: PayloadAction<{ tempId: string; chatId: string }>,
+    ) => {
+      const messageIndex = state.messages.data.findIndex(
+        (message) => message.id === action.payload.tempId,
+      );
+      if (messageIndex !== -1) {
+        state.messages.data[messageIndex].creationStatus =
+          MutationStatusEnum.PENDING;
+      }
     },
 
     setMessageCreationSuccess: (
@@ -130,6 +148,7 @@ export const chatSlice = createSlice({
         state.messages.data[messageIndex] = {
           ...action.payload,
           creationStatus: MutationStatusEnum.SUCCESS,
+          deletionStatus: MutationStatusEnum.IDLE,
         };
       }
     },
@@ -143,7 +162,33 @@ export const chatSlice = createSlice({
       );
       if (messageIndex !== -1) {
         state.messages.data[messageIndex].creationStatus =
-          MutationStatusEnum.SUCCESS;
+          MutationStatusEnum.ERROR;
+      }
+    },
+
+    deleteMessage: (state, action: PayloadAction<IDeleteMessage>) => {
+      const messageIndex = state.messages.data.findIndex(
+        (message) => message.id === action.payload.messageId,
+      );
+      if (messageIndex !== -1) {
+        state.messages.data[messageIndex].deletionStatus =
+          MutationStatusEnum.PENDING;
+      }
+    },
+
+    setDeleteMessageSuccess: (state, action: PayloadAction<string>) => {
+      state.messages.data = state.messages.data.filter(
+        (message) => message.id !== action.payload,
+      );
+    },
+
+    setDeleteMessageError: (state, action: PayloadAction<string>) => {
+      const messageIndex = state.messages.data.findIndex(
+        (message) => message.id === action.payload,
+      );
+      if (messageIndex !== -1) {
+        state.messages.data[messageIndex].deletionStatus =
+          MutationStatusEnum.ERROR;
       }
     },
 
@@ -165,6 +210,7 @@ export const chatSlice = createSlice({
           is_this_user_message: false,
         },
         creationStatus: MutationStatusEnum.SUCCESS,
+        deletionStatus: MutationStatusEnum.IDLE,
       });
     },
   },
@@ -180,8 +226,12 @@ export const {
   appendMessages,
   addMessage,
   createMessage,
+  resendMessage,
   setMessageCreationError,
   setMessageCreationSuccess,
+  deleteMessage,
+  setDeleteMessageError,
+  setDeleteMessageSuccess,
 } = chatSlice.actions;
 
 export const selectChat = (state: RootState) => state.chat;

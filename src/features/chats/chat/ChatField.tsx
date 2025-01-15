@@ -5,6 +5,8 @@ import Message from './Message';
 
 type ChatFieldProps = {
   messages: MessageState[];
+  onDeleteMessage: (messageId: string) => void;
+  onResendMessage: (messageId: string) => void;
 };
 
 const messageFieldContainerStyles: SxProps = {
@@ -12,7 +14,11 @@ const messageFieldContainerStyles: SxProps = {
   overflow: 'auto',
 };
 
-export default function ChatField({ messages }: ChatFieldProps) {
+export default function ChatField({
+  messages,
+  onDeleteMessage,
+  onResendMessage,
+}: ChatFieldProps) {
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,7 +31,12 @@ export default function ChatField({ messages }: ChatFieldProps) {
     <Stack direction="column-reverse" sx={messageFieldContainerStyles}>
       <List>
         {messages.map((message) => (
-          <Message key={message.id} message={message} />
+          <Message
+            key={message.id}
+            message={message}
+            onDelete={onDeleteMessage}
+            onResend={onResendMessage}
+          />
         ))}
       </List>
     </Stack>

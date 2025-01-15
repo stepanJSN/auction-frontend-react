@@ -38,3 +38,8 @@ export interface ICreateMessage {
   chatId: string;
   message: string;
 }
+
+export interface IDeleteMessage {
+  chatId: string;
+  messageId: string;
+}

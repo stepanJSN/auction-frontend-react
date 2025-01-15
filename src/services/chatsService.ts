@@ -7,6 +7,7 @@ import {
 } from '../types/chats.interfaces';
 import {
   ICreateMessage,
+  IDeleteMessage,
   IGetMessagesResponse,
   IMessage,
 } from '../types/message.interfaces';
@@ -54,13 +55,7 @@ export const chatsService = {
     return response.data;
   },
 
-  deleteMessage: async ({
-    chatId,
-    messageId,
-  }: {
-    chatId: string;
-    messageId: string;
-  }) => {
+  deleteMessage: async ({ chatId, messageId }: IDeleteMessage) => {
     await apiWithAuth.delete(`/chats/${chatId}/messages/${messageId}`);
   },
 };

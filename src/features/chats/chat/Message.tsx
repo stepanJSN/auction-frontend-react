@@ -1,11 +1,19 @@
-import { useMemo } from 'react';
-import { ListItem, Stack, SxProps, Typography } from '@mui/material';
+import { useCallback, useMemo } from 'react';
+import {
+  IconButton,
+  ListItem,
+  Stack,
+  SxProps,
+  Typography,
+} from '@mui/material';
 import dayjs from 'dayjs';
 import { MessageState } from './chatSlice';
 import { MutationStatusEnum } from '../../../enums/mutationStatus';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const messageHeaderStyles: SxProps = {
-  alignItems: 'flex-end',
+  alignItems: 'center',
 };
 const senderNameStyles: SxProps = {
   fontWeight: 'bold',
@@ -13,9 +21,21 @@ const senderNameStyles: SxProps = {
 
 type MessageProps = {
   message: MessageState;
+  onDelete: (messageId: string) => void;
+  onResend: (messageId: string) => void;
 };
 
-export default function Message({ message }: MessageProps) {
+export default function Message({ message, onDelete, onResend }: MessageProps) {
+  const handleDelete = useCallback(() => {
+    if (!message.id) return;
+    onDelete(message.id);
+  }, [onDelete, message.id]);
+
+  const handleResend = useCallback(() => {
+    if (!message.id) return;
+    onResend(message.id);
+  }, [onResend, message.id]);
+
   const messageStyles: SxProps = useMemo(
     () => ({
       bgcolor: message.sender.is_this_user_message
@@ -49,10 +69,28 @@ export default function Message({ message }: MessageProps) {
               : `${message.sender.name} ${message.sender.surname}`}
           </Typography>
           <Typography variant="caption">
-            {message.creationStatus === MutationStatusEnum.PENDING
-              ? 'Sending...'
-              : dayjs(message.created_at).format('DD.MM.YYYY HH:mm')}
+            {message.creationStatus === MutationStatusEnum.PENDING &&
+              'Sending...'}
+            {message.creationStatus === MutationStatusEnum.ERROR && 'Error'}
+            {message.creationStatus === MutationStatusEnum.SUCCESS &&
+              dayjs(message.created_at).format('DD.MM.YYYY HH:mm')}
           </Typography>
+          {message.sender.is_this_user_message &&
+            message.creationStatus === MutationStatusEnum.SUCCESS && (
+              <IconButton
+                disabled={message.deletionStatus === MutationStatusEnum.PENDING}
+                aria-label="delete"
+                size="small"
+                color="error">
+                <DeleteIcon onClick={handleDelete} />
+              </IconButton>
+            )}
+          {message.sender.is_this_user_message &&
+            message.creationStatus === MutationStatusEnum.ERROR && (
+              <IconButton aria-label="resend" size="small" color="error">
+                <RefreshIcon onClick={handleResend} />
+              </IconButton>
+            )}
         </Stack>
         {message.message}
       </Stack>

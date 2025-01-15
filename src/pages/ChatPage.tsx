@@ -3,7 +3,9 @@ import { useParams } from 'react-router';
 import {
   addMessage,
   createMessage,
+  deleteMessage,
   getChat,
+  resendMessage,
   selectChat,
 } from '../features/chats/chat/chatSlice';
 import { Divider, Grid2 } from '@mui/material';
@@ -42,6 +44,32 @@ export default function ChatPage() {
     [chatId, dispatch],
   );
 
+  const handleMessageDelete = useCallback(
+    (messageId: string) => {
+      if (!chatId) return;
+      dispatch(
+        deleteMessage({
+          messageId,
+          chatId,
+        }),
+      );
+    },
+    [chatId, dispatch],
+  );
+
+  const handleMessageResend = useCallback(
+    (messageId: string) => {
+      if (!chatId) return;
+      dispatch(
+        resendMessage({
+          tempId: messageId,
+          chatId,
+        }),
+      );
+    },
+    [chatId, dispatch],
+  );
+
   const handleNewMessage = useCallback(
     (message: IMessageEventPayload) => {
       if (message.chat_id !== chatId || message.sender.id === id) return;
@@ -60,7 +88,11 @@ export default function ChatPage() {
               name={name!}
               numberOfParticipants={participants!.length}
             />
-            <ChatField messages={messages!.data} />
+            <ChatField
+              messages={messages!.data}
+              onDeleteMessage={handleMessageDelete}
+              onResendMessage={handleMessageResend}
+            />
             <MessageForm onSubmit={handleSubmit} />
           </>
         )}
