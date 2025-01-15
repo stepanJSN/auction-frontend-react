@@ -33,7 +33,7 @@ export default function ChatPage() {
     handleMessageResend,
     isScrollToBottomActive,
     isChatDeletedDialogOpen,
-  } = useChat();
+  } = useChat(chatId);
 
   return (
     <>

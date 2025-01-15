@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import useMutation from '../../../hooks/useMutation';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../../config/routesConfig';
 import { chatsService } from '../../../services/chatsService';
+import { MutationStatusEnum } from '../../../enums/mutationStatus';
 
 export default function useDeleteChat(chatId?: string) {
   const {
@@ -17,8 +18,13 @@ export default function useDeleteChat(chatId?: string) {
   const handleDelete = useCallback(() => {
     if (!chatId) return;
     mutate(chatId);
-    navigate(ROUTES.CHATS);
-  }, [chatId, mutate, navigate]);
+  }, [chatId, mutate]);
+
+  useEffect(() => {
+    if (deleteStatus === MutationStatusEnum.SUCCESS) {
+      navigate(ROUTES.CHATS);
+    }
+  }, [deleteStatus, navigate]);
 
   return { handleDelete, deleteStatus, errorCode };
 }
