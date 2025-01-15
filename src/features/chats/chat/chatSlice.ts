@@ -95,18 +95,16 @@ export const chatSlice = createSlice({
     },
 
     appendMessages: (state, action: PayloadAction<IGetMessagesResponse>) => {
-      state.messages = {
-        data: state.messages.data.concat(
-          action.payload.data.map((message) => ({
-            ...message,
-            creationStatus: MutationStatusEnum.SUCCESS,
-            deletionStatus: MutationStatusEnum.IDLE,
-          })),
-        ),
-        status: QueryStatusEnum.SUCCESS,
-        cursor: action.payload.pagination.cursor,
-        hasNextPage: action.payload.pagination.hasNextPage,
-      };
+      state.messages.data.unshift(
+        ...action.payload.data.map((message) => ({
+          ...message,
+          creationStatus: MutationStatusEnum.SUCCESS,
+          deletionStatus: MutationStatusEnum.IDLE,
+        })),
+      );
+      state.messages.status = QueryStatusEnum.SUCCESS;
+      state.messages.cursor = action.payload.pagination.cursor;
+      state.messages.hasNextPage = action.payload.pagination.hasNextPage;
     },
 
     createMessage: (

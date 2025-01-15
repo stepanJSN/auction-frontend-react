@@ -81,14 +81,19 @@ export default function Message({ message, onDelete, onResend }: MessageProps) {
                 disabled={message.deletionStatus === MutationStatusEnum.PENDING}
                 aria-label="delete"
                 size="small"
-                color="error">
-                <DeleteIcon onClick={handleDelete} />
+                color="error"
+                onClick={handleDelete}>
+                <DeleteIcon />
               </IconButton>
             )}
           {message.sender.is_this_user_message &&
             message.creationStatus === MutationStatusEnum.ERROR && (
-              <IconButton aria-label="resend" size="small" color="error">
-                <RefreshIcon onClick={handleResend} />
+              <IconButton
+                aria-label="resend"
+                size="small"
+                color="error"
+                onClick={handleResend}>
+                <RefreshIcon />
               </IconButton>
             )}
         </Stack>

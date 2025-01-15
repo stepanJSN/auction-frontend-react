@@ -5,6 +5,7 @@ import {
   createMessage,
   deleteMessage,
   getChat,
+  getMoreMessages,
   resendMessage,
   selectChat,
 } from '../features/chats/chat/chatSlice';
@@ -12,7 +13,7 @@ import { Divider, Grid2 } from '@mui/material';
 import ChatHeader from '../features/chats/chat/ChatHeader';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import ChatField from '../features/chats/chat/ChatField';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ChatSettings from '../features/chats/chat/ChatSettings';
 import MessageForm from '../features/chats/chat/MessageForm';
 import useNewMessageListener from '../features/chats/useNewMessageListener';
@@ -24,6 +25,7 @@ export default function ChatPage() {
   const dispatch = useDispatch();
   const { name, participants, status, messages } = useSelector(selectChat);
   const { id } = useSelector(selectAuth);
+  const [isScrollToBottomActive, setIsScrollToBottomActive] = useState(true);
 
   useEffect(() => {
     if (!chatId) return;
@@ -40,9 +42,16 @@ export default function ChatPage() {
           message: data.message,
         }),
       );
+      setIsScrollToBottomActive(true);
     },
     [chatId, dispatch],
   );
+
+  const handleLoadMore = useCallback(() => {
+    if (!chatId || !messages.hasNextPage) return;
+    dispatch(getMoreMessages(chatId));
+    setIsScrollToBottomActive(false);
+  }, [chatId, dispatch, messages.hasNextPage]);
 
   const handleMessageDelete = useCallback(
     (messageId: string) => {
@@ -74,6 +83,7 @@ export default function ChatPage() {
     (message: IMessageEventPayload) => {
       if (message.chat_id !== chatId || message.sender.id === id) return;
       dispatch(addMessage(message));
+      setIsScrollToBottomActive(true);
     },
     [chatId, dispatch, id],
   );
@@ -90,8 +100,10 @@ export default function ChatPage() {
             />
             <ChatField
               messages={messages!.data}
+              isScrollToBottomActive={isScrollToBottomActive}
               onDeleteMessage={handleMessageDelete}
               onResendMessage={handleMessageResend}
+              onLoadMoreMessages={handleLoadMore}
             />
             <MessageForm onSubmit={handleSubmit} />
           </>
