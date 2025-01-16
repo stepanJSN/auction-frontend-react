@@ -11,6 +11,7 @@ import { watchAuctionsSaga } from '../features/auctions/AuctionsSaga';
 import { watchAuctionSaga } from '../features/auctions/auction/AuctionSaga';
 import { watchChatsSaga } from '../features/chats/chatsSaga';
 import { watchChatSaga } from '../features/chats/chat/chatSaga';
+import { watchStatisticsSaga } from '../features/statistics/statisticsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     fork(watchAuctionSaga),
     fork(watchChatsSaga),
     fork(watchChatSaga),
+    fork(watchStatisticsSaga),
   ]);
 }

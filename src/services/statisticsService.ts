@@ -14,9 +14,9 @@ export const statisticsService = {
     return response.data;
   },
 
-  findUserStatistics: async (numberOfUsers?: string) => {
+  findUserStatistics: async (numberOfUsers?: number) => {
     const params = new URLSearchParams();
-    if (numberOfUsers) params.append('numberOfUsers', numberOfUsers);
+    if (numberOfUsers) params.append('numberOfUsers', numberOfUsers.toString());
     const response = await apiWithAuth.get<IUsersStatistics[]>(
       '/statistics/users',
       {
