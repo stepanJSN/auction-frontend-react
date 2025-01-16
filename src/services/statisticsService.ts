@@ -1,7 +1,9 @@
 import { apiWithAuth } from '../apiConfig';
 import {
+  ICardsStatisticsResponse,
   IGeneralStatistics,
-  IUsersStatisticsResponse,
+  ISetsStatisticsResponse,
+  IUsersStatistics,
 } from '../types/statistics.interfaces';
 
 export const statisticsService = {
@@ -15,7 +17,7 @@ export const statisticsService = {
   findUserStatistics: async (numberOfUsers?: string) => {
     const params = new URLSearchParams();
     if (numberOfUsers) params.append('numberOfUsers', numberOfUsers);
-    const response = await apiWithAuth.get<IUsersStatisticsResponse>(
+    const response = await apiWithAuth.get<IUsersStatistics[]>(
       '/statistics/users',
       {
         params,
@@ -27,18 +29,24 @@ export const statisticsService = {
   findCardsStatistics: async (page?: number) => {
     const params = new URLSearchParams();
     if (page) params.append('page', page.toString());
-    const response = await apiWithAuth.get('/statistics/cards', {
-      params,
-    });
+    const response = await apiWithAuth.get<ICardsStatisticsResponse>(
+      '/statistics/cards',
+      {
+        params,
+      },
+    );
     return response.data;
   },
 
   findSetsStatistics: async (page?: number) => {
     const params = new URLSearchParams();
     if (page) params.append('page', page.toString());
-    const response = await apiWithAuth.get('/statistics/sets', {
-      params,
-    });
+    const response = await apiWithAuth.get<ISetsStatisticsResponse>(
+      '/statistics/sets',
+      {
+        params,
+      },
+    );
     return response.data;
   },
 };

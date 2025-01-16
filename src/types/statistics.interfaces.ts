@@ -22,7 +22,7 @@ export interface ICardsStatistics {
 }
 
 export interface ICardsStatisticsResponse {
-  cards: ICardsStatistics[];
+  data: ICardsStatistics[];
   info: IPagination;
 }
 
@@ -33,10 +33,6 @@ export interface IUsersStatistics {
   numberOfCards: never;
 }
 
-export interface IUsersStatisticsResponse {
-  users: IUsersStatistics[];
-}
-
 export interface ISetsStatistics {
   id: string;
   setName: string;
@@ -44,6 +40,6 @@ export interface ISetsStatistics {
 }
 
 export interface ISetsStatisticsResponse {
-  sets: ISetsStatistics[];
+  data: ISetsStatistics[];
   info: IPagination;
 }
