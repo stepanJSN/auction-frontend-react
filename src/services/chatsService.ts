@@ -47,7 +47,8 @@ export const chatsService = {
   },
 
   update: async (id: string, data: IUpdateChat) => {
-    await apiWithAuth.patch(`/chats/${id}`, data);
+    const chat = await apiWithAuth.patch<IChat>(`/chats/${id}`, data);
+    return chat.data;
   },
 
   delete: async (id: string) => {
