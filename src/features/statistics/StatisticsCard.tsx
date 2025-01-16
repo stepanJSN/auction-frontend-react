@@ -2,7 +2,7 @@ import { Paper, SxProps, Typography } from '@mui/material';
 import { Link } from 'react-router';
 import { ROUTES } from '../../config/routesConfig';
 
-type CardStatisticsProps = {
+type StatisticsCardProps = {
   id?: string;
   name?: string;
   label: string;
@@ -20,12 +20,12 @@ const containerStyles: SxProps = {
   p: 2,
 };
 
-export default function CardStatistics({
+export default function StatisticsCard({
   id,
   name,
   number,
   label,
-}: CardStatisticsProps) {
+}: StatisticsCardProps) {
   return (
     <Paper sx={containerStyles}>
       <Typography sx={textStyles} gutterBottom>

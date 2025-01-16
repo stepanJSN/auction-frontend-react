@@ -1,4 +1,4 @@
-import { Stack, Tab, Tabs, Typography } from '@mui/material';
+import { Tab, Tabs, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getGeneralStatistics,
@@ -6,11 +6,14 @@ import {
   setSelectedTab,
   StatisticsTabs,
 } from '../features/statistics/statisticsSlice';
-import CardStatistics from '../features/statistics/CardStatistics';
 import { useCallback, useEffect } from 'react';
 import UsersStatistics from '../features/statistics/UsersStatistics';
 import CardsStatistics from '../features/statistics/CardsStatistics';
 import SetsStatistics from '../features/statistics/SetsStatistics';
+import GeneralStatistics from '../features/statistics/GeneralStatistics';
+import GeneralStatisticsSkeleton from '../features/statistics/GeneralStatisticsSkeleton';
+import { QueryStatusEnum } from '../enums/queryStatus.enum';
+import PageError from '../components/PageError';
 
 export default function StatisticsPage() {
   const dispatch = useDispatch();
@@ -32,26 +35,13 @@ export default function StatisticsPage() {
       <Typography variant="h4" gutterBottom>
         Statistics
       </Typography>
-      {general.data && (
-        <Stack direction="row" spacing={2}>
-          <CardStatistics
-            id={general.data.mostRepeatedCard.id}
-            name={general.data.mostRepeatedCard.name}
-            label="Most repeated card"
-            number={general.data.mostRepeatedCard.numberOfInstances}
-          />
-          <CardStatistics
-            id={general.data.leastRepeatedCard.id}
-            name={general.data.leastRepeatedCard.name}
-            label="Least repeated card"
-            number={general.data.leastRepeatedCard.numberOfInstances}
-          />
-          <CardStatistics
-            label="Cards created by admin"
-            number={general.data.numberOfCardsCreatedByAdmin}
-          />
-        </Stack>
+      {general.status === QueryStatusEnum.SUCCESS && (
+        <GeneralStatistics data={general.data!} />
       )}
+      {general.status === QueryStatusEnum.LOADING && (
+        <GeneralStatisticsSkeleton />
+      )}
+      {general.status === QueryStatusEnum.ERROR && <PageError />}
       <Tabs
         value={selectedTab}
         onChange={handleTabChange}
