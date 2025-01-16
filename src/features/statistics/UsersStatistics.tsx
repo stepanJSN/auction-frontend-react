@@ -9,6 +9,7 @@ import {
   SxProps,
   SelectChangeEvent,
   Box,
+  LinearProgress,
 } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +20,9 @@ import {
 } from './statisticsSlice';
 import UserStatisticsTableRow from './UserStatisticsTableRow';
 import Select from '../../components/Select';
+import { QueryStatusEnum } from '../../enums/queryStatus.enum';
+import PageError from '../../components/PageError';
+import { LinearProgressPlaceholder } from '../../components/LinearProgressPlaceholder';
 
 const tableContainerStyles: SxProps = {
   mb: 1,
@@ -36,7 +40,7 @@ const numberOfUsersSelectOptions = [
 
 export default function UsersStatistics() {
   const dispatch = useDispatch();
-  const { numberOfUsers, data } = useSelector(selectUsersStatistics);
+  const { numberOfUsers, data, status } = useSelector(selectUsersStatistics);
 
   useEffect(() => {
     dispatch(getUsersStatistics(numberOfUsers));
@@ -51,16 +55,19 @@ export default function UsersStatistics() {
 
   return (
     <>
+      <Box sx={selectWrapperStyles}>
+        <Select
+          label="Number of users"
+          value={numberOfUsers.toString()}
+          options={numberOfUsersSelectOptions}
+          handleChange={handleSelect}
+        />
+      </Box>
+      {status === QueryStatusEnum.LOADING && <LinearProgress />}
+      {status === QueryStatusEnum.ERROR && <PageError />}
+      {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
       {data && (
         <>
-          <Box sx={selectWrapperStyles}>
-            <Select
-              label="Number of users"
-              value={numberOfUsers.toString()}
-              options={numberOfUsersSelectOptions}
-              handleChange={handleSelect}
-            />
-          </Box>
           <TableContainer component={Paper} sx={tableContainerStyles}>
             <Table aria-label="user statistics table">
               <TableHead>

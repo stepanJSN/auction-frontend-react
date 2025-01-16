@@ -1,4 +1,4 @@
-import { Tab, Tabs, Typography } from '@mui/material';
+import { SxProps, Tab, Tabs, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getGeneralStatistics,
@@ -14,6 +14,10 @@ import GeneralStatistics from '../features/statistics/GeneralStatistics';
 import GeneralStatisticsSkeleton from '../features/statistics/GeneralStatisticsSkeleton';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
 import PageError from '../components/PageError';
+
+const tabsStyles: SxProps = {
+  mb: 1,
+};
 
 export default function StatisticsPage() {
   const dispatch = useDispatch();
@@ -45,6 +49,7 @@ export default function StatisticsPage() {
       <Tabs
         value={selectedTab}
         onChange={handleTabChange}
+        sx={tabsStyles}
         aria-label="statistics tabs">
         <Tab label="Cards" value={StatisticsTabs.CARDS} />
         <Tab label="Sets" value={StatisticsTabs.SETS} />
