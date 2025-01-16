@@ -7,7 +7,7 @@ import {
   IGetMessagesResponse,
   IMessage,
 } from '../../../types/message.interfaces';
-import { IChat } from '../../../types/chats.interfaces';
+import { IChat, IUpdateChat } from '../../../types/chats.interfaces';
 import { RootState } from '../../../redux/store';
 
 export interface MessageState {
@@ -37,6 +37,8 @@ export interface ChatState {
     hasNextPage: boolean;
   };
   status: QueryStatusEnum;
+  updateStatus: MutationStatusEnum;
+  updateErrorCode: number | null;
 }
 
 const initialState: ChatState = {
@@ -49,6 +51,8 @@ const initialState: ChatState = {
     hasNextPage: false,
   },
   status: QueryStatusEnum.LOADING,
+  updateStatus: MutationStatusEnum.IDLE,
+  updateErrorCode: null,
 };
 
 export const chatSlice = createSlice({
@@ -58,6 +62,8 @@ export const chatSlice = createSlice({
     getChat: (state, _action: PayloadAction<string>) => {
       state.status = QueryStatusEnum.LOADING;
       state.messages.status = QueryStatusEnum.LOADING;
+      state.updateStatus = MutationStatusEnum.IDLE;
+      state.updateErrorCode = null;
     },
 
     setChatData: (state, action: PayloadAction<IChat>) => {
@@ -211,6 +217,22 @@ export const chatSlice = createSlice({
         deletionStatus: MutationStatusEnum.IDLE,
       });
     },
+
+    updateChat: (
+      state,
+      _action: PayloadAction<IUpdateChat & { id: string }>,
+    ) => {
+      state.updateStatus = MutationStatusEnum.PENDING;
+    },
+
+    setUpdateChatStatusSuccess: (state) => {
+      state.updateStatus = MutationStatusEnum.SUCCESS;
+    },
+
+    setUpdateChatStatusError: (state, action: PayloadAction<number>) => {
+      state.updateStatus = MutationStatusEnum.ERROR;
+      state.updateErrorCode = action.payload;
+    },
   },
 });
 
@@ -230,6 +252,9 @@ export const {
   deleteMessage,
   setDeleteMessageError,
   setDeleteMessageSuccess,
+  updateChat,
+  setUpdateChatStatusError,
+  setUpdateChatStatusSuccess,
 } = chatSlice.actions;
 
 export const selectChat = (state: RootState) => state.chat;

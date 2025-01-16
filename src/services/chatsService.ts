@@ -4,6 +4,7 @@ import {
   IChatSummary,
   ICreateChat,
   ICreateChatResponse,
+  IUpdateChat,
 } from '../types/chats.interfaces';
 import {
   ICreateMessage,
@@ -43,6 +44,15 @@ export const chatsService = {
   create: async (data: ICreateChat) => {
     const chat = await apiWithAuth.post<ICreateChatResponse>('/chats', data);
     return chat.data;
+  },
+
+  update: async (id: string, data: IUpdateChat) => {
+    const chat = await apiWithAuth.patch<IChat>(`/chats/${id}`, data);
+    return chat.data;
+  },
+
+  delete: async (id: string) => {
+    await apiWithAuth.delete(`/chats/${id}`);
   },
 
   createMessage: async (data: ICreateMessage) => {

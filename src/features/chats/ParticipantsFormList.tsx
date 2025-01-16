@@ -1,11 +1,12 @@
 import { Button, Grid2, IconButton } from '@mui/material';
 import FormAutocomplete from '../../components/FormAutocomplete';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { Control, useFieldArray } from 'react-hook-form';
 import { userService } from '../../services/userService';
 import { IUserSummary } from '../../types/user.interfaces';
 import { ICreateChatForm } from './ManageChatForm';
+import Autocomplete from '../../components/Autocomplete';
 
 type ParticipantsFormListProps = {
   control: Control<ICreateChatForm, any>;
@@ -14,6 +15,7 @@ type ParticipantsFormListProps = {
 export default function ParticipantsFormList({
   control,
 }: ParticipantsFormListProps) {
+  const [selectedUser, setSelectedUser] = useState<IUserSummary | null>(null);
   const { fields, append, remove } = useFieldArray(
     useMemo(
       () => ({
@@ -39,15 +41,16 @@ export default function ParticipantsFormList({
     },
     [remove],
   );
-  const addParticipant = useCallback(
-    () =>
+  const addParticipant = useCallback(() => {
+    if (selectedUser) {
       append({
-        id: fields.length.toString(),
-        name: '',
-        surname: '',
-      }),
-    [append, fields],
-  );
+        id: selectedUser.id.toString(),
+        name: selectedUser.name,
+        surname: selectedUser.surname,
+      });
+      setSelectedUser(null);
+    }
+  }, [append, selectedUser]);
 
   return (
     <>
@@ -65,16 +68,31 @@ export default function ParticipantsFormList({
               errorText="Please select an participant"
             />
           </Grid2>
-          {index > 0 && (
-            <Grid2>
-              <IconButton onClick={removeParticipant(index)} color="error">
-                <DeleteIcon />
-              </IconButton>
-            </Grid2>
-          )}
+          <Grid2>
+            <IconButton onClick={removeParticipant(index)} color="error">
+              <DeleteIcon />
+            </IconButton>
+          </Grid2>
         </Grid2>
       ))}
-      <Button onClick={addParticipant}>Add participant</Button>
+      <Grid2 container spacing={1} alignItems="center">
+        <Grid2 size="grow">
+          <Autocomplete
+            label="participant"
+            searchFunc={searchUsers}
+            getLabel={getUserLabel}
+            startFromLetter={2}
+            noOptionsText="No users found"
+            value={selectedUser}
+            onChange={setSelectedUser}
+          />
+        </Grid2>
+        <Grid2>
+          <Button onClick={addParticipant} disabled={!selectedUser}>
+            Add
+          </Button>
+        </Grid2>
+      </Grid2>
     </>
   );
 }

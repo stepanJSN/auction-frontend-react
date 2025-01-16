@@ -21,8 +21,8 @@ export interface ICreateCardFrom {
   type?: string;
   gender: Gender;
   isActive: boolean;
-  locationId: ILocation;
-  episodesId: IEpisode[];
+  location: ILocation;
+  episodes: IEpisode[];
 }
 
 type ManageCardFormProps = {
@@ -45,17 +45,16 @@ export default function ManageCardForm({
   actions,
   data,
 }: ManageCardFormProps) {
-  const { control, handleSubmit, setError } = useForm<ICreateCardFrom>(
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<ICreateCardFrom>(
     useMemo(
       () => ({
         defaultValues: {
-          episodesId: data?.episodes || [
-            {
-              id: 0,
-              name: '',
-              code: '',
-            },
-          ],
+          episodesId: data?.episodes,
           name: data?.name,
           type: data?.type,
           gender: data?.gender,
@@ -85,13 +84,13 @@ export default function ManageCardForm({
 
   const transformData = useCallback(
     (values: ICreateCardFrom) => {
-      if (values.episodesId.every((episode) => episode.name === '')) {
-        setError('episodesId.0', { type: 'required' });
+      if (values.episodes.length === 0) {
+        setError('episodes', { type: 'required' });
       }
       onSubmit({
         ...values,
-        locationId: values.locationId.id,
-        episodesId: values.episodesId
+        locationId: values.location.id,
+        episodesId: values.episodes
           .filter((episode) => episode.name !== '')
           .map((episode) => episode.id),
       });
@@ -134,7 +133,7 @@ export default function ManageCardForm({
       />
       <FormAutocomplete
         control={control}
-        name="locationId"
+        name="location"
         label="Location"
         searchFunc={searchLocationFunc}
         getLabel={getLocationLabel}
@@ -143,7 +142,7 @@ export default function ManageCardForm({
         noOptionsText="No locations found"
         errorText="Please select a location"
       />
-      <EpisodesListForm control={control} />
+      <EpisodesListForm control={control} isError={!!errors.episodes} />
       {actions}
     </Stack>
   );

@@ -16,10 +16,13 @@ import {
   setMessageCreationError,
   setMessageCreationSuccess,
   setMessagesError,
+  setUpdateChatStatusError,
+  setUpdateChatStatusSuccess,
+  updateChat,
 } from './chatSlice';
 import { chatsService } from '../../../services/chatsService';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { IChat } from '../../../types/chats.interfaces';
+import { IChat, IUpdateChat } from '../../../types/chats.interfaces';
 import {
   ICreateMessage,
   IDeleteMessage,
@@ -27,6 +30,8 @@ import {
   IMessage,
 } from '../../../types/message.interfaces';
 import { RootState } from '../../../redux/store';
+import { AxiosError } from 'axios';
+import { ErrorCodesEnum } from '../../../enums/errorCodes.enum';
 
 function* getChatSaga(action: PayloadAction<string>) {
   try {
@@ -116,10 +121,29 @@ function* deleteMessageSaga(action: PayloadAction<IDeleteMessage>) {
   }
 }
 
+function* updateChatSaga(action: PayloadAction<IUpdateChat & { id: string }>) {
+  try {
+    const chat: IChat = yield call(
+      chatsService.update,
+      action.payload.id,
+      action.payload,
+    );
+    yield put(setChatData(chat));
+    yield put(setUpdateChatStatusSuccess());
+  } catch (error) {
+    yield put(
+      setUpdateChatStatusError(
+        (error as AxiosError).status || ErrorCodesEnum.ServerError,
+      ),
+    );
+  }
+}
+
 export function* watchChatSaga() {
   yield takeLatest(getChat.type, getChatSaga);
   yield takeLatest(getMoreMessages.type, getMoreMessagesSaga);
   yield takeEvery(createMessage.type, createMessageSaga);
   yield takeEvery(resendMessage.type, resendMessageSaga);
   yield takeEvery(deleteMessage.type, deleteMessageSaga);
+  yield takeEvery(updateChat.type, updateChatSaga);
 }
