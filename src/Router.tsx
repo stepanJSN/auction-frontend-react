@@ -27,6 +27,7 @@ import EditAuctionPage from './pages/EditAuctionPage';
 import AllChatsPage from './pages/AllChatsPage';
 import CreateChatPage from './pages/CreateChatPage';
 import ChatPage from './pages/ChatPage';
+import EditChatPage from './pages/EditChatPage';
 
 export default function Router() {
   return (
@@ -93,7 +94,9 @@ export default function Router() {
           <Route path="/chats" element={<AllChatsPage />}>
             <Route path="create" element={<CreateChatPage />} />
           </Route>
-          <Route path="/chats/:chatId" element={<ChatPage />} />
+          <Route path="/chats/:chatId" element={<ChatPage />}>
+            <Route path="edit" element={<EditChatPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

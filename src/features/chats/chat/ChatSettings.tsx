@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { forwardRef } from 'react';
 import useDeleteChat from '../delete/useDeleteChat';
 import { MutationStatusEnum } from '../../../enums/mutationStatus';
+import { Link } from 'react-router';
 
 const mainContainerStyles: SxProps = {
   height: '100%',
@@ -73,7 +74,7 @@ export default forwardRef(function ChatSettings(
               Failed to delete chat. Something went wrong
             </Alert>
           )}
-          <Button variant="contained" fullWidth>
+          <Button variant="contained" fullWidth component={Link} to="./edit">
             Edit
           </Button>
           <Button

@@ -1,10 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormInput from '../../components/FormInput';
 import { optionalTextFieldValidationRules } from '../../constants/textFieldValidationRules';
 import { ICreateChat } from '../../types/chats.interfaces';
 import ParticipantsFormList from './ParticipantsFormList';
+import { ChatState } from './chat/chatSlice';
 
 export interface ICreateChatForm {
   name?: string;
@@ -16,21 +17,37 @@ export interface ICreateChatForm {
 }
 
 type ManageChatFormProps = {
+  name?: string;
+  participants?: ChatState['participants'];
   onSubmit: (data: ICreateChat) => void;
   actions: React.ReactNode;
 };
 
 export default function ManageChatForm({
   onSubmit,
+  name,
+  participants,
   actions,
 }: ManageChatFormProps) {
-  const { control, handleSubmit } = useForm<ICreateChatForm>();
+  const { control, handleSubmit } = useForm<ICreateChatForm>(
+    useMemo(
+      () => ({
+        defaultValues: {
+          name: name,
+          participants: participants,
+        },
+      }),
+      [name, participants],
+    ),
+  );
 
   const transformData = useCallback(
     (data: ICreateChatForm) => {
       onSubmit({
         name: data.name,
-        participants: data.participants.map((participant) => participant.id),
+        participants: data.participants
+          .filter((participant) => participant.name !== '')
+          .map((participant) => participant.id),
       });
     },
     [onSubmit],

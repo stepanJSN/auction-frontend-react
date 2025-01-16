@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 import { selectChat } from '../features/chats/chat/chatSlice';
 import { Divider, Grid2 } from '@mui/material';
 import ChatHeader from '../features/chats/chat/ChatHeader';
@@ -73,6 +73,7 @@ export default function ChatPage() {
         </Grid2>
       </Grid2>
       <ChatDeletedDialog open={isChatDeletedDialogOpen} />
+      <Outlet />
     </>
   );
 }
