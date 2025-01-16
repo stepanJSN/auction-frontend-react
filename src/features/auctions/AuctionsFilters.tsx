@@ -11,6 +11,7 @@ import {
 } from '../../types/auctions.interfaces';
 import PriceSlider from './PriceSlider';
 import useFilters from './useFilters';
+import { forwardRef } from 'react';
 
 type AuctionsFiltersProps = {
   isOpen: boolean;
@@ -46,7 +47,10 @@ const filterStyles: SxProps = {
   zIndex: 1,
 };
 
-export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
+export default forwardRef(function AuctionsFilters(
+  { isOpen }: AuctionsFiltersProps,
+  ref,
+) {
   const filters = useSelector(selectFilters);
   const {
     searchLocation,
@@ -61,7 +65,7 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
     handleTypeChange,
   } = useFilters();
   return (
-    <Slide appear={false} in={isOpen} direction="right">
+    <Slide ref={ref} appear={false} in={isOpen} direction="right">
       <Stack spacing={1} sx={filterStyles}>
         <Select
           label="Auction type"
@@ -121,4 +125,4 @@ export default function AuctionsFilters({ isOpen }: AuctionsFiltersProps) {
       </Stack>
     </Slide>
   );
-}
+});

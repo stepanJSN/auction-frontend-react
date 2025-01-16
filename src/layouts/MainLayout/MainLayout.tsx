@@ -14,6 +14,7 @@ const globalWrapperStyles: SxProps = {
 
 const containerStyles: SxProps = {
   flex: 'auto',
+  position: 'relative',
   py: 2,
 };
 

@@ -9,6 +9,7 @@ import episodesReducer from '../features/episodes/episodesSlice';
 import auctionsReducer from '../features/auctions/AuctionsSlice';
 import auctionReducer from '../features/auctions/auction/AuctionSlice';
 import chatsReducer from '../features/chats/chatsSlice';
+import chatReducer from '../features/chats/chat/chatSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const combinedReducer = combineReducers({
@@ -23,6 +24,7 @@ const combinedReducer = combineReducers({
   auctions: auctionsReducer,
   auction: auctionReducer,
   chats: chatsReducer,
+  chat: chatReducer,
 });
 
 export const rootReducer = (state: any, action: any) => {

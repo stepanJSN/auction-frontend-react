@@ -18,10 +18,10 @@ import PageLoader from '../components/PageLoader';
 import PageError from '../components/PageError';
 import useAuctionsUpdateListener from '../features/auctions/useAuctionsUpdateListener';
 import AuctionsGrid from '../features/auctions/AuctionsGrid';
-import useFilterVisibility from '../features/auctions/useFilterVisibility';
 import CloseIcon from '@mui/icons-material/Close';
 import Pagination from '../components/Pagination';
 import usePaginatedData from '../hooks/usePaginatedData';
+import useSidebarVisibility from '../hooks/useSidebarVisibility';
 
 const filterGridBreakpoints = {
   xs: 0,
@@ -41,8 +41,13 @@ export default function AuctionsPage() {
   const { auctions, status, totalPages, currentPage } =
     useSelector(selectAuctions);
   useAuctionsUpdateListener(auctions);
-  const { isFilterOpen, handleFilterOpen, handleFilterClose, isMobileVersion } =
-    useFilterVisibility();
+  const {
+    isSidebarOpen,
+    isMobileVersion,
+    handleSidebarClose,
+    handleSidebarOpen,
+    ref,
+  } = useSidebarVisibility('md');
   const handlePageChange = usePaginatedData(getAuctions, setPage);
 
   return (
@@ -50,16 +55,16 @@ export default function AuctionsPage() {
       <Stack direction="row" spacing={1}>
         <Typography variant="h4">Auctions</Typography>
         {isMobileVersion &&
-          (isFilterOpen ? (
+          (isSidebarOpen ? (
             <IconButton
-              onClick={handleFilterClose}
+              onClick={handleSidebarClose}
               aria-label="close"
               sx={closeButtonStyles}>
               <CloseIcon />
             </IconButton>
           ) : (
             <Button
-              onClick={handleFilterOpen}
+              onClick={handleSidebarOpen}
               sx={closeButtonStyles}
               variant="outlined">
               Filters
@@ -68,7 +73,7 @@ export default function AuctionsPage() {
       </Stack>
       <Grid2 container spacing={2}>
         <Grid2 size={filterGridBreakpoints}>
-          <AuctionsFilters isOpen={isFilterOpen} />
+          <AuctionsFilters ref={ref} isOpen={isSidebarOpen} />
         </Grid2>
         <Grid2 container spacing={2} size={auctionsGridBreakpoints}>
           {status === QueryStatusEnum.LOADING && <PageLoader />}
