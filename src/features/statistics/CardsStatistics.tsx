@@ -41,12 +41,12 @@ export default function CardsStatistics() {
     data && (
       <>
         <TableContainer component={Paper} sx={tableContainerStyles}>
-          <Table aria-label="users statistics table">
+          <Table aria-label="cards statistics table">
             <TableHead>
               <TableRow>
                 <TableCell>CardName</TableCell>
-                <TableCell>Number of instances</TableCell>
-                <TableCell>Average price</TableCell>
+                <TableCell align="center">Number of instances</TableCell>
+                <TableCell align="center">Average price</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

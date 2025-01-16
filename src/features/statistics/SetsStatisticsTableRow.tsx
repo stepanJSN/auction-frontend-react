@@ -18,7 +18,7 @@ export default function SetsStatisticsTableRow({
       <TableCell component="th" scope="row">
         {name}
       </TableCell>
-      <TableCell>{numberOfUsers}</TableCell>
+      <TableCell align="center">{numberOfUsers}</TableCell>
     </TableRow>
   );
 }

@@ -30,7 +30,7 @@ export interface IUsersStatistics {
   id: string;
   name: string;
   surname: string;
-  numberOfCards: never;
+  numberOfCards: number;
 }
 
 export interface ISetsStatistics {

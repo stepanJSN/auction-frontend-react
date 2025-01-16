@@ -18,7 +18,7 @@ export default function UserStatisticsTableRow({
       <TableCell component="th" scope="row">
         {name}
       </TableCell>
-      <TableCell>{numberOfInstances}</TableCell>
+      <TableCell align="center">{numberOfInstances}</TableCell>
     </TableRow>
   );
 }

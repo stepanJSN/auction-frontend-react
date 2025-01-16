@@ -20,8 +20,8 @@ export default function CardsStatisticsTableRow({
       <TableCell component="th" scope="row">
         {cardName}
       </TableCell>
-      <TableCell>{numberOfInstances}</TableCell>
-      <TableCell>{averagePrice}</TableCell>
+      <TableCell align="center">{numberOfInstances}</TableCell>
+      <TableCell align="center">{averagePrice}</TableCell>
     </TableRow>
   );
 }

@@ -45,7 +45,9 @@ export default function SetsStatistics() {
             <TableHead>
               <TableRow>
                 <TableCell>SetName</TableCell>
-                <TableCell>Number of users with this set</TableCell>
+                <TableCell align="center">
+                  Number of users with this set
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

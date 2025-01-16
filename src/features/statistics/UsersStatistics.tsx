@@ -66,7 +66,7 @@ export default function UsersStatistics() {
               <TableHead>
                 <TableRow>
                   <TableCell>User</TableCell>
-                  <TableCell>Number of cards</TableCell>
+                  <TableCell align="center">Number of cards</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

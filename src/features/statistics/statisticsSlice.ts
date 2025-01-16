@@ -11,9 +11,9 @@ import {
 import { RootState } from '../../redux/store';
 
 export enum StatisticsTabs {
-  CARDS = 'cards',
-  SETS = 'sets',
-  USERS = 'users',
+  CARDS,
+  SETS,
+  USERS,
 }
 
 export interface StatisticsState {
@@ -105,7 +105,7 @@ export const statisticsSlice = createSlice({
       state.cards.status = QueryStatusEnum.ERROR;
     },
 
-    changeCardsStatisticsPage: (state, action: PayloadAction<number>) => {
+    setCardsStatisticsPage: (state, action: PayloadAction<number>) => {
       state.cards.currentPage = action.payload;
     },
 
@@ -126,7 +126,7 @@ export const statisticsSlice = createSlice({
       state.sets.status = QueryStatusEnum.ERROR;
     },
 
-    changeSetsStatisticsPage: (state, action: PayloadAction<number>) => {
+    setSetsStatisticsPage: (state, action: PayloadAction<number>) => {
       state.sets.currentPage = action.payload;
     },
 
@@ -146,8 +146,12 @@ export const statisticsSlice = createSlice({
       state.users.status = QueryStatusEnum.ERROR;
     },
 
-    changeNumberOfUsersInStatistics: (state, action: PayloadAction<number>) => {
+    setNumberOfUsersInStatistics: (state, action: PayloadAction<number>) => {
       state.users.numberOfUsers = action.payload;
+    },
+
+    setSelectedTab: (state, action: PayloadAction<StatisticsTabs>) => {
+      state.selectedTab = action.payload;
     },
   },
 });
@@ -159,15 +163,16 @@ export const {
   getCardsStatistics,
   setCardsStatisticsSuccess,
   setCardsStatisticsError,
-  changeCardsStatisticsPage,
+  setCardsStatisticsPage,
   getSetsStatistics,
   setSetsStatisticsSuccess,
   setSetsStatisticsError,
-  changeSetsStatisticsPage,
+  setSetsStatisticsPage,
   getUsersStatistics,
   setUsersStatisticsSuccess,
   setUsersStatisticsError,
-  changeNumberOfUsersInStatistics,
+  setNumberOfUsersInStatistics,
+  setSelectedTab,
 } = statisticsSlice.actions;
 
 export const selectGeneralStatistics = createSelector(
