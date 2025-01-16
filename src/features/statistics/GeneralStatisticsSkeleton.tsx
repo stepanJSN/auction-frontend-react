@@ -1,11 +1,15 @@
-import { Skeleton, Stack } from '@mui/material';
+import { Grid2, Skeleton, SxProps } from '@mui/material';
+
+const containerStyles: SxProps = {
+  justifyContent: 'center',
+};
 
 export default function GeneralStatisticsSkeleton() {
   return (
-    <Stack direction="row" spacing={2}>
+    <Grid2 container spacing={2} sx={containerStyles}>
       <Skeleton variant="rounded" width={200} height={150} />
       <Skeleton variant="rounded" width={200} height={150} />
       <Skeleton variant="rounded" width={200} height={150} />
-    </Stack>
+    </Grid2>
   );
 }

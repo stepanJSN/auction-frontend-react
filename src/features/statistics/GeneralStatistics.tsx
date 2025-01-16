@@ -1,6 +1,10 @@
-import { Stack } from '@mui/material';
+import { Grid2, SxProps } from '@mui/material';
 import StatisticsCard from './StatisticsCard';
 import { IGeneralStatistics } from '../../types/statistics.interfaces';
+
+const containerStyles: SxProps = {
+  justifyContent: 'center',
+};
 
 type GeneralStatisticsProps = {
   data: IGeneralStatistics;
@@ -8,7 +12,7 @@ type GeneralStatisticsProps = {
 
 export default function GeneralStatistics({ data }: GeneralStatisticsProps) {
   return (
-    <Stack direction="row" spacing={2}>
+    <Grid2 container spacing={2} sx={containerStyles}>
       <StatisticsCard
         id={data.mostRepeatedCard.id}
         name={data.mostRepeatedCard.name}
@@ -25,6 +29,6 @@ export default function GeneralStatistics({ data }: GeneralStatisticsProps) {
         label="Cards created by admin"
         number={data.numberOfCardsCreatedByAdmin}
       />
-    </Stack>
+    </Grid2>
   );
 }
