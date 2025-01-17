@@ -6,21 +6,28 @@ import { socket } from '../../../socket';
 import { finishAuction, updateAuction, updateHighestBid } from './AuctionSlice';
 import { getUser } from '../../user/userSlice';
 
-export default function useAuctionUpdateListener(auctionId: string) {
+export default function useAuctionUpdateListener(
+  auctionId: string,
+  isUserLeader?: boolean,
+) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const handleEvent = (event: IAuctionEvent) => {
       switch (event.type) {
         case AuctionEventEnum.NEW_BID:
+          if (isUserLeader) {
+            dispatch(getUser());
+          }
           dispatch(updateHighestBid(event.payload.bidAmount!));
-          dispatch(getUser());
           break;
         case AuctionEventEnum.CHANGED:
           dispatch(updateAuction(event.payload));
           break;
         case AuctionEventEnum.FINISHED:
-          dispatch(finishAuction());
+          if (isUserLeader) {
+            dispatch(finishAuction());
+          }
           break;
       }
     };
@@ -28,5 +35,5 @@ export default function useAuctionUpdateListener(auctionId: string) {
     return () => {
       socket.off(`auction-${auctionId}`, handleEvent);
     };
-  }, [auctionId, dispatch]);
+  }, [auctionId, dispatch, isUserLeader]);
 }
