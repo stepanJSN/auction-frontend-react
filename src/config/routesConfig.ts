@@ -10,7 +10,7 @@ export const ROUTES = {
   CHAT: (id: string) => `/chats/${id}`,
   CREATE_CHAT: '/chats/create',
   CARDS: '/cards',
-  CARD_DETAILS: (cardId: string) => `./${cardId}`,
+  CARD_DETAILS: (cardId: string) => `/cards/${cardId}`,
   USER_CARDS: '/',
   USER_CARDS_DETAILS: (cardId: string) => `/my-cards/${cardId}`,
   CREATE_CARD: '/cards/create',
