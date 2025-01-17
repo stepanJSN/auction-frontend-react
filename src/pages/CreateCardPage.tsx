@@ -96,7 +96,11 @@ export default function CreateCardPage() {
           />
         </Grid2>
         <Grid2 size="grow">
-          <ManageCardForm onSubmit={handleSubmit} actions={actions} />
+          <ManageCardForm
+            onSubmit={handleSubmit}
+            actions={actions}
+            isSubmitSuccessful={status === MutationStatusEnum.SUCCESS}
+          />
         </Grid2>
       </Grid2>
     </>
