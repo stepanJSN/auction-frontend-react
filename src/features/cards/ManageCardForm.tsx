@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
 import FormInput from '../../components/FormInput';
@@ -28,6 +28,7 @@ export interface ICreateCardFrom {
 type ManageCardFormProps = {
   data?: ICard;
   onSubmit: (data: ICreateCard) => void;
+  isSubmitSuccessful?: boolean;
   actions: React.ReactNode;
 };
 
@@ -44,22 +45,24 @@ export default function ManageCardForm({
   onSubmit,
   actions,
   data,
+  isSubmitSuccessful,
 }: ManageCardFormProps) {
   const {
     control,
     handleSubmit,
+    reset,
     setError,
     formState: { errors },
   } = useForm<ICreateCardFrom>(
     useMemo(
       () => ({
         defaultValues: {
-          episodesId: data?.episodes,
+          episodes: data?.episodes,
           name: data?.name,
           type: data?.type,
           gender: data?.gender,
           isActive: data?.is_active,
-          locationId: data?.location,
+          location: data?.location,
         },
       }),
       [
@@ -86,6 +89,7 @@ export default function ManageCardForm({
     (values: ICreateCardFrom) => {
       if (values.episodes.length === 0) {
         setError('episodes', { type: 'required' });
+        return;
       }
       onSubmit({
         ...values,
@@ -97,6 +101,12 @@ export default function ManageCardForm({
     },
     [onSubmit, setError],
   );
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <Stack

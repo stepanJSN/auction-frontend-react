@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import {
   Alert,
   Button,
@@ -14,6 +14,7 @@ import { MutationStatusEnum } from '../enums/mutationStatus';
 import useErrorMessage from '../hooks/useErrorMessage';
 import { createCardErrorMessages } from '../features/cards/createCardErrorMessages';
 import useCreateCard from '../features/cards/useCreateCard';
+import { ICreateCard } from '../types/cards.interface';
 
 const alertStyles: SxProps = {
   mb: 1,
@@ -33,9 +34,23 @@ export default function CreateCardPage() {
   const { image, handleDelete, handleUpload, isImageError, setIsImageError } =
     useImage();
   const getErrorMessage = useErrorMessage(createCardErrorMessages);
-  const { handleSubmit, status, errorCode } = useCreateCard(
-    setIsImageError,
-    image?.image,
+  const { createCard, status, errorCode } = useCreateCard();
+
+  useEffect(() => {
+    if (status === MutationStatusEnum.SUCCESS) {
+      handleDelete();
+    }
+  }, [handleDelete, status]);
+
+  const handleSubmit = useCallback(
+    (data: ICreateCard) => {
+      if (image?.image) {
+        createCard(data, image.image);
+      } else {
+        setIsImageError(true);
+      }
+    },
+    [createCard, image, setIsImageError],
   );
 
   const actions = useMemo(
