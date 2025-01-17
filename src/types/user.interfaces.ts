@@ -22,6 +22,8 @@ export interface IUserBalance {
 }
 
 export interface IUser {
+  id: string;
+  role: Role;
   name: string;
   email: string;
   surname: string;

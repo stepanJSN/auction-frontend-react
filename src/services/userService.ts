@@ -27,6 +27,11 @@ export const userService = {
     return userData.data;
   },
 
+  getCurrent: async () => {
+    const userData = await apiWithAuth.get<IUser>('/users/current');
+    return userData.data;
+  },
+
   getAll: async (payload: IGetUserPayload) => {
     const params = new URLSearchParams();
     if (payload.page) params.append('page', payload.page.toString());

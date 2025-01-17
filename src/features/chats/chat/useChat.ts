@@ -17,11 +17,11 @@ import {
   selectChat,
 } from './chatSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuth } from '../../auth/authSlice';
+import { selectUser } from '../../user/userSlice';
 
 export default function useChat(chatId?: string) {
   const dispatch = useDispatch();
-  const { id } = useSelector(selectAuth);
+  const { id } = useSelector(selectUser);
   const { messages } = useSelector(selectChat);
   const [isScrollToBottomActive, setIsScrollToBottomActive] = useState(true);
   const [isChatDeletedDialogOpen, setIsChatDeletedDialogOpen] = useState(false);

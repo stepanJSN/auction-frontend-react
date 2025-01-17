@@ -14,14 +14,14 @@ import {
 import FaqHeader from '../components/FaqHeader';
 import { ROUTES } from '../config/routesConfig';
 import usePaginatedData from '../hooks/usePaginatedData';
-import { selectAuth } from '../features/auth/authSlice';
 import { Role } from '../enums/role.enum';
 import CardsGrid from '../components/CardsGrid';
 import { ICardSummary } from '../types/cards.interface';
+import { selectUser } from '../features/user/userSlice';
 
 export default function AllCardsPage() {
   const { status, cards, currentPage, totalPages } = useSelector(selectCards);
-  const { role } = useSelector(selectAuth);
+  const { role } = useSelector(selectUser);
   const handlePageChange = usePaginatedData(getCards, changeCardsPage);
 
   const auctionCreateRoute = useCallback(

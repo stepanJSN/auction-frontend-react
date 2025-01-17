@@ -11,7 +11,6 @@ import UpdateUserForm from '../features/user/UpdateUserForm';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/user/userSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
-import { selectAuth } from '../features/auth/authSlice';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useDeleteUser from '../features/user/useDeleteUser';
 import useUpdateUser from '../features/user/useUpdateUser';
@@ -23,7 +22,7 @@ const formWrapperStyles: SxProps = {
 export default function Profile() {
   const { status, updateStatus, deleteStatus, name, surname, email } =
     useSelector(selectUser);
-  const { id } = useSelector(selectAuth);
+  const { id } = useSelector(selectUser);
   const handleDelete = useDeleteUser(id!, deleteStatus);
   const handleUpdate = useUpdateUser(id!);
 
