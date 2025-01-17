@@ -17,6 +17,14 @@ import useUpdateUser from '../features/user/useUpdateUser';
 
 const formWrapperStyles: SxProps = {
   minWidth: '340px',
+  position: 'relative',
+};
+
+const alertStyles: SxProps = {
+  position: 'absolute',
+  width: '100%',
+  top: '10px',
+  left: '0',
 };
 
 export default function Profile() {
@@ -38,13 +46,19 @@ export default function Profile() {
           </Stack>
         )}
         {updateStatus === MutationStatusEnum.SUCCESS && (
-          <Alert severity="success">The profile was successfully updated</Alert>
+          <Alert sx={alertStyles} severity="success">
+            The profile was successfully updated
+          </Alert>
         )}
         {updateStatus === MutationStatusEnum.ERROR && (
-          <Alert severity="error">An error occurred during the update</Alert>
+          <Alert sx={alertStyles} severity="error">
+            An error occurred during the update
+          </Alert>
         )}
         {deleteStatus === MutationStatusEnum.ERROR && (
-          <Alert severity="error">An error occurred while deleting</Alert>
+          <Alert sx={alertStyles} severity="error">
+            An error occurred while deleting
+          </Alert>
         )}
         {status === QueryStatusEnum.SUCCESS && (
           <>
