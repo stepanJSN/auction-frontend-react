@@ -86,7 +86,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'cards/:cardId',
-            element: <CardPage parentPath="sets" />,
+            element: <CardPage parentPath="/sets" />,
           },
         ],
       },
