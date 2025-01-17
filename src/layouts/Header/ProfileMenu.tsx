@@ -89,8 +89,8 @@ export default function ProfileMenu({
             <ListItem sx={balanceItemStyles}>
               <Typography>Balance:</Typography>
               <List dense disablePadding>
-                <ListItem>Available: {balance.available}</ListItem>
-                <ListItem>Total: {balance.total}</ListItem>
+                <ListItem>Available: {balance.available} CP</ListItem>
+                <ListItem>Total: {balance.total} CP</ListItem>
               </List>
               <Button
                 variant="contained"
