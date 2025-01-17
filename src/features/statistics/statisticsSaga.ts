@@ -13,6 +13,7 @@ import {
   getUsersStatistics,
   setCardsStatisticsError,
   setCardsStatisticsSuccess,
+  setGeneralStatisticsError,
   setGeneralStatisticsSuccess,
   setSetsStatisticsError,
   setSetsStatisticsSuccess,
@@ -28,7 +29,7 @@ function* getGeneralStatisticsSaga() {
     );
     yield put(setGeneralStatisticsSuccess(generalStatistics));
   } catch {
-    yield put(setCardsStatisticsError());
+    yield put(setGeneralStatisticsError());
   }
 }
 
