@@ -1,9 +1,7 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   SxProps,
@@ -23,10 +21,8 @@ import Select from '../../components/Select';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import PageError from '../../components/PageError';
 import { LinearProgressPlaceholder } from '../../components/LinearProgressPlaceholder';
+import TableContainer from '../../components/TableContainer';
 
-const tableContainerStyles: SxProps = {
-  mb: 1,
-};
 const selectWrapperStyles: SxProps = {
   mb: 1,
   maxWidth: '200px',
@@ -68,7 +64,7 @@ export default function UsersStatistics() {
       {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
       {data && (
         <>
-          <TableContainer component={Paper} sx={tableContainerStyles}>
+          <TableContainer>
             <Table aria-label="user statistics table">
               <TableHead>
                 <TableRow>
