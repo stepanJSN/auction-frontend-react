@@ -40,7 +40,10 @@ export default function Router() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<UserCardsPage />}>
-            <Route path=":cardId" element={<CardPage />} />
+            <Route
+              path="my-cards/:cardId"
+              element={<CardPage parentPath="/" />}
+            />
           </Route>
           <Route path="/profile" element={<Profile />} />
           <Route path="/cards/create" element={<CreateCardPage />} />
