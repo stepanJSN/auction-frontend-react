@@ -113,6 +113,7 @@ export const auctionsSlice = createSlice({
 
     setType: (state, action: PayloadAction<AuctionTypeEnum>) => {
       state.status = QueryStatusEnum.LOADING;
+      state.currentPage = 1;
       state.filters = {
         ...initialState.filters,
         type: action.payload,
@@ -127,26 +128,31 @@ export const auctionsSlice = createSlice({
     setLocation: (state, action: PayloadAction<ILocation | null>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.location = action.payload;
+      state.currentPage = 1;
     },
 
     setCardName: (state, action: PayloadAction<string>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.cardName = action.payload;
+      state.currentPage = 1;
     },
 
     setShowOnlyWhereUserTakePart: (state, action: PayloadAction<boolean>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.showOnlyWhereUserTakePart = action.payload;
+      state.currentPage = 1;
     },
 
     setSortOrder: (state, action: PayloadAction<SortOrderEnum>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.sortOrder = action.payload;
+      state.currentPage = 1;
     },
 
     setSortBy: (state, action: PayloadAction<AuctionSortByEnum>) => {
       state.status = QueryStatusEnum.LOADING;
       state.filters.sortBy = action.payload;
+      state.currentPage = 1;
     },
 
     setPriceRange: (
@@ -180,6 +186,7 @@ export const auctionsSlice = createSlice({
           range: [state.filters.price.min, state.filters.price.max],
         },
       };
+      state.currentPage = 1;
     },
   },
 });
