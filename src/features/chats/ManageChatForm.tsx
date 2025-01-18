@@ -29,7 +29,12 @@ export default function ManageChatForm({
   participants,
   actions,
 }: ManageChatFormProps) {
-  const { control, handleSubmit } = useForm<ICreateChatForm>(
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<ICreateChatForm>(
     useMemo(
       () => ({
         defaultValues: {
@@ -43,6 +48,10 @@ export default function ManageChatForm({
 
   const transformData = useCallback(
     (data: ICreateChatForm) => {
+      if (data.participants.length === 0) {
+        setError('participants', { type: 'required' });
+        return;
+      }
       onSubmit({
         name: data.name,
         participants: data.participants
@@ -50,7 +59,7 @@ export default function ManageChatForm({
           .map((participant) => participant.id),
       });
     },
-    [onSubmit],
+    [onSubmit, setError],
   );
 
   return (
@@ -62,7 +71,7 @@ export default function ManageChatForm({
         errorText="The name must be between 2 and 30 characters long"
         rules={optionalTextFieldValidationRules}
       />
-      <ParticipantsFormList control={control} />
+      <ParticipantsFormList control={control} isError={!!errors.participants} />
       {actions}
     </Stack>
   );
