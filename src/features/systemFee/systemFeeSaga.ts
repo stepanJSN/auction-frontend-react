@@ -8,8 +8,10 @@ import {
 
 function* getSystemFeeSaga() {
   try {
-    const systemFee: number = yield call(transactionsService.getFeeAmount);
-    yield put(setSystemFeeSuccess(systemFee));
+    const systemFee: { totalFeeAmount: number } = yield call(
+      transactionsService.getFeeAmount,
+    );
+    yield put(setSystemFeeSuccess(systemFee.totalFeeAmount));
   } catch {
     yield put(setSystemFeeError());
   }
