@@ -152,7 +152,11 @@ export default function ManageCardForm({
         noOptionsText="No locations found"
         errorText="Please select a location"
       />
-      <EpisodesListForm control={control} isError={!!errors.episodes} />
+      <EpisodesListForm
+        control={control}
+        isError={!!errors.episodes}
+        isSubmitSuccessful={isSubmitSuccessful}
+      />
       {actions}
     </Stack>
   );

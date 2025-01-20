@@ -1,7 +1,7 @@
 import { Grid2, IconButton, Button, Typography } from '@mui/material';
 import FormAutocomplete from '../../components/FormAutocomplete';
 import { Control, useFieldArray } from 'react-hook-form';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { episodesService } from '../../services/episodesService';
 import { IEpisode } from '../../types/episodes.interfaces';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,11 +11,13 @@ import Autocomplete from '../../components/Autocomplete';
 type EpisodesListFormProps = {
   control: Control<ICreateCardFrom, any>;
   isError: boolean;
+  isSubmitSuccessful?: boolean;
 };
 
 export default function EpisodesListForm({
   control,
   isError,
+  isSubmitSuccessful,
 }: EpisodesListFormProps) {
   const [selectedEpisode, setSelectedEpisode] = useState<IEpisode | null>(null);
   const { fields, append, remove } = useFieldArray(
@@ -27,6 +29,13 @@ export default function EpisodesListForm({
       [control],
     ),
   );
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      setSelectedEpisode(null);
+      remove();
+    }
+  }, [isSubmitSuccessful, remove]);
 
   const searchEpisodesFunc = useCallback(
     (searchValue: string) => episodesService.getAll({ name: searchValue }),
@@ -80,7 +89,7 @@ export default function EpisodesListForm({
             searchFunc={searchEpisodesFunc}
             getLabel={getEpisodesLabel}
             startFromLetter={2}
-            noOptionsText="No users found"
+            noOptionsText="No episodes found"
             value={selectedEpisode}
             onChange={setSelectedEpisode}
           />
