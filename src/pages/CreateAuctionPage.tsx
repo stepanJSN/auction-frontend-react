@@ -50,8 +50,9 @@ export default function CreateAuctionPage() {
       {status === QueryStatusEnum.LOADING && <PageLoader />}
       {status === QueryStatusEnum.ERROR && <PageError />}
       {cardId && data && (
-        <Stack spacing={2}>
+        <Stack spacing={1}>
           <CardData data={data} />
+          <Alert severity="info">The system fee is 10%</Alert>
           <AuctionForm actions={actions} onSubmit={handleCreate} />
         </Stack>
       )}
