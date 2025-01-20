@@ -11,19 +11,26 @@ import UpdateUserForm from '../features/user/UpdateUserForm';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/user/userSlice';
 import { QueryStatusEnum } from '../enums/queryStatus.enum';
-import { selectAuth } from '../features/auth/authSlice';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import useDeleteUser from '../features/user/useDeleteUser';
 import useUpdateUser from '../features/user/useUpdateUser';
 
 const formWrapperStyles: SxProps = {
   minWidth: '340px',
+  position: 'relative',
+};
+
+const alertStyles: SxProps = {
+  position: 'absolute',
+  width: '100%',
+  top: '10px',
+  left: '0',
 };
 
 export default function Profile() {
   const { status, updateStatus, deleteStatus, name, surname, email } =
     useSelector(selectUser);
-  const { id } = useSelector(selectAuth);
+  const { id } = useSelector(selectUser);
   const handleDelete = useDeleteUser(id!, deleteStatus);
   const handleUpdate = useUpdateUser(id!);
 
@@ -39,13 +46,19 @@ export default function Profile() {
           </Stack>
         )}
         {updateStatus === MutationStatusEnum.SUCCESS && (
-          <Alert severity="success">The profile was successfully updated</Alert>
+          <Alert sx={alertStyles} severity="success">
+            The profile was successfully updated
+          </Alert>
         )}
         {updateStatus === MutationStatusEnum.ERROR && (
-          <Alert severity="error">An error occurred during the update</Alert>
+          <Alert sx={alertStyles} severity="error">
+            An error occurred during the update
+          </Alert>
         )}
         {deleteStatus === MutationStatusEnum.ERROR && (
-          <Alert severity="error">An error occurred while deleting</Alert>
+          <Alert sx={alertStyles} severity="error">
+            An error occurred while deleting
+          </Alert>
         )}
         {status === QueryStatusEnum.SUCCESS && (
           <>

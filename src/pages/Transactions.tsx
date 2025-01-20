@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import TransactionForm from '../features/user/TransactionForm';
 import { Alert, Grid2, GridSize, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  getUser,
   selectUser,
   topUpBalance,
   withdrawBalance,
@@ -27,6 +28,10 @@ export default function Transactions() {
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
 
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   const onTopUpSubmit = useCallback(
     (data: { amount: string }) => {
       dispatch(topUpBalance(+data.amount));
@@ -43,9 +48,9 @@ export default function Transactions() {
 
   return (
     <>
-      <Typography variant="h5">Total balance: {balance?.total}</Typography>
+      <Typography variant="h5">Total balance: {balance?.total} CP</Typography>
       <Typography variant="h5" gutterBottom>
-        Available balance: {balance?.available}
+        Available balance: {balance?.available} CP
       </Typography>
       {updateStatus === MutationStatusEnum.ERROR && (
         <Alert severity="error" sx={alertStyles}>

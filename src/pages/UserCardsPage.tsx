@@ -27,7 +27,7 @@ export default function UserCardsPage() {
     [],
   );
   const cardDetailsRoute = useCallback(
-    (cardId: string) => ROUTES.CARD_DETAILS(cardId),
+    (cardId: string) => ROUTES.USER_CARDS_DETAILS(cardId),
     [],
   );
 

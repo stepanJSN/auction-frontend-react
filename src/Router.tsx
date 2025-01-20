@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import Signin from './pages/Signin';
 import AuthLayout from './layouts/AuthLayout';
 import Signup from './pages/Signup';
@@ -29,78 +29,105 @@ import CreateChatPage from './pages/CreateChatPage';
 import ChatPage from './pages/ChatPage';
 import EditChatPage from './pages/EditChatPage';
 import StatisticsPage from './pages/StatisticsPage';
+import NotFoundPage from './pages/NotFoundPage';
+import { ErrorBoundary } from './ErrorBoundary';
+
+const router = createBrowserRouter([
+  {
+    element: <AuthLayout />,
+    errorElement: <ErrorBoundary />,
+    children: [
+      { path: '/signin', element: <Signin /> },
+      { path: '/signup', element: <Signup /> },
+    ],
+  },
+  {
+    element: <MainLayout />,
+    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        path: '/',
+        element: <UserCardsPage />,
+        children: [
+          { path: 'my-cards/:cardId', element: <CardPage parentPath="/" /> },
+        ],
+      },
+      { path: 'profile', element: <Profile /> },
+      { path: 'cards/create', element: <CreateCardPage /> },
+      { path: 'cards/edit/:cardId', element: <EditCardPage /> },
+      {
+        path: 'cards',
+        element: <AllCardsPage />,
+        children: [{ path: ':cardId', element: <CardPage /> }],
+      },
+      {
+        path: 'sets/create',
+        element: <CreateSetPage />,
+        children: [
+          {
+            path: 'cards/:cardId',
+            element: <CardPage parentPath="/sets/create" />,
+          },
+        ],
+      },
+      {
+        path: 'sets/edit/:setId',
+        element: <EditSetPage />,
+        children: [
+          {
+            path: 'cards/:cardId',
+            element: <CardPage parentPath="../" />,
+          },
+        ],
+      },
+      {
+        path: 'sets',
+        element: <SetsPage />,
+        children: [
+          {
+            path: 'cards/:cardId',
+            element: <CardPage parentPath="/sets" />,
+          },
+        ],
+      },
+      { path: 'transactions', element: <Transactions /> },
+      { path: 'users', element: <UsersPage /> },
+      {
+        path: 'locations',
+        element: <LocationsPage />,
+        children: [
+          { path: 'create', element: <CreateLocationPage /> },
+          { path: 'edit/:locationId', element: <EditLocationPage /> },
+        ],
+      },
+      {
+        path: 'episodes',
+        element: <EpisodesPage />,
+        children: [
+          { path: 'create', element: <CreateEpisodePage /> },
+          { path: 'edit/:episodeId', element: <EditEpisodePage /> },
+        ],
+      },
+      { path: 'auctions', element: <AuctionsPage /> },
+      { path: 'auctions/create/:cardId', element: <CreateAuctionPage /> },
+      { path: 'auctions/edit/:auctionId', element: <EditAuctionPage /> },
+      { path: 'auctions/:auctionId', element: <AuctionPage /> },
+      {
+        path: 'chats',
+        element: <AllChatsPage />,
+        children: [{ path: 'create', element: <CreateChatPage /> }],
+      },
+      {
+        path: 'chats/:chatId',
+        element: <ChatPage />,
+        children: [{ path: 'edit', element: <EditChatPage /> }],
+      },
+      { path: 'statistics', element: <StatisticsPage /> },
+      { path: '*', element: <NotFoundPage /> },
+    ],
+  },
+]);
 
 export default function Router() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-        </Route>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<UserCardsPage />}>
-            <Route path=":cardId" element={<CardPage />} />
-          </Route>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cards/create" element={<CreateCardPage />} />
-          <Route path="/cards/edit/:cardId" element={<EditCardPage />} />
-          <Route path="/cards" element={<AllCardsPage />}>
-            <Route path=":cardId" element={<CardPage />} />
-          </Route>
-          <Route path="/sets/create" element={<CreateSetPage />}>
-            <Route
-              path="cards/:cardId"
-              element={<CardPage parentPath="/set-create" />}
-            />
-          </Route>
-          <Route path="/sets/edit/:setId" element={<EditSetPage />}>
-            <Route
-              path="cards/:cardId"
-              element={<CardPage parentPath="../" />}
-            />
-          </Route>
-          <Route path="/sets" element={<SetsPage />}>
-            <Route
-              path="cards/:cardId"
-              element={<CardPage parentPath={'/sets'} />}
-            />
-          </Route>
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/users" element={<UsersPage />} />
-          <Route path="/locations" element={<LocationsPage />}>
-            <Route path="/locations/create" element={<CreateLocationPage />} />
-            <Route
-              path="/locations/edit/:locationId"
-              element={<EditLocationPage />}
-            />
-          </Route>
-          <Route path="/episodes" element={<EpisodesPage />}>
-            <Route path="/episodes/create" element={<CreateEpisodePage />} />
-            <Route
-              path="/episodes/edit/:episodeId"
-              element={<EditEpisodePage />}
-            />
-          </Route>
-          <Route path="/auctions" element={<AuctionsPage />} />
-          <Route
-            path="/auctions/create/:cardId"
-            element={<CreateAuctionPage />}
-          />
-          <Route
-            path="/auctions/edit/:auctionId"
-            element={<EditAuctionPage />}
-          />
-          <Route path="/auctions/:auctionId" element={<AuctionPage />} />
-          <Route path="/chats" element={<AllChatsPage />}>
-            <Route path="create" element={<CreateChatPage />} />
-          </Route>
-          <Route path="/chats/:chatId" element={<ChatPage />}>
-            <Route path="edit" element={<EditChatPage />} />
-          </Route>
-          <Route path="/statistics" element={<StatisticsPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }

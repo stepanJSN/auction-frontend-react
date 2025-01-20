@@ -1,10 +1,10 @@
 import {
-  Stack,
   Typography,
   ToggleButtonGroup,
   ToggleButton,
   SxProps,
   Button,
+  Grid2,
 } from '@mui/material';
 import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router';
@@ -29,7 +29,7 @@ export default function FaqHeader({ currentPage }: FaqHeaderProps) {
   );
 
   return (
-    <Stack direction="row" spacing={2} sx={containerStyles}>
+    <Grid2 container spacing={1} sx={containerStyles}>
       <Typography variant="h4">FAQ</Typography>
       <ToggleButtonGroup
         color="primary"
@@ -49,6 +49,6 @@ export default function FaqHeader({ currentPage }: FaqHeaderProps) {
         variant="outlined">
         {currentPage === ROUTES.CARDS ? 'Create card' : 'Create set'}
       </Button>
-    </Stack>
+    </Grid2>
   );
 }

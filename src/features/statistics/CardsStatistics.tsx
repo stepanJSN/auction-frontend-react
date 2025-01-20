@@ -7,12 +7,9 @@ import {
 import { useCallback, useEffect } from 'react';
 import {
   LinearProgress,
-  Paper,
-  SxProps,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from '@mui/material';
@@ -21,10 +18,7 @@ import Pagination from '../../components/Pagination';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import PageError from '../../components/PageError';
 import { LinearProgressPlaceholder } from '../../components/LinearProgressPlaceholder';
-
-const tableContainerStyles: SxProps = {
-  mb: 1,
-};
+import TableContainer from '../../components/TableContainer';
 
 export default function CardsStatistics() {
   const dispatch = useDispatch();
@@ -50,7 +44,7 @@ export default function CardsStatistics() {
       {status === QueryStatusEnum.SUCCESS && <LinearProgressPlaceholder />}
       {data && (
         <>
-          <TableContainer component={Paper} sx={tableContainerStyles}>
+          <TableContainer>
             <Table aria-label="cards statistics table">
               <TableHead>
                 <TableRow>

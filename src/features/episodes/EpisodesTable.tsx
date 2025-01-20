@@ -1,6 +1,4 @@
 import {
-  TableContainer,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -8,11 +6,11 @@ import {
   TableBody,
   useTheme,
   useMediaQuery,
-  SxProps,
 } from '@mui/material';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
 import EpisodesTableRow from './EpisodesTableRow';
 import { IEpisode } from '../../types/episodes.interfaces';
+import TableContainer from '../../components/TableContainer';
 
 type EpisodesTableProps = {
   episodes: {
@@ -20,10 +18,6 @@ type EpisodesTableProps = {
     deleteStatus: MutationStatusEnum;
   }[];
   onDelete: (id: number) => void;
-};
-
-const tableContainerStyles: SxProps = {
-  mb: 1,
 };
 
 export default function EpisodesTable({
@@ -34,7 +28,7 @@ export default function EpisodesTable({
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <TableContainer component={Paper} sx={tableContainerStyles}>
+    <TableContainer>
       <Table aria-label="episodes table" size={matches ? 'medium' : 'small'}>
         <TableHead>
           <TableRow>

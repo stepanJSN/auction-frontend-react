@@ -5,27 +5,20 @@ import { ICreateCard } from '../../types/cards.interface';
 import { cardsService } from '../../services/cardsService';
 import { getCards } from './cardsSlice';
 
-export default function useCreateCard(
-  setIsImageError: React.Dispatch<React.SetStateAction<boolean>>,
-  image?: Blob,
-) {
+export default function useCreateCard() {
   const dispatch = useDispatch();
   const { mutate, status, errorCode } = useMutation(
     (data: { cardData: ICreateCard; image: Blob }) => {
       return cardsService.create(data.cardData, data.image);
     },
   );
-  const handleSubmit = useCallback(
-    (data: ICreateCard) => {
-      if (image) {
-        mutate({ cardData: data, image: image });
-        dispatch(getCards());
-      } else {
-        setIsImageError(true);
-      }
+  const createCard = useCallback(
+    (data: ICreateCard, image: Blob) => {
+      mutate({ cardData: data, image: image });
+      dispatch(getCards());
     },
-    [image, mutate, dispatch, setIsImageError],
+    [mutate, dispatch],
   );
 
-  return { handleSubmit, status, errorCode };
+  return { createCard, status, errorCode };
 }

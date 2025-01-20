@@ -38,7 +38,11 @@ export default function CreateSetPage() {
       {status === MutationStatusEnum.SUCCESS && (
         <Alert severity="success">Set created successfully</Alert>
       )}
-      <SetForm onSubmit={handleSubmit} actions={actions} />
+      <SetForm
+        onSubmit={handleSubmit}
+        actions={actions}
+        isSubmitSuccessful={status === MutationStatusEnum.SUCCESS}
+      />
       <Outlet />
     </>
   );

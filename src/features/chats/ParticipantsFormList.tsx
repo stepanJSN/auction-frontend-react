@@ -1,4 +1,4 @@
-import { Button, Grid2, IconButton } from '@mui/material';
+import { Button, Grid2, IconButton, Typography } from '@mui/material';
 import FormAutocomplete from '../../components/FormAutocomplete';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useMemo, useCallback, useState } from 'react';
@@ -10,10 +10,12 @@ import Autocomplete from '../../components/Autocomplete';
 
 type ParticipantsFormListProps = {
   control: Control<ICreateChatForm, any>;
+  isError?: boolean;
 };
 
 export default function ParticipantsFormList({
   control,
+  isError,
 }: ParticipantsFormListProps) {
   const [selectedUser, setSelectedUser] = useState<IUserSummary | null>(null);
   const { fields, append, remove } = useFieldArray(
@@ -86,6 +88,11 @@ export default function ParticipantsFormList({
             value={selectedUser}
             onChange={setSelectedUser}
           />
+          {isError && (
+            <Typography color="error" variant="caption">
+              Participants are required
+            </Typography>
+          )}
         </Grid2>
         <Grid2>
           <Button onClick={addParticipant} disabled={!selectedUser}>

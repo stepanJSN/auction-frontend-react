@@ -30,7 +30,7 @@ export default function AuctionPage() {
     useSelector(selectAuction);
   const dispatch = useDispatch();
   const getErrorMessage = useErrorMessage(createBidErrorMessages);
-  useAuctionUpdateListener(auctionId!);
+  useAuctionUpdateListener(auctionId!, data?.highest_bid?.is_this_user_bid);
 
   useEffect(() => {
     dispatch(getUser());

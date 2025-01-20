@@ -14,7 +14,6 @@ import { adminMenu, userMenu } from '../../config/menuConfig';
 import ProfileMenu from './ProfileMenu';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectAuth } from '../../features/auth/authSlice';
 import MenuIcon from '@mui/icons-material/Menu';
 import { selectUser } from '../../features/user/userSlice';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
@@ -47,7 +46,7 @@ const logoGridStyles: Grid2Props = {
 };
 
 export default function Header() {
-  const { role } = useSelector(selectAuth);
+  const { role } = useSelector(selectUser);
   const { status, name, surname, balance, rating } = useSelector(selectUser);
   const { anchorMenuEl, isMenuOpen, handleMenuClick, handleMenuClose } =
     useMenu();

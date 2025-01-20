@@ -1,24 +1,15 @@
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableBody,
-  SxProps,
-} from '@mui/material';
+import { Table, TableBody } from '@mui/material';
 import { IChatSummary } from '../../types/chats.interfaces';
 import ChatsTableRow from './ChatsTableRow';
+import TableContainer from '../../components/TableContainer';
 
 type ChatsTableProps = {
   chats: IChatSummary[];
 };
 
-const tableContainerStyles: SxProps = {
-  mb: 1,
-};
-
 export default function ChatsTable({ chats }: ChatsTableProps) {
   return (
-    <TableContainer component={Paper} sx={tableContainerStyles}>
+    <TableContainer>
       <Table aria-label="chats table">
         <TableBody>
           {chats.map((chat) => (

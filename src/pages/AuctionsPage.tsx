@@ -75,7 +75,7 @@ export default function AuctionsPage() {
         <Grid2 size={filterGridBreakpoints}>
           <AuctionsFilters ref={ref} isOpen={isSidebarOpen} />
         </Grid2>
-        <Grid2 container spacing={2} size={auctionsGridBreakpoints}>
+        <Grid2 spacing={2} size={auctionsGridBreakpoints}>
           {status === QueryStatusEnum.LOADING && <PageLoader />}
           {status === QueryStatusEnum.ERROR && <PageError />}
           {status === QueryStatusEnum.SUCCESS && auctions.length !== 0 && (

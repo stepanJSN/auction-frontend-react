@@ -3,8 +3,11 @@ import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { IUpdateUser, IUser } from '../../types/user.interfaces';
 import { RootState } from '../../redux/store';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
+import { Role } from '../../enums/role.enum';
 
 export interface UserState {
+  id: string | null;
+  role: Role | null;
   name: string | null;
   email: string | null;
   surname: string | null;
@@ -21,6 +24,8 @@ export interface UserState {
 }
 
 const initialState: UserState = {
+  id: null,
+  role: null,
   name: null,
   email: null,
   surname: null,
@@ -41,6 +46,8 @@ export const userSlice = createSlice({
       state.status = QueryStatusEnum.LOADING;
     },
     getUserSuccess: (state, action: PayloadAction<IUser>) => {
+      state.id = action.payload.id;
+      state.role = action.payload.role;
       state.status = QueryStatusEnum.SUCCESS;
       state.name = action.payload.name;
       state.email = action.payload.email;

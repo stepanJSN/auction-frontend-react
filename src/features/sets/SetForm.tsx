@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect } from 'react';
 import { Grid2 } from '@mui/material';
 import FormInput from '../../components/FormInput';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -17,6 +17,7 @@ type SetFormProps = {
   data?: Pick<ISet, 'name' | 'bonus' | 'cards'>;
   onSubmit: (data: ICreateSet) => void;
   actions: React.ReactNode;
+  isSubmitSuccessful?: boolean;
 };
 
 const formContainerStyles = {
@@ -28,8 +29,13 @@ const inputColumnsNumber = { xs: 12, sm: 6 };
 
 const formSpacing = { xs: 0, sm: 1 };
 
-export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
-  const { control, handleSubmit } = useForm<
+export default function SetForm({
+  onSubmit,
+  data,
+  actions,
+  isSubmitSuccessful,
+}: SetFormProps) {
+  const { control, handleSubmit, reset } = useForm<
     Pick<ISet, 'name' | 'bonus' | 'cards'>
   >(
     useMemo(
@@ -76,6 +82,12 @@ export default function SetForm({ onSubmit, data, actions }: SetFormProps) {
       cardsId: data.cards.map((card) => card.id),
     });
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <Grid2

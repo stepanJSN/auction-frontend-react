@@ -1,9 +1,5 @@
 import { api } from '../apiConfig';
-import { Role } from '../enums/role.enum';
-import {
-  ISingInRequest,
-  ISingInResponse,
-} from '../types/auth.interfaces';
+import { ISingInRequest, ISingInResponse } from '../types/auth.interfaces';
 
 export const authService = {
   setAccessToken: (token: string) => {
@@ -15,26 +11,8 @@ export const authService = {
 
     if (response.data.accessToken)
       authService.setAccessToken(response.data.accessToken);
-    if (response.data.id) authService.setUserId(response.data.id);
-    if (response.data.role) authService.setUserRole(response.data.role);
 
     return response.data;
-  },
-
-  setUserRole: (role: Role) => {
-    localStorage.setItem('role', role);
-  },
-
-  setUserId: (id: string) => {
-    localStorage.setItem('id', id);
-  },
-
-  getUserId: () => {
-    return localStorage.getItem('id');
-  },
-
-  getUserRole: () => {
-    return localStorage.getItem('role');
   },
 
   getAccessToken: () => {

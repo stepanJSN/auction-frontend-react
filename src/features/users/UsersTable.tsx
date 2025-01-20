@@ -1,6 +1,4 @@
 import {
-  TableContainer,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -8,12 +6,12 @@ import {
   TableBody,
   useTheme,
   useMediaQuery,
-  SxProps,
 } from '@mui/material';
 import { IUserSummary } from '../../types/user.interfaces';
 import { Role } from '../../enums/role.enum';
 import UsersTableRow from './UsersTableRow';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
+import TableContainer from '../../components/TableContainer';
 
 type UsersTableProps = {
   users: {
@@ -25,10 +23,6 @@ type UsersTableProps = {
   onUpdateRole: (id: string, role: Role) => void;
 };
 
-const tableContainerStyles: SxProps = {
-  mb: 1,
-};
-
 export default function UsersTable({
   users,
   onDelete,
@@ -38,7 +32,7 @@ export default function UsersTable({
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <TableContainer component={Paper} sx={tableContainerStyles}>
+    <TableContainer>
       <Table aria-label="users table" size={matches ? 'medium' : 'small'}>
         <TableHead>
           <TableRow>

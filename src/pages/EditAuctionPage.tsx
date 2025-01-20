@@ -41,7 +41,7 @@ export default function CreateAuctionPage() {
         updateStatus={updateStatus}
         deleteStatus={deleteStatus}
         handleDelete={handleDelete}
-        isCompleted={data?.is_completed || true}
+        isCompleted={data?.is_completed || false}
       />
     ),
     [data?.is_completed, deleteStatus, handleDelete, updateStatus],

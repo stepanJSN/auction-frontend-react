@@ -8,6 +8,7 @@ import {
   Typography,
   Menu as MuiMenu,
   styled,
+  Box,
 } from '@mui/material';
 import { MenuLink } from './MenuLink';
 import Menu from './Menu';
@@ -65,10 +66,10 @@ export default function ProfileMenu({
     <StyledMenu anchorEl={anchorMenuEl} open={isMenuOpen} onClose={handleClose}>
       <List sx={containerStyles} dense>
         {!isBigScreen && (
-          <>
+          <Box onClick={handleClose}>
             <Menu menuItems={menuItems} />
             <Divider sx={dividerStyles} component="li" />
-          </>
+          </Box>
         )}
         {!isUserDataLoaded && <CircularProgress />}
         {isUserDataLoaded && (
@@ -88,8 +89,8 @@ export default function ProfileMenu({
             <ListItem sx={balanceItemStyles}>
               <Typography>Balance:</Typography>
               <List dense disablePadding>
-                <ListItem>Available: {balance.available}</ListItem>
-                <ListItem>Total: {balance.total}</ListItem>
+                <ListItem>Available: {balance.available} CP</ListItem>
+                <ListItem>Total: {balance.total} CP</ListItem>
               </List>
               <Button
                 variant="contained"
