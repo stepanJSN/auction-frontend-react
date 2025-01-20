@@ -11,4 +11,10 @@ export const transactionsService = {
     });
     return balance.data;
   },
+  getFeeAmount: async () => {
+    const fee = await apiWithAuth.get<{ totalFeeAmount: number }>(
+      '/transactions/fee',
+    );
+    return fee.data;
+  },
 };
