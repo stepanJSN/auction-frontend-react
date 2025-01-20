@@ -11,6 +11,7 @@ import auctionReducer from '../features/auctions/auction/AuctionSlice';
 import chatsReducer from '../features/chats/chatsSlice';
 import chatReducer from '../features/chats/chat/chatSlice';
 import statisticsReducer from '../features/statistics/statisticsSlice';
+import systemFeeReducer from '../features/systemFee/systemFeeSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const combinedReducer = combineReducers({
@@ -27,6 +28,7 @@ const combinedReducer = combineReducers({
   chats: chatsReducer,
   chat: chatReducer,
   statistics: statisticsReducer,
+  systemFee: systemFeeReducer,
 });
 
 export const rootReducer = (state: any, action: any) => {
