@@ -12,6 +12,11 @@ import { AppDispatch } from '../redux/store';
 import { MutationStatusEnum } from '../enums/mutationStatus';
 import { transactionErrorMessages } from '../features/user/transactionErrorMessages';
 import useErrorMessage from '../hooks/useErrorMessage';
+import {
+  getSystemFee,
+  selectSystemFee,
+} from '../features/systemFee/systemFeeSlice';
+import { Role } from '../enums/role.enum';
 
 const alertStyles = {
   mb: 2,
@@ -23,13 +28,15 @@ const gridFormColumns: Record<string, GridSize> = {
 };
 
 export default function Transactions() {
-  const { balance, updateStatus, errorCode } = useSelector(selectUser);
+  const { balance, updateStatus, errorCode, role } = useSelector(selectUser);
+  const { totalAmount } = useSelector(selectSystemFee);
   const dispatch = useDispatch<AppDispatch>();
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
 
   useEffect(() => {
     dispatch(getUser());
+    dispatch(getSystemFee());
   }, [dispatch]);
 
   const onTopUpSubmit = useCallback(
@@ -48,10 +55,17 @@ export default function Transactions() {
 
   return (
     <>
-      <Typography variant="h5">Total balance: {balance?.total} CP</Typography>
-      <Typography variant="h5" gutterBottom>
-        Available balance: {balance?.available} CP
+      <Typography variant="h5">
+        Total balance: {balance?.total ?? 'Loading...'} CP
       </Typography>
+      <Typography variant="h5" gutterBottom>
+        Available balance: {balance?.available ?? 'Loading...'} CP
+      </Typography>
+      {role === Role.ADMIN && (
+        <Typography variant="h5" gutterBottom>
+          System fee amount: {totalAmount ?? 'Loading...'} CP
+        </Typography>
+      )}
       {updateStatus === MutationStatusEnum.ERROR && (
         <Alert severity="error" sx={alertStyles}>
           {getErrorMessage(errorCode)}
