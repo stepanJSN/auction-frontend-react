@@ -1,15 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryStatusEnum } from '../../enums/queryStatus.enum';
 import { RootState } from '../../redux/store';
+import { MutationStatusEnum } from '../../enums/mutationStatus';
+import { IExchangeRate } from '../../types/system.interfaces';
 
 export interface SystemState {
-  exchangeRate: number;
-  status: QueryStatusEnum;
+  exchangeRate: {
+    value: number;
+    updatedAt: string;
+    status: QueryStatusEnum;
+    updateStatus: MutationStatusEnum;
+  };
 }
 
 const initialState: SystemState = {
-  exchangeRate: 0,
-  status: QueryStatusEnum.IDLE,
+  exchangeRate: {
+    value: 0,
+    updatedAt: '',
+    status: QueryStatusEnum.IDLE,
+    updateStatus: MutationStatusEnum.IDLE,
+  },
 };
 
 export const systemSlice = createSlice({
@@ -17,16 +27,29 @@ export const systemSlice = createSlice({
   initialState,
   reducers: {
     getExchangeRate: (state) => {
-      state.status = QueryStatusEnum.LOADING;
+      state.exchangeRate.status = QueryStatusEnum.LOADING;
     },
 
-    setExchangeRate: (state, action: PayloadAction<number>) => {
-      state.exchangeRate = action.payload;
-      state.status = QueryStatusEnum.SUCCESS;
+    setExchangeRate: (state, action: PayloadAction<IExchangeRate>) => {
+      state.exchangeRate.value = action.payload.exchange_rate;
+      state.exchangeRate.updatedAt = action.payload.updated_at;
+      state.exchangeRate.status = QueryStatusEnum.SUCCESS;
     },
 
     setExchangeRateError: (state) => {
-      state.status = QueryStatusEnum.ERROR;
+      state.exchangeRate.status = QueryStatusEnum.ERROR;
+    },
+
+    updateExchangeRate: (state) => {
+      state.exchangeRate.updateStatus = MutationStatusEnum.PENDING;
+    },
+
+    setUpdateExchangeRateStatusSuccess: (state) => {
+      state.exchangeRate.updateStatus = MutationStatusEnum.SUCCESS;
+    },
+
+    setUpdateExchangeRateStatusError: (state) => {
+      state.exchangeRate.updateStatus = MutationStatusEnum.ERROR;
     },
   },
 });
@@ -34,6 +57,7 @@ export const systemSlice = createSlice({
 export const { getExchangeRate, setExchangeRate, setExchangeRateError } =
   systemSlice.actions;
 
-export const selectSystem = (state: RootState) => state.system;
+export const selectExchangeRate = (state: RootState) =>
+  state.system.exchangeRate;
 
 export default systemSlice.reducer;
