@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import TransactionForm from '../features/user/TransactionForm';
 import { Alert, Grid2, GridSize, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,15 @@ import {
   selectSystemFee,
 } from '../features/systemFee/systemFeeSlice';
 import { Role } from '../enums/role.enum';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import usePayment from '../features/payment/usePayment';
+import { Outlet } from 'react-router';
+import { getExchangeRate, selectSystem } from '../features/system/systemSlice';
+
+const stripePromise = loadStripe(
+  'pk_test_51QjJZaHXHc6gWwzQpo2D8AwOzPnYJxGF19wcPK2dgGVJrtJgX8Nu2UVlupKP9yXWeqlq6jPznObNhTcuefLqmwd500ZmEZTqjc',
+);
 
 const alertStyles = {
   mb: 2,
@@ -30,20 +39,29 @@ const gridFormColumns: Record<string, GridSize> = {
 export default function Transactions() {
   const { balance, updateStatus, errorCode, role } = useSelector(selectUser);
   const { totalAmount } = useSelector(selectSystemFee);
+  const { exchangeRate } = useSelector(selectSystem);
   const dispatch = useDispatch<AppDispatch>();
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
+  const { clientSecret, handleTopUp } = usePayment();
 
   useEffect(() => {
     dispatch(getUser());
-    dispatch(getSystemFee());
-  }, [dispatch]);
+    dispatch(getExchangeRate());
+    if (role === Role.ADMIN) {
+      dispatch(getSystemFee());
+    }
+  }, [dispatch, role]);
 
   const onTopUpSubmit = useCallback(
     (data: { amount: string }) => {
-      dispatch(topUpBalance(+data.amount));
+      if (role === Role.ADMIN) {
+        dispatch(topUpBalance(+data.amount));
+        return;
+      }
+      handleTopUp(+data.amount);
     },
-    [dispatch],
+    [dispatch, role, handleTopUp],
   );
 
   const onWithdrawSubmit = useCallback(
@@ -53,12 +71,13 @@ export default function Transactions() {
     [dispatch],
   );
 
+  const stripeOptions = useMemo(() => ({ clientSecret }), [clientSecret]);
   return (
     <>
       <Typography variant="h5">
         Total balance: {balance?.total ?? 'Loading...'} CP
       </Typography>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5">
         Available balance: {balance?.available ?? 'Loading...'} CP
       </Typography>
       {role === Role.ADMIN && (
@@ -66,6 +85,10 @@ export default function Transactions() {
           System fee amount: {totalAmount ?? 'Loading...'} CP
         </Typography>
       )}
+      <Typography variant="h5" gutterBottom>
+        Exchange rate:{' '}
+        {exchangeRate ? `for 1CP = ${exchangeRate}$` : 'Loading...'}
+      </Typography>
       {updateStatus === MutationStatusEnum.ERROR && (
         <Alert severity="error" sx={alertStyles}>
           {getErrorMessage(errorCode)}
@@ -87,6 +110,11 @@ export default function Transactions() {
           />
         </Grid2>
       </Grid2>
+      {clientSecret && (
+        <Elements stripe={stripePromise} options={stripeOptions}>
+          <Outlet />
+        </Elements>
+      )}
     </>
   );
 }

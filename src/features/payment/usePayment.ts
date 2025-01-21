@@ -1,20 +1,29 @@
-import { useEffect, useState } from 'react';
-import useMutation from '../../hooks/useMutation';
+import { useCallback, useState } from 'react';
 import { paymentService } from '../../services/paymentService';
+import useMutation from '../../hooks/useMutation';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '../../config/routesConfig';
 
 export default function usePayment() {
   const [clientSecret, setClientSecret] = useState<string>();
-  const { mutate } = useMutation(() => {
-    return paymentService.createPaymentIntent();
-  }, false);
+  const navigate = useNavigate();
+  const { mutate, status: topUpStatus } = useMutation(
+    (numberOfPoints: number) => {
+      return paymentService.createPaymentIntent({ amount: numberOfPoints });
+    },
+    false,
+  );
 
-  useEffect(() => {
-    mutate().then((res) => {
-      if (res) {
-        setClientSecret(res.clientSecret);
+  const handleTopUp = useCallback(
+    async (numberOfPoints: number) => {
+      const response = await mutate(numberOfPoints);
+      if (response) {
+        setClientSecret(response.clientSecret);
+        navigate(ROUTES.TOP_UP, { state: { numberOfPoints } });
       }
-    });
-  });
+    },
+    [mutate, navigate],
+  );
 
-  return clientSecret;
+  return { handleTopUp, topUpStatus, clientSecret };
 }

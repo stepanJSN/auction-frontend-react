@@ -31,6 +31,7 @@ import EditChatPage from './pages/EditChatPage';
 import StatisticsPage from './pages/StatisticsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { ErrorBoundary } from './ErrorBoundary';
+import PaymentFormPage from './pages/PaymentFormPage';
 
 const router = createBrowserRouter([
   {
@@ -90,7 +91,11 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: 'transactions', element: <Transactions /> },
+      {
+        path: 'transactions',
+        element: <Transactions />,
+        children: [{ path: 'topUp', element: <PaymentFormPage /> }],
+      },
       { path: 'users', element: <UsersPage /> },
       {
         path: 'locations',
