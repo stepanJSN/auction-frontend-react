@@ -20,7 +20,10 @@ import { useState } from 'react';
 
 const formWrapperStyles: SxProps = {
   p: 2,
-  minWidth: '400px',
+  minWidth: {
+    xs: '300px',
+    sm: '400px',
+  },
   minHeight: '300px',
 };
 
