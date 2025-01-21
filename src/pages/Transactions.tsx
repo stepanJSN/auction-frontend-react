@@ -43,7 +43,7 @@ export default function Transactions() {
   const dispatch = useDispatch<AppDispatch>();
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
-  const { clientSecret, handleTopUp } = usePayment();
+  const { clientSecret, handleTopUp, topUpStatus } = usePayment();
 
   useEffect(() => {
     dispatch(getUser());
@@ -99,7 +99,7 @@ export default function Transactions() {
           <TransactionForm
             title="Top Up"
             onSubmit={onTopUpSubmit}
-            isPending={isPending}
+            isPending={isPending || topUpStatus === MutationStatusEnum.PENDING}
           />
         </Grid2>
         <Grid2 size={gridFormColumns}>
