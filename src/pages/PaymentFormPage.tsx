@@ -27,6 +27,10 @@ const formWrapperStyles: SxProps = {
   minHeight: '300px',
 };
 
+const titleStyles: SxProps = {
+  maxWidth: '90%',
+};
+
 export default function PaymentFormPage() {
   const stripe = useStripe();
   const elements = useElements();
@@ -64,7 +68,7 @@ export default function PaymentFormPage() {
     <ModalPage>
       {isLoading && <LinearProgress />}
       <Box sx={formWrapperStyles}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom sx={titleStyles}>
           You will be charged ${(numberOfPoints * exchangeRate).toFixed(2)} for{' '}
           {numberOfPoints}CP
         </Typography>
