@@ -32,6 +32,7 @@ import StatisticsPage from './pages/StatisticsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { ErrorBoundary } from './ErrorBoundary';
 import PaymentFormPage from './pages/PaymentFormPage';
+import SystemSettingsPage from './pages/SystemSettingsPage';
 
 const router = createBrowserRouter([
   {
@@ -128,6 +129,7 @@ const router = createBrowserRouter([
         children: [{ path: 'edit', element: <EditChatPage /> }],
       },
       { path: 'statistics', element: <StatisticsPage /> },
+      { path: 'settings', element: <SystemSettingsPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
