@@ -8,8 +8,4 @@ export const paymentService = {
     );
     return response.data;
   },
-
-  getExchangeRate: async () => {
-    return 1.2;
-  },
 };
