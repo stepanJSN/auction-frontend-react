@@ -22,6 +22,7 @@ type ProfileMenuProps = {
   anchorMenuEl: null | HTMLElement;
   isUserDataLoaded: boolean;
   username: string;
+  isAdmin: boolean;
   isBigScreen: boolean;
   menuItems: { label: string; path: string }[];
   balance: {
@@ -55,6 +56,7 @@ export default function ProfileMenu({
   isBigScreen,
   rating,
   isUserDataLoaded,
+  isAdmin,
   menuItems,
   isMenuOpen,
   handleClose,
@@ -111,6 +113,20 @@ export default function ProfileMenu({
             Update personal information
           </MenuLink>
         </ListItem>
+        {isAdmin && (
+          <ListItem>
+            <Button
+              variant="contained"
+              component={Link}
+              to={ROUTES.SYSTEM_SETTINGS}
+              color="warning"
+              size="small"
+              onClick={handleClose}
+              fullWidth>
+              System settings
+            </Button>
+          </ListItem>
+        )}
         <ListItem>
           <Button
             variant="contained"

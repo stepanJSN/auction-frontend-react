@@ -29,4 +29,5 @@ export const ROUTES = {
   EPISODES: '/episodes',
   CREATE_EPISODE: '/episodes/create',
   EDIT_EPISODE: (episodeId: number) => `/episodes/edit/${episodeId}`,
+  SYSTEM_SETTINGS: '/settings',
 };

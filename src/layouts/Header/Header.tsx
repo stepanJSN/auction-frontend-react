@@ -91,6 +91,7 @@ export default function Header() {
           balance={balance!}
           rating={rating}
           isBigScreen={isBigScreen}
+          isAdmin={role === Role.ADMIN}
         />
       </HeaderStyled>
     </MainContainer>
