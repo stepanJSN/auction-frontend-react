@@ -40,7 +40,7 @@ export const systemSlice = createSlice({
       state.exchangeRate.status = QueryStatusEnum.ERROR;
     },
 
-    updateExchangeRate: (state) => {
+    updateExchangeRate: (state, _action: PayloadAction<number>) => {
       state.exchangeRate.updateStatus = MutationStatusEnum.PENDING;
     },
 
@@ -54,8 +54,14 @@ export const systemSlice = createSlice({
   },
 });
 
-export const { getExchangeRate, setExchangeRate, setExchangeRateError } =
-  systemSlice.actions;
+export const {
+  getExchangeRate,
+  setExchangeRate,
+  setExchangeRateError,
+  updateExchangeRate,
+  setUpdateExchangeRateStatusError,
+  setUpdateExchangeRateStatusSuccess,
+} = systemSlice.actions;
 
 export const selectExchangeRate = (state: RootState) =>
   state.system.exchangeRate;

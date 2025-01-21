@@ -14,7 +14,7 @@ import {
 import ModalPage from '../components/ModalPage';
 import { useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
-import { selectSystem } from '../features/system/systemSlice';
+import { selectExchangeRate } from '../features/system/systemSlice';
 import { ROUTES } from '../config/routesConfig';
 import { useState } from 'react';
 
@@ -36,7 +36,7 @@ export default function PaymentFormPage() {
   const elements = useElements();
   const { state } = useLocation();
   const { numberOfPoints } = state;
-  const { exchangeRate } = useSelector(selectSystem);
+  const { value: exchangeRate } = useSelector(selectExchangeRate);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 

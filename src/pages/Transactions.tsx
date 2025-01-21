@@ -21,7 +21,10 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import usePayment from '../features/payment/usePayment';
 import { Outlet } from 'react-router';
-import { getExchangeRate, selectSystem } from '../features/system/systemSlice';
+import {
+  getExchangeRate,
+  selectExchangeRate,
+} from '../features/system/systemSlice';
 
 const stripePromise = loadStripe(
   'pk_test_51QjJZaHXHc6gWwzQpo2D8AwOzPnYJxGF19wcPK2dgGVJrtJgX8Nu2UVlupKP9yXWeqlq6jPznObNhTcuefLqmwd500ZmEZTqjc',
@@ -39,7 +42,7 @@ const gridFormColumns: Record<string, GridSize> = {
 export default function Transactions() {
   const { balance, updateStatus, errorCode, role } = useSelector(selectUser);
   const { totalAmount } = useSelector(selectSystemFee);
-  const { exchangeRate } = useSelector(selectSystem);
+  const { value: exchangeRate } = useSelector(selectExchangeRate);
   const dispatch = useDispatch<AppDispatch>();
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
