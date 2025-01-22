@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useEffect } from 'react';
-import TransactionForm from '../features/user/TransactionForm';
-import { Alert, Grid2, GridSize, Typography } from '@mui/material';
+import TransactionForm from '../features/transactions/TransactionForm';
+import { Alert, Button, Grid2, GridSize, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getUser,
@@ -10,7 +10,10 @@ import {
 } from '../features/user/userSlice';
 import { AppDispatch } from '../redux/store';
 import { MutationStatusEnum } from '../enums/mutationStatus';
-import { transactionErrorMessages } from '../features/user/transactionErrorMessages';
+import {
+  TransactionBedRequestCodesEnum,
+  transactionErrorMessages,
+} from '../features/transactions/transactionErrorMessages';
 import useErrorMessage from '../hooks/useErrorMessage';
 import {
   getSystemFee,
@@ -19,19 +22,21 @@ import {
 import { Role } from '../enums/role.enum';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import usePayment from '../features/payment/usePayment';
+import usePayment from '../features/transactions/usePayment';
 import { Outlet } from 'react-router';
 import {
   getExchangeRate,
   selectExchangeRate,
 } from '../features/system/systemSlice';
+import useCreateStripeAccount from '../features/transactions/useCreateStripeAccount';
+import { ErrorCodesEnum } from '../enums/errorCodes.enum';
 
 const stripePromise = loadStripe(
   'pk_test_51QjJZaHXHc6gWwzQpo2D8AwOzPnYJxGF19wcPK2dgGVJrtJgX8Nu2UVlupKP9yXWeqlq6jPznObNhTcuefLqmwd500ZmEZTqjc',
 );
 
 const alertStyles = {
-  mb: 2,
+  mt: 1,
 };
 
 const gridFormColumns: Record<string, GridSize> = {
@@ -40,13 +45,16 @@ const gridFormColumns: Record<string, GridSize> = {
 };
 
 export default function Transactions() {
-  const { balance, updateStatus, errorCode, role } = useSelector(selectUser);
+  const { balance, updateStatus, errorCode, role, hasStripeAccount } =
+    useSelector(selectUser);
   const { totalAmount } = useSelector(selectSystemFee);
   const { value: exchangeRate } = useSelector(selectExchangeRate);
   const dispatch = useDispatch<AppDispatch>();
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
   const { clientSecret, handleTopUp, topUpStatus } = usePayment();
+  const { createAccountStatus, createAccount } = useCreateStripeAccount();
+  const isAccountCreating = createAccountStatus === MutationStatusEnum.PENDING;
 
   useEffect(() => {
     dispatch(getUser());
@@ -92,11 +100,6 @@ export default function Transactions() {
         Exchange rate:{' '}
         {exchangeRate ? `for 1CP = ${exchangeRate}$` : 'Loading...'}
       </Typography>
-      {updateStatus === MutationStatusEnum.ERROR && (
-        <Alert severity="error" sx={alertStyles}>
-          {getErrorMessage(errorCode)}
-        </Alert>
-      )}
       <Grid2 container spacing={2}>
         <Grid2 size="grow">
           <TransactionForm
@@ -113,6 +116,33 @@ export default function Transactions() {
           />
         </Grid2>
       </Grid2>
+      {!hasStripeAccount && role === Role.USER && (
+        <Alert severity="warning" sx={alertStyles}>
+          If you want to withdraw funds, you need to add create a Stripe
+          account.
+          <Button
+            disabled={isAccountCreating}
+            onClick={createAccount}
+            size="small">
+            {isAccountCreating ? 'Creating...' : 'Create account'}
+          </Button>
+        </Alert>
+      )}
+      {updateStatus === MutationStatusEnum.ERROR && (
+        <Alert severity="error" sx={alertStyles}>
+          {getErrorMessage(errorCode)}
+          {(errorCode ===
+            TransactionBedRequestCodesEnum.STRIPE_ACCOUNT_NOT_COMPLETED ||
+            errorCode === ErrorCodesEnum.NotFound) && (
+            <Button
+              disabled={isAccountCreating}
+              onClick={createAccount}
+              size="small">
+              {isAccountCreating ? 'Creating...' : 'Create account'}
+            </Button>
+          )}
+        </Alert>
+      )}
       {clientSecret && (
         <Elements stripe={stripePromise} options={stripeOptions}>
           <Outlet />
