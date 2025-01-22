@@ -22,7 +22,7 @@ import {
 import { Role } from '../enums/role.enum';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import usePayment from '../features/transactions/usePayment';
+import usePaymentIntent from '../features/transactions/usePaymentIntent';
 import { Outlet } from 'react-router';
 import {
   getExchangeRate,
@@ -52,7 +52,7 @@ export default function Transactions() {
   const dispatch = useDispatch<AppDispatch>();
   const isPending = updateStatus === MutationStatusEnum.PENDING;
   const getErrorMessage = useErrorMessage(transactionErrorMessages);
-  const { clientSecret, handleTopUp, topUpStatus } = usePayment();
+  const { clientSecret, handleTopUp, topUpStatus } = usePaymentIntent();
   const { createAccountStatus, createAccount } = useCreateStripeAccount();
   const isAccountCreating = createAccountStatus === MutationStatusEnum.PENDING;
 
