@@ -31,9 +31,7 @@ import {
 import useCreateStripeAccount from '../features/transactions/useCreateStripeAccount';
 import { ErrorCodesEnum } from '../enums/errorCodes.enum';
 
-const stripePromise = loadStripe(
-  'pk_test_51QjJZaHXHc6gWwzQpo2D8AwOzPnYJxGF19wcPK2dgGVJrtJgX8Nu2UVlupKP9yXWeqlq6jPznObNhTcuefLqmwd500ZmEZTqjc',
-);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const alertStyles = {
   mt: 1,
