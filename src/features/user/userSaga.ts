@@ -103,7 +103,9 @@ function* withdrawUserBalanceSaga(action: PayloadAction<number>) {
   } catch (error) {
     yield put(
       updateUserError(
-        (error as AxiosError).status || ErrorCodesEnum.ServerError,
+        (error as AxiosError).response?.data?.code ||
+          (error as AxiosError).status ||
+          ErrorCodesEnum.ServerError,
       ),
     );
   }

@@ -13,6 +13,7 @@ import { watchChatsSaga } from '../features/chats/chatsSaga';
 import { watchChatSaga } from '../features/chats/chat/chatSaga';
 import { watchStatisticsSaga } from '../features/statistics/statisticsSaga';
 import { watchSystemFeeSaga } from '../features/systemFee/systemFeeSaga';
+import { watchSystemSaga } from '../features/system/systemSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -30,5 +31,6 @@ export default function* rootSaga() {
     fork(watchChatSaga),
     fork(watchStatisticsSaga),
     fork(watchSystemFeeSaga),
+    fork(watchSystemSaga),
   ]);
 }

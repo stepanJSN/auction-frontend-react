@@ -22,10 +22,12 @@ export const ROUTES = {
   STATISTICS: '/statistics',
   USERS: '/users',
   TRANSACTIONS: '/transactions',
+  TOP_UP: '/transactions/topUp',
   LOCATIONS: '/locations',
   CREATE_LOCATION: '/locations/create',
   EDIT_LOCATION: (locationId: number) => `/locations/edit/${locationId}`,
   EPISODES: '/episodes',
   CREATE_EPISODE: '/episodes/create',
   EDIT_EPISODE: (episodeId: number) => `/episodes/edit/${episodeId}`,
+  SYSTEM_SETTINGS: '/settings',
 };

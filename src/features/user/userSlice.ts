@@ -16,6 +16,7 @@ export interface UserState {
     available: number;
     total: number;
   } | null;
+  hasStripeAccount: boolean;
   created_at: Date | null;
   status: QueryStatusEnum;
   updateStatus: MutationStatusEnum;
@@ -33,6 +34,7 @@ const initialState: UserState = {
   balance: null,
   created_at: null,
   errorCode: null,
+  hasStripeAccount: false,
   status: QueryStatusEnum.IDLE,
   updateStatus: MutationStatusEnum.IDLE,
   deleteStatus: MutationStatusEnum.IDLE,
@@ -54,6 +56,7 @@ export const userSlice = createSlice({
       state.surname = action.payload.surname;
       state.rating = action.payload.rating;
       state.balance = action.payload.balance;
+      state.hasStripeAccount = action.payload.has_stripe_account;
       state.created_at = action.payload.created_at;
     },
     getUserError: (state, action: PayloadAction<number>) => {
