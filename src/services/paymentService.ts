@@ -8,4 +8,9 @@ export const paymentService = {
     );
     return response.data;
   },
+
+  createAccount: async () => {
+    const response = await apiWithAuth.post<string>('/stripe/create-account');
+    return response.data;
+  },
 };
