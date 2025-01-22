@@ -29,6 +29,7 @@ export interface IUser {
   surname: string;
   rating: number;
   balance: IUserBalance;
+  has_stripe_account: boolean;
   created_at: Date;
 }
 
