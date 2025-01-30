@@ -1,4 +1,4 @@
-import { auctionService } from '../services/auctionService';
+import { auctionService } from './auctionService';
 import { apiWithAuth } from '../apiConfig';
 import { AuctionTypeEnum } from '../types/auctions.interfaces';
 
