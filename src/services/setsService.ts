@@ -19,12 +19,18 @@ export const setsService = {
   },
 
   create: async (data: ICreateSet) => {
-    const set = await apiWithAuth.post<ICreateSet>('/sets', data);
+    const set = await apiWithAuth.post<Omit<ISet, 'is_user_has_set'>>(
+      '/sets',
+      data,
+    );
     return set.data;
   },
 
-  update: async (id: string, data: ICreateSet) => {
-    const set = await apiWithAuth.patch<ICreateSet>(`/sets/${id}`, data);
+  update: async (id: string, data: Partial<ICreateSet>) => {
+    const set = await apiWithAuth.patch<Omit<ISet, 'is_user_has_set'>>(
+      `/sets/${id}`,
+      data,
+    );
     return set.data;
   },
 

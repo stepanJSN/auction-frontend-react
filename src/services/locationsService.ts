@@ -24,7 +24,7 @@ export const locationsService = {
     return location.data;
   },
 
-  update: async (id: number, data: ILocation) => {
+  update: async (id: number, data: Partial<Omit<ILocation, 'id'>>) => {
     const location = await apiWithAuth.patch<ILocation>(
       `/locations/${id}`,
       data,

@@ -1,5 +1,5 @@
 import { call, delay, put, takeLatest } from 'redux-saga/effects';
-import { IUpdateUser, IUser, IUserBalance } from '../../types/user.interfaces';
+import { IUpdateUser, IUser, IBalance } from '../../types/user.interfaces';
 import { userService } from '../../services/userService';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
@@ -79,7 +79,7 @@ function* deleteUserSaga(action: PayloadAction<string>) {
 
 function* topUpUserBalanceSaga(action: PayloadAction<number>) {
   try {
-    const newBalance: IUserBalance = yield call(
+    const newBalance: IBalance = yield call(
       transactionsService.topUp,
       action.payload,
     );
@@ -95,7 +95,7 @@ function* topUpUserBalanceSaga(action: PayloadAction<number>) {
 
 function* withdrawUserBalanceSaga(action: PayloadAction<number>) {
   try {
-    const newBalance: IUserBalance = yield call(
+    const newBalance: IBalance = yield call(
       transactionsService.withdraw,
       action.payload,
     );
