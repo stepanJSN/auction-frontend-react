@@ -4,12 +4,12 @@ export interface IGeneralStatistics {
   mostRepeatedCard: {
     id: string;
     name: string;
-    numberOfInstances: never;
+    numberOfInstances: number;
   };
   leastRepeatedCard: {
     id: string;
     name: string;
-    numberOfInstances: never;
+    numberOfInstances: number;
   };
   numberOfCardsCreatedByAdmin: number;
 }
