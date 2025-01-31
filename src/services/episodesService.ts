@@ -21,7 +21,7 @@ export const episodesService = {
     return episode.data;
   },
 
-  update: async (id: number, data: IEpisode) => {
+  update: async (id: number, data: Partial<Omit<IEpisode, 'id'>>) => {
     const episode = await apiWithAuth.patch<IEpisode>(`/episodes/${id}`, data);
     return episode.data;
   },
