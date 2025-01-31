@@ -16,7 +16,7 @@ export interface IUpdateUserRole {
   role: Role;
 }
 
-export interface IUserBalance {
+export interface IBalance {
   available: number;
   total: number;
 }
@@ -28,7 +28,7 @@ export interface IUser {
   email: string;
   surname: string;
   rating: number;
-  balance: IUserBalance;
+  balance: IBalance;
   has_stripe_account: boolean;
   created_at: Date;
 }
