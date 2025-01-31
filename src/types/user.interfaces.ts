@@ -30,7 +30,7 @@ export interface IUser {
   rating: number;
   balance: IBalance;
   has_stripe_account: boolean;
-  created_at: Date;
+  created_at: string;
 }
 
 export interface IUserSummary {
