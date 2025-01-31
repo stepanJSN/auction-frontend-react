@@ -13,6 +13,11 @@ jest.mock('../apiConfig', () => ({
 
 describe('cardsService', () => {
   const mockCard = { id: 'cardId', name: 'Card 1', is_active: true };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should get all cards', async () => {
     const mockPayload = {
       page: 1,
