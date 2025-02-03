@@ -7,7 +7,7 @@ describe('TableContainer', () => {
     const childText = 'children';
     render(
       <TableContainer>
-        <tbody>{childText}</tbody>
+        <p>{childText}</p>
       </TableContainer>,
     );
 

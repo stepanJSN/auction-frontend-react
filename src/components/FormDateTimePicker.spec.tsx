@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { FieldValues, useForm } from 'react-hook-form';
-import { act, render, screen } from '../test-utils';
+import { act, cleanup, render, screen } from '../test-utils';
 import FormDateTimePicker, {
   FormDateTimePickerProps,
 } from './FormDateTimePicker';
@@ -15,6 +15,7 @@ const DatePickerWithForm = <T extends FieldValues>(
 };
 
 describe('FormDateTimePicker component', () => {
+  afterEach(cleanup);
   it('should render with label', () => {
     const label = 'Test Date Picker';
     render(<DatePickerWithForm<{ date: string }> name="date" label={label} />);
