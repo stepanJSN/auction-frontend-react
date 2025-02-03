@@ -12,7 +12,7 @@ const FormSelectWithForm = <T extends FieldValues>(
   return <FormSelect {...props} control={control} />;
 };
 
-describe('Form select with form', () => {
+describe('FormSelect component', () => {
   const label = 'test select';
   const defaultValue = 'option1';
   const options = [
