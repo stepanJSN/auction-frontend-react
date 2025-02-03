@@ -1,9 +1,10 @@
 import axios, { AxiosError, type CreateAxiosDefaults } from 'axios';
 import { authService } from './services/authService';
 import { ROUTES } from './config/routesConfig';
+import { SERVER_URL } from './constants/envConstants';
 
 const options: CreateAxiosDefaults = {
-  baseURL: import.meta.env.VITE_SERVER_URL,
+  baseURL: SERVER_URL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
