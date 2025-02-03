@@ -10,7 +10,7 @@ import {
 import Autocomplete from './Autocomplete';
 import { IPagination } from '../types/pagination.interface';
 
-type FormAutocompleteProps<T extends FieldValues, R> = {
+export type FormAutocompleteProps<T extends FieldValues, R> = {
   name: Path<T>;
   label: string;
   control: Control<T>;

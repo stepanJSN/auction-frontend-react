@@ -1,6 +1,6 @@
 import { FieldValues, useForm } from 'react-hook-form';
 import FormInput, { FormInputProps } from './FormInput';
-import { cleanup, render, screen, waitFor } from '../test-utils';
+import { act, cleanup, render, screen, waitFor } from '../test-utils';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { useEffect } from 'react';
@@ -44,7 +44,7 @@ describe('FormInput component', () => {
     expect(screen.getByLabelText(label)).toHaveValue(inputValue);
   });
 
-  it('should change password visibility', () => {
+  it('should change password visibility', async () => {
     const label = 'Password';
     render(<FormInputWithForm label={label} name="password" type="password" />);
 
@@ -54,9 +54,13 @@ describe('FormInput component', () => {
     });
 
     expect(inputElement).toHaveAttribute('type', 'password');
-    userEvent.click(visibilityButton);
+    await act(async () => {
+      userEvent.click(visibilityButton);
+    });
     expect(inputElement).toHaveAttribute('type', 'text');
-    userEvent.click(visibilityButton);
+    await act(async () => {
+      userEvent.click(visibilityButton);
+    });
     expect(inputElement).toHaveAttribute('type', 'password');
   });
 
