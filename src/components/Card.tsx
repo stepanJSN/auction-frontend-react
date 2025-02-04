@@ -13,7 +13,7 @@ import { ICardSummary } from '../types/cards.interface';
 import { CardLabel } from './CardLabel';
 import { Link } from 'react-router';
 
-type CardProps = ICardSummary & {
+type CardProps = Omit<ICardSummary, 'created_at' | 'location_id'> & {
   children?: React.ReactNode;
   cardPagePath: (cardId: string) => string;
 };

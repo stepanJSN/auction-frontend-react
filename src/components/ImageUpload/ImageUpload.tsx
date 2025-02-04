@@ -37,6 +37,7 @@ export default function ImageUpload({
           <IconButton
             color="error"
             onClick={handleDelete}
+            aria-label="delete image"
             sx={deleteButtonStyles}
             disabled={isPending}>
             <DeleteIcon />

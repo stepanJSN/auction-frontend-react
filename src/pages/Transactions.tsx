@@ -30,8 +30,9 @@ import {
 } from '../features/system/systemSlice';
 import useCreateStripeAccount from '../features/transactions/useCreateStripeAccount';
 import { ErrorCodesEnum } from '../enums/errorCodes.enum';
+import { STRIPE_PUBLISHABLE_KEY } from '../constants/envConstants';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 const alertStyles = {
   mt: 1,

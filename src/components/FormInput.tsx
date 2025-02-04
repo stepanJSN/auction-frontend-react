@@ -10,7 +10,7 @@ import { IconButton, InputAdornment } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-type FormInputProps<T extends FieldValues> = {
+export type FormInputProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   control: Control<T>;

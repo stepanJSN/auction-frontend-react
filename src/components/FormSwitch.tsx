@@ -9,7 +9,7 @@ import {
 } from 'react-hook-form';
 import Switch from './Switch';
 
-type FormSwitchProps<T extends FieldValues> = {
+export type FormSwitchProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label: string;
