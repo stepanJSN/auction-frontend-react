@@ -1,16 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { signin, signinError, signinSuccess } from './authSlice';
 import { authService } from '../../services/authService';
-import {
-  ISingInRequest,
-  ISingInResponse,
-} from '../../types/auth.interfaces';
+import { ISingInRequest, ISingInResponse } from '../../types/auth.interfaces';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
 import { RESET_ACTION } from '../../redux/rootReducer';
 
-function* signinSaga(action: PayloadAction<ISingInRequest>) {
+export function* signinSaga(action: PayloadAction<ISingInRequest>) {
   try {
     const authResponse: ISingInResponse = yield call(
       authService.signIn,
@@ -24,7 +21,7 @@ function* signinSaga(action: PayloadAction<ISingInRequest>) {
   }
 }
 
-function* logoutSaga() {
+export function* logoutSaga() {
   yield call(authService.logout);
 }
 
