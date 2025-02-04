@@ -92,7 +92,10 @@ export default function ManageCardForm({
         return;
       }
       onSubmit({
-        ...values,
+        name: values.name,
+        type: values.type,
+        gender: values.gender,
+        isActive: values.isActive,
         locationId: values.location.id,
         episodesId: values.episodes
           .filter((episode) => episode.name !== '')
