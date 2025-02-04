@@ -43,7 +43,7 @@ describe('useCreateCard', () => {
       result.current.createCard(mockCardPayload, mockImage);
     });
 
-    expect(useMutation as jest.Mock).toEqual(expect.any(Function));
+    expect(useMutation as jest.Mock).toHaveBeenCalledWith(expect.any(Function));
     expect(mockMutate).toHaveBeenCalledWith({
       cardData: mockCardPayload,
       image: mockImage,

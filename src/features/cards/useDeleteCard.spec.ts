@@ -15,7 +15,7 @@ jest.mock('react-router', () => ({
   useNavigate: jest.fn(),
 }));
 
-describe('useCreateCard', () => {
+describe('useDeleteCard', () => {
   afterEach(cleanup);
 
   it('should call mutate with cardId and navigate to prev page if mutation is successful', async () => {
@@ -39,7 +39,7 @@ describe('useCreateCard', () => {
       result.current.handleDelete();
     });
 
-    expect(useMutation as jest.Mock).toEqual(expect.any(Function));
+    expect(useMutation as jest.Mock).toHaveBeenCalledWith(expect.any(Function));
     expect(mockMutate).toHaveBeenCalledWith({
       id: mockCardId,
     });
