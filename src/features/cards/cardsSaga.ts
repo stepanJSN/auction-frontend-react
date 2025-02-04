@@ -10,7 +10,7 @@ import {
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/store';
 
-function* getCardsSaga(action: PayloadAction<number | undefined>) {
+export function* getCardsSaga(action: PayloadAction<number | undefined>) {
   const currentPage: number = yield select(
     (state: RootState) => state.cards.currentPage,
   );
