@@ -27,7 +27,7 @@ export interface ICreateChat {
   participants: string[];
 }
 
-export interface IUpdateChat extends ICreateChat {}
+export interface IUpdateChat extends Partial<ICreateChat> {}
 
 export interface ICreateChatResponse {
   id: string;

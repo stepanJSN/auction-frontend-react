@@ -10,8 +10,8 @@ export default function useDeleteChat(chatId?: string) {
     mutate,
     status: deleteStatus,
     errorCode,
-  } = useMutation((auctionId: string) => {
-    return chatsService.delete(auctionId);
+  } = useMutation((chatId: string) => {
+    return chatsService.delete(chatId);
   });
   const navigate = useNavigate();
 
