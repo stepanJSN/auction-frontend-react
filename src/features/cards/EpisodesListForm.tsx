@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ICreateCardFrom } from './ManageCardForm';
 import Autocomplete from '../../components/Autocomplete';
 
-type EpisodesListFormProps = {
+export type EpisodesListFormProps = {
   control: Control<ICreateCardFrom, any>;
   isError: boolean;
   isSubmitSuccessful?: boolean;
@@ -76,7 +76,10 @@ export default function EpisodesListForm({
             />
           </Grid2>
           <Grid2>
-            <IconButton onClick={removeEpisode(index)} color="error">
+            <IconButton
+              aria-label="Remove"
+              onClick={removeEpisode(index)}
+              color="error">
               <DeleteIcon />
             </IconButton>
           </Grid2>

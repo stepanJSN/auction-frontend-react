@@ -3,7 +3,7 @@ import { Role } from '../../enums/role.enum';
 import { authService } from '../../services/authService';
 import { ISingInRequest, ISingInResponse } from '../../types/auth.interfaces';
 import { logoutSaga, signinSaga } from './authSaga';
-import { signinError, signinSuccess } from './authSlice';
+import { signin, signinError, signinSuccess } from './authSlice';
 import { AxiosError } from 'axios';
 
 describe('Auth Saga', () => {
@@ -36,9 +36,9 @@ describe('Auth Saga', () => {
         signinSaga,
         {
           payload: mockPayload,
-          type: '',
+          type: signin.type,
         },
-      );
+      ).toPromise();
 
       expect(requestSignInMock).toHaveBeenCalledWith(mockPayload);
       expect(dispatched).toEqual([signinSuccess(mockResponse)]);
@@ -59,9 +59,9 @@ describe('Auth Saga', () => {
         signinSaga,
         {
           payload: mockPayload,
-          type: '',
+          type: signin.type,
         },
-      );
+      ).toPromise();
 
       expect(requestSignInMock).toHaveBeenCalledWith(mockPayload);
       expect(dispatched).toEqual([signinError(errorCode)]);
@@ -84,7 +84,7 @@ describe('Auth Saga', () => {
       await runSaga(
         { dispatch: (action) => dispatched.push(action) },
         logoutSaga,
-      );
+      ).toPromise();
 
       expect(requestLogoutMock).toHaveBeenCalled();
     });
