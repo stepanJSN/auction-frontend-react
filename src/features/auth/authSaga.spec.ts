@@ -81,6 +81,7 @@ describe('Auth Saga', () => {
       requestLogoutMock.mockRestore();
     });
     it('should call authService.logout', async () => {
+      requestLogoutMock.mockResolvedValue(undefined);
       await runSaga(
         { dispatch: (action) => dispatched.push(action) },
         logoutSaga,
