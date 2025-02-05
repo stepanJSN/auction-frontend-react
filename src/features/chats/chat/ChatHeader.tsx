@@ -25,7 +25,10 @@ export default function ChatHeader({
         </Grid2>
         {isOpenSettingsButtonShown && (
           <Grid2>
-            <Button variant="contained" onClick={onSettingsButtonClick}>
+            <Button
+              aria-label="open chat settings"
+              variant="contained"
+              onClick={onSettingsButtonClick}>
               <SettingsIcon />
             </Button>
           </Grid2>
