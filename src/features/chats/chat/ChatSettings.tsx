@@ -56,7 +56,10 @@ export default forwardRef(function ChatSettings(
     <Grow ref={ref} in={isOpen}>
       <Stack sx={mainContainerStyles}>
         {isMobileVersion && (
-          <IconButton onClick={onClose} sx={closeIconStyles}>
+          <IconButton
+            aria-label="Close settings"
+            onClick={onClose}
+            sx={closeIconStyles}>
             <CloseIcon />
           </IconButton>
         )}
