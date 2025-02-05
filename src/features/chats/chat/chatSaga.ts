@@ -33,7 +33,7 @@ import { RootState } from '../../../redux/store';
 import { AxiosError } from 'axios';
 import { ErrorCodesEnum } from '../../../enums/errorCodes.enum';
 
-function* getChatSaga(action: PayloadAction<string>) {
+export function* getChatSaga(action: PayloadAction<string>) {
   try {
     const chat: IChat = yield call(chatsService.findOne, action.payload);
     yield put(setChatData(chat));
@@ -54,7 +54,7 @@ function* getChatSaga(action: PayloadAction<string>) {
   }
 }
 
-function* getMoreMessagesSaga(action: PayloadAction<string>) {
+export function* getMoreMessagesSaga(action: PayloadAction<string>) {
   const { cursor }: ChatState['messages'] = yield select(selectMessages);
   try {
     const messages: IGetMessagesResponse = yield call(
@@ -70,7 +70,7 @@ function* getMoreMessagesSaga(action: PayloadAction<string>) {
   }
 }
 
-function* createMessageSaga(
+export function* createMessageSaga(
   action: PayloadAction<ICreateMessage & { tempId: string }>,
 ) {
   try {
@@ -86,7 +86,7 @@ function* createMessageSaga(
   }
 }
 
-function* resendMessageSaga(
+export function* resendMessageSaga(
   action: PayloadAction<{ tempId: string; chatId: string }>,
 ) {
   const messageWithError: { id: string; message: string } = yield select(
@@ -112,7 +112,7 @@ function* resendMessageSaga(
   }
 }
 
-function* deleteMessageSaga(action: PayloadAction<IDeleteMessage>) {
+export function* deleteMessageSaga(action: PayloadAction<IDeleteMessage>) {
   try {
     yield call(chatsService.deleteMessage, action.payload);
     yield put(setDeleteMessageSuccess(action.payload.messageId));
@@ -121,7 +121,9 @@ function* deleteMessageSaga(action: PayloadAction<IDeleteMessage>) {
   }
 }
 
-function* updateChatSaga(action: PayloadAction<IUpdateChat & { id: string }>) {
+export function* updateChatSaga(
+  action: PayloadAction<IUpdateChat & { id: string }>,
+) {
   try {
     const chat: IChat = yield call(
       chatsService.update,
