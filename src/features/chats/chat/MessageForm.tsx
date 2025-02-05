@@ -20,6 +20,8 @@ export default function MessageForm({ onSubmit }: MessageFormProps) {
     reset();
   };
 
+  console.log(control);
+
   return (
     <Stack
       direction="row"
