@@ -63,7 +63,7 @@ describe('Cards Saga', () => {
     expect(dispatched).toEqual([getCardsSuccess(mockResponse)]);
   });
 
-  it('should call cardsService.getAll and dispatch getCardsSuccess action with page from state', async () => {
+  it('should call cardsService.getAll and dispatch getCardsError action', async () => {
     const errorCode = 500;
     const mockResponse = (new AxiosError('Request failed').status = errorCode);
     requestCardsMock.mockRejectedValue(mockResponse);

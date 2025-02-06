@@ -75,7 +75,7 @@ describe('Card Data component', () => {
     );
 
     expect(screen.getByText('Created by admin')).toBeInTheDocument();
-    expect(screen.getByText('You have this card')).not.toBeInTheDocument();
+    expect(screen.queryByText('You have this card')).not.toBeInTheDocument();
     expect(screen.getByText('inactive')).toBeInTheDocument();
   });
 });
