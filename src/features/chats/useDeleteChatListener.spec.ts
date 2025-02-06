@@ -10,7 +10,7 @@ jest.mock('../../socket', () => ({
   },
 }));
 
-describe('useCreateChat', () => {
+describe('useDeleteChatListener', () => {
   const mockOnDelete = jest.fn();
   const mockDeletePayload = 'chatId';
 
@@ -18,13 +18,13 @@ describe('useCreateChat', () => {
     jest.clearAllMocks();
   });
 
-  it('should subscribe to the CREATE event on mount', () => {
+  it('should subscribe to the DELETE event on mount', () => {
     renderHook(() => useDeleteChatListener(mockOnDelete));
 
     expect(socket.on).toHaveBeenCalledWith(ChatsEventEnum.DELETE, mockOnDelete);
   });
 
-  it('should call onCreate when a CREATE event is received', () => {
+  it('should call onDelete when a DELETE event is received', () => {
     renderHook(() => useDeleteChatListener(mockOnDelete));
 
     const eventHandler = (socket.on as jest.Mock).mock.calls[0][1];
@@ -33,7 +33,7 @@ describe('useCreateChat', () => {
     expect(mockOnDelete).toHaveBeenCalledWith(mockDeletePayload);
   });
 
-  it('should unsubscribe from the CREATE event on unmount', () => {
+  it('should unsubscribe from the DELETE event on unmount', () => {
     const { unmount } = renderHook(() => useDeleteChatListener(mockOnDelete));
 
     unmount();
