@@ -50,8 +50,6 @@ describe('MessageForm', () => {
       userEvent.click(submitBtn);
     });
 
-    screen.debug();
-
     expect(mockOnSubmit).toHaveBeenCalledWith({ message: mockMessage });
   });
 });
