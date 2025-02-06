@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store';
 
 export default function useMessageNotification() {
   const userId = useSelector(
-    useCallback((state: RootState) => state.auth.id, []),
+    useCallback((state: RootState) => state.user.id, []),
   );
   const [notification, setNotification] = useState<{
     sender: string;
