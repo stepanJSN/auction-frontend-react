@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { socket } from '../../socket';
 import { ChatsEventEnum } from './chatsEventsEnum';
-import useNewMessageListener from './useNewMessageListener';
+import useUpdateMessageListener from './useUpdateMessageListener';
 
 jest.mock('../../socket', () => ({
   socket: {
@@ -10,8 +10,8 @@ jest.mock('../../socket', () => ({
   },
 }));
 
-describe('useNewMessageListener', () => {
-  const mockOnNewMessage = jest.fn();
+describe('useUpdateMessageListener', () => {
+  const mockOnUpdateMessage = jest.fn();
   const mockMessagePayload = {
     id: 'messageId',
     chat_id: 'chatId',
@@ -28,34 +28,34 @@ describe('useNewMessageListener', () => {
     jest.clearAllMocks();
   });
 
-  it('should subscribe to the NEW_MESSAGE event on mount', () => {
-    renderHook(() => useNewMessageListener(mockOnNewMessage));
+  it('should subscribe to the UPDATE_MESSAGE event on mount', () => {
+    renderHook(() => useUpdateMessageListener(mockOnUpdateMessage));
 
     expect(socket.on).toHaveBeenCalledWith(
-      ChatsEventEnum.NEW_MESSAGE,
-      mockOnNewMessage,
+      ChatsEventEnum.UPDATE_MESSAGE,
+      mockOnUpdateMessage,
     );
   });
 
-  it('should call onNewMessage when a NEW_MESSAGE event is received', () => {
-    renderHook(() => useNewMessageListener(mockOnNewMessage));
+  it('should call onUpdateMessage when a UPDATE_MESSAGE event is received', () => {
+    renderHook(() => useUpdateMessageListener(mockOnUpdateMessage));
 
     const eventHandler = (socket.on as jest.Mock).mock.calls[0][1];
     eventHandler(mockMessagePayload);
 
-    expect(mockOnNewMessage).toHaveBeenCalledWith(mockMessagePayload);
+    expect(mockOnUpdateMessage).toHaveBeenCalledWith(mockMessagePayload);
   });
 
-  it('should unsubscribe from the NEW_MESSAGE event on unmount', () => {
+  it('should unsubscribe from the UPDATE_MESSAGE event on unmount', () => {
     const { unmount } = renderHook(() =>
-      useNewMessageListener(mockOnNewMessage),
+      useUpdateMessageListener(mockOnUpdateMessage),
     );
 
     unmount();
 
     expect(socket.off).toHaveBeenCalledWith(
-      ChatsEventEnum.NEW_MESSAGE,
-      mockOnNewMessage,
+      ChatsEventEnum.UPDATE_MESSAGE,
+      mockOnUpdateMessage,
     );
   });
 });
