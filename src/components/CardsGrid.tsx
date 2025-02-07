@@ -3,11 +3,9 @@ import Card from './Card';
 import { ICardSummary } from '../types/cards.interface';
 
 type CardsGridProps = {
-  cards: Omit<ICardSummary, 'created_at' | 'location_id'>[];
+  cards: ICardSummary[];
   cardPagePath: (cardId: string) => string;
-  cardActions?: (
-    card: Omit<ICardSummary, 'created_at' | 'location_id'>,
-  ) => React.ReactNode;
+  cardActions?: (card: ICardSummary) => React.ReactNode;
 };
 
 const cardColumnsNumber = { xs: 12, sm: 6, md: 4, lg: 3 };
