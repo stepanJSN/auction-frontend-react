@@ -27,6 +27,7 @@ import {
   updateLocationSuccess,
 } from './locationsSlice';
 import {
+  ICreateLocation,
   IGetLocationsResponse,
   ILocation,
 } from '../../types/locations.interfaces';
@@ -36,7 +37,7 @@ import { ErrorCodesEnum } from '../../enums/errorCodes.enum';
 
 const NOTIFICATION_TIMEOUT = 1500;
 
-function* getLocationsSaga(action: PayloadAction<number | undefined>) {
+export function* getLocationsSaga(action: PayloadAction<number | undefined>) {
   const locationsSearchParams: { currentPage: number; locationName: string } =
     yield select(selectLocationsSearchParams);
   if (locationsSearchParams.currentPage >= (action.payload || 1)) {
@@ -44,17 +45,20 @@ function* getLocationsSaga(action: PayloadAction<number | undefined>) {
     return;
   }
   try {
-    const users: IGetLocationsResponse = yield call(locationsService.getAll, {
-      page: action.payload || 1,
-      name: locationsSearchParams.locationName,
-    });
-    yield put(getLocationsSuccess(users));
+    const locations: IGetLocationsResponse = yield call(
+      locationsService.getAll,
+      {
+        page: action.payload || 1,
+        name: locationsSearchParams.locationName,
+      },
+    );
+    yield put(getLocationsSuccess(locations));
   } catch {
     yield put(getLocationsError());
   }
 }
 
-function* filterLocationsByNameSaga(action: PayloadAction<string>) {
+export function* filterLocationsByNameSaga(action: PayloadAction<string>) {
   try {
     const users: IGetLocationsResponse = yield call(locationsService.getAll, {
       name: action.payload,
@@ -65,7 +69,7 @@ function* filterLocationsByNameSaga(action: PayloadAction<string>) {
   }
 }
 
-function* createLocationSaga(action: PayloadAction<ILocation>) {
+export function* createLocationSaga(action: PayloadAction<ICreateLocation>) {
   try {
     const location: ILocation = yield call(
       locationsService.create,
@@ -84,7 +88,7 @@ function* createLocationSaga(action: PayloadAction<ILocation>) {
   }
 }
 
-function* deleteLocationSaga(action: PayloadAction<number>) {
+export function* deleteLocationSaga(action: PayloadAction<number>) {
   try {
     yield call(locationsService.delete, action.payload);
     yield put(deleteLocationSuccess(action.payload));
@@ -95,7 +99,7 @@ function* deleteLocationSaga(action: PayloadAction<number>) {
   }
 }
 
-function* updateLocationSaga(action: PayloadAction<ILocation>) {
+export function* updateLocationSaga(action: PayloadAction<ILocation>) {
   try {
     yield call(locationsService.update, action.payload.id, action.payload);
     yield put(updateLocationSuccess(action.payload));
