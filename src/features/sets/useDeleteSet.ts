@@ -5,6 +5,7 @@ import useMutation from '../../hooks/useMutation';
 import { getSets } from './setsSlice';
 import { useNavigate } from 'react-router';
 import { MutationStatusEnum } from '../../enums/mutationStatus';
+import { ROUTES } from '../../config/routesConfig';
 
 export default function useDeleteSet(id?: string) {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export default function useDeleteSet(id?: string) {
 
   useEffect(() => {
     if (status === MutationStatusEnum.SUCCESS) {
-      navigate('/sets');
+      navigate(ROUTES.SETS);
     }
   }, [status, navigate]);
 
