@@ -15,6 +15,8 @@ describe('CardsGrid Component', () => {
         is_active: true,
         is_owned: true,
         type: 'character',
+        location_id: 1,
+        created_at: '2025-01-01T00:00:00.000Z',
       },
       {
         id: 'cardId2',
@@ -25,6 +27,8 @@ describe('CardsGrid Component', () => {
         is_active: true,
         is_owned: true,
         type: 'character',
+        location_id: 1,
+        created_at: '2025-01-01T00:00:00.000Z',
       },
     ];
     const cardPagePath = jest.fn();
