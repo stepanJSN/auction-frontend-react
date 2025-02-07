@@ -11,7 +11,7 @@ import {
 import { IGetChatsResponse } from '../../types/chats.interfaces';
 import { chatsService } from '../../services/chatsService';
 
-function* getChatsSaga() {
+export function* getChatsSaga() {
   const { name }: { name: string } = yield select(selectChatsSearchParams);
 
   try {

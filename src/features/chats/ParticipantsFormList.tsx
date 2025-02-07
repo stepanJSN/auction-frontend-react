@@ -62,7 +62,7 @@ export default function ParticipantsFormList({
             <FormAutocomplete
               control={control}
               name={`participants.${index}`}
-              label="participant"
+              label="Participant"
               searchFunc={searchUsers}
               getLabel={getUserLabel}
               startFromLetter={2}
@@ -71,7 +71,10 @@ export default function ParticipantsFormList({
             />
           </Grid2>
           <Grid2>
-            <IconButton onClick={removeParticipant(index)} color="error">
+            <IconButton
+              aria-label="delete participant"
+              onClick={removeParticipant(index)}
+              color="error">
               <DeleteIcon />
             </IconButton>
           </Grid2>
@@ -80,7 +83,7 @@ export default function ParticipantsFormList({
       <Grid2 container spacing={1} alignItems="center">
         <Grid2 size="grow">
           <Autocomplete
-            label="participant"
+            label="Participant"
             searchFunc={searchUsers}
             getLabel={getUserLabel}
             startFromLetter={2}
