@@ -29,6 +29,7 @@ import {
   updateEpisodeSuccess,
 } from './episodesSlice';
 import {
+  ICreateEpisode,
   IEpisode,
   IGetEpisodesResponse,
 } from '../../types/episodes.interfaces';
@@ -36,7 +37,7 @@ import { episodesService } from '../../services/episodesService';
 
 const NOTIFICATION_TIMEOUT = 1500;
 
-function* getEpisodesSaga(action: PayloadAction<number | undefined>) {
+export function* getEpisodesSaga(action: PayloadAction<number | undefined>) {
   const episodesSearchParams: { currentPage: number; episodeName: string } =
     yield select(selectEpisodesSearchParams);
   if (episodesSearchParams.currentPage >= (action.payload || 1)) {
@@ -54,7 +55,7 @@ function* getEpisodesSaga(action: PayloadAction<number | undefined>) {
   }
 }
 
-function* filterEpisodesByNameSaga(action: PayloadAction<string>) {
+export function* filterEpisodesByNameSaga(action: PayloadAction<string>) {
   try {
     const episodes: IGetEpisodesResponse = yield call(episodesService.getAll, {
       name: action.payload,
@@ -65,7 +66,7 @@ function* filterEpisodesByNameSaga(action: PayloadAction<string>) {
   }
 }
 
-function* createEpisodeSaga(action: PayloadAction<IEpisode>) {
+export function* createEpisodeSaga(action: PayloadAction<ICreateEpisode>) {
   try {
     const episode: IEpisode = yield call(
       episodesService.create,
@@ -84,7 +85,7 @@ function* createEpisodeSaga(action: PayloadAction<IEpisode>) {
   }
 }
 
-function* deleteEpisodeSaga(action: PayloadAction<number>) {
+export function* deleteEpisodeSaga(action: PayloadAction<number>) {
   try {
     yield call(episodesService.delete, action.payload);
     yield put(deleteEpisodeSuccess(action.payload));
@@ -95,7 +96,7 @@ function* deleteEpisodeSaga(action: PayloadAction<number>) {
   }
 }
 
-function* updateEpisodeSaga(action: PayloadAction<IEpisode>) {
+export function* updateEpisodeSaga(action: PayloadAction<IEpisode>) {
   try {
     yield call(episodesService.update, action.payload.id, action.payload);
     yield put(updateEpisodeSuccess(action.payload));
