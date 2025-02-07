@@ -47,11 +47,6 @@ export default function EpisodesTableRow({
     [onDelete, episode.id],
   );
 
-  const editEpisodeRoute = useCallback(
-    () => ROUTES.EDIT_EPISODE(episode.id),
-    [episode.id],
-  );
-
   return (
     <>
       <TableRow sx={rowStyles}>
@@ -65,7 +60,10 @@ export default function EpisodesTableRow({
             direction="row"
             spacing={1}
             sx={buttonsContainerStyles}>
-            <Button variant="outlined" component={Link} to={editEpisodeRoute()}>
+            <Button
+              variant="outlined"
+              component={Link}
+              to={ROUTES.EDIT_EPISODE(episode.id)}>
               {matches ? 'Edit' : <EditIcon />}
             </Button>
             <Button
