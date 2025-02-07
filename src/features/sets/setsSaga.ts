@@ -10,7 +10,7 @@ import { IGetSetsResponse } from '../../types/sets.interface';
 import { setsService } from '../../services/setsService';
 import { RootState } from '../../redux/store';
 
-function* getSetsSaga(action: PayloadAction<number | undefined>) {
+export function* getSetsSaga(action: PayloadAction<number | undefined>) {
   const currentPage: number = yield select(
     (state: RootState) => state.sets.currentPage,
   );

@@ -75,7 +75,7 @@ describe('Episodes saga', () => {
       ).toPromise();
     };
 
-    it('should call episodesService.getAll and dispatch getEpisodesSuccess action is request is resolved', async () => {
+    it('should call episodesService.getAll and dispatch getEpisodesSuccess action if request is resolved', async () => {
       const mockPage = 2;
       requestFindAllEpisodesMock.mockResolvedValue(mockEpisodesResponse);
       await runTestSaga(mockPage);
