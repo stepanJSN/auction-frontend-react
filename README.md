@@ -1,50 +1,18 @@
-# React + TypeScript + Vite
+# ⚖️Auction frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+It is a web application where users can collect cards with characters from a series collect sets from these cards and get ranking points. The main feature is the ability to buy and sell cards in an auction, and the auction prices are updated in real-time. Another interesting feature is chats between users. Also users have the ability to convert real money to internal and vice versa using Stripe.
 
-Currently, two official plugins are available:
+## 🛠️ TechStack
+ - 🌐 TypeScript
+ - ⚛ React
+ - 🎨 MaterialUI
+ - 🔍 Redux Toolkit
+ - 🗄️ Redux Saga
+ - 💳 Stripe
+ - 🔌 Socket.io
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🚀 Getting started
+1.  Clone project's repo:  `git clone https://github.com/stepanJSN/auction-frontend-react.git`
+2.  Create an **.env** file and fill it in according to the example in **.env.example**
+3.  Run:  `npm install`
+4.  To start the server in the command line (terminal) in the folder, run:  `npm run dev`
